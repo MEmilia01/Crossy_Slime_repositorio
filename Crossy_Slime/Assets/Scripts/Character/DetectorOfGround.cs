@@ -2,21 +2,38 @@ using UnityEngine;
 
 public class DetectorOfGround : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    [SerializeField] Collider detector;
+    //Booleano para permitir si puede moverse o no
     bool isPossibleMove;
-    public bool PossibleMove()
-    {
-        if (detector.CompareTag("IsPossibleMove"))
-        {
-            isPossibleMove = true;
-            return isPossibleMove;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        //Si tiene la tag IsPossibleMove podra moverse
+        if (other.CompareTag("IsPossibleMove"))
+        {            
+            isPossibleMove = true;
         }
-        else
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        //Al salir lo convierte en falso
+        if (other.CompareTag("IsPossibleMove"))
         {
             isPossibleMove = false;
-            return isPossibleMove;
         }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        //Si tiene la tag IsPossibleMove podra moverse
+        if (other.CompareTag("IsPossibleMove"))
+        {
+            isPossibleMove = true;
+        }
+    }
+    //Devuelve el booleano para poder mover el personaje en el script "Movement"
+    public bool PossibleMove()
+    {
+        return isPossibleMove;
     }
 }
