@@ -1,7 +1,10 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Movement : MonoBehaviour
 {
+    
     //Son variables para poder utilizar las funciones de los detectores del script "DetectorOfGround"
     [SerializeField] DetectorOfGround detectorOfGroundForward;
     [SerializeField] DetectorOfGround detectorOfGroundBackward;
@@ -10,18 +13,19 @@ public class Movement : MonoBehaviour
 
     //Son variables para permitir moverte a un bloque dependiendo de donde te muevas
 
-    bool canMoveForward = false;
-    bool canMoveBackward = false;
-    bool canMoveRight = false;
-    bool canMoveLeft = false;    
+    Transform canMoveForward = null;
+    Transform canMoveBackward = null;
+    Transform canMoveRight = null;
+    Transform canMoveLeft = null;    
     void Update()
     {
         //Sirve para que comprobar si el personaje puede moverse en esa dirección
+        //Después se almacena el pivote que se ha encontrado
         if (detectorOfGroundForward != null)
         {
             canMoveForward = detectorOfGroundForward.PossibleMove();
         }
-        if (detectorOfGroundBackward != null) 
+        if (detectorOfGroundBackward != null)
         {
             canMoveBackward = detectorOfGroundBackward.PossibleMove();
         }
@@ -34,23 +38,22 @@ public class Movement : MonoBehaviour
             canMoveLeft = detectorOfGroundLeft.PossibleMove();
         }
         //Sirve para detectar el input del jugador para que se mueva mediante WASD dependiendo de la direccion en la que se quiera mover
-        if (Input.GetKey(KeyCode.W) && canMoveForward)
+        //Dependiendo de a que tecla le de se moverá hacia el pivote más cercano
+        if (Input.GetKeyDown(KeyCode.W) && canMoveForward != null)
         {
-            transform.position += this.transform.forward * 5 * Time.deltaTime;
+            transform.position = new Vector3(canMoveForward.position.x,this.transform.position.y,canMoveForward.position.z);
         }
-        else if (Input.GetKey(KeyCode.S) && canMoveBackward)
+        else if (Input.GetKeyDown(KeyCode.S) && canMoveBackward != null)
         {
-            transform.position += -this.transform.forward * 5 * Time.deltaTime;
+            transform.position = new Vector3(canMoveBackward.position.x, this.transform.position.y, canMoveBackward.position.z);
         }
-        else if (Input.GetKey(KeyCode.D) && canMoveRight)
+        else if (Input.GetKeyDown(KeyCode.D) && canMoveRight != null)
         {
-            transform.position += this.transform.right * 5 * Time.deltaTime;
+            transform.position = new Vector3(canMoveRight.position.x, this.transform.position.y, canMoveRight.position.z);
         }
-        else if (Input.GetKey(KeyCode.A) && canMoveLeft)
+        else if (Input.GetKeyDown(KeyCode.A) && canMoveLeft != null)
         {
-            transform.position += -this.transform.right * 5 * Time.deltaTime;
+            transform.position = new Vector3(canMoveLeft.position.x, this.transform.position.y, canMoveLeft.position.z);
         }
     }
-    
-
 }

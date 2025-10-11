@@ -2,38 +2,29 @@ using UnityEngine;
 
 public class DetectorOfGround : MonoBehaviour
 {
-    //Booleano para permitir si puede moverse o no
-    bool isPossibleMove;
-
-    private void OnTriggerEnter(Collider other)
+    //Transform para almacenar el pivote al que queremos movernos
+    Transform PossibleMovement = null;
+    //Sirve para ver de forma visual como está afectando el OverlapBox
+    private void OnDrawGizmos()
     {
-        //Si tiene la tag IsPossibleMove podra moverse
-        if (other.CompareTag("IsPossibleMove"))
-        {            
-            isPossibleMove = true;
-        }
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, new Vector3(0.5f, 0.5f, 0.5f));
     }
-
-    private void OnTriggerExit(Collider other)
+    public Transform PossibleMove()
     {
-        //Al salir lo convierte en falso
-        if (other.CompareTag("IsPossibleMove"))
+        //Se utiliza para detectar las colisiones que están sobreponiendose al detector
+        Collider[] colliders = Physics.OverlapBox(transform.position, new Vector3(0.5f, 0.5f, 0.5f));
+        foreach (Collider collider in colliders)
         {
-            isPossibleMove = false;
+            //Por cada colisión que tenga la tag de "IsPossibleMove"
+            if (collider.CompareTag("IsPossibleMove"))
+            {
+                //Recibira el componente de Pick_The_Pivot y se guardara
+                Pick_The_Pivot isPossibleMove = collider.GetComponent<Pick_The_Pivot>();
+                PossibleMovement = isPossibleMove.GetPivot();
+            }
         }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        //Si tiene la tag IsPossibleMove podra moverse
-        if (other.CompareTag("IsPossibleMove"))
-        {
-            isPossibleMove = true;
-        }
-    }
-    //Devuelve el booleano para poder mover el personaje en el script "Movement"
-    public bool PossibleMove()
-    {
-        return isPossibleMove;
+        //Se envia el el pivote
+        return PossibleMovement;
     }
 }
