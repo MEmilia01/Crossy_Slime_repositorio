@@ -16,7 +16,14 @@ public class Movement : MonoBehaviour
     Transform canMoveForward = null;
     Transform canMoveBackward = null;
     Transform canMoveRight = null;
-    Transform canMoveLeft = null;    
+    Transform canMoveLeft = null;
+
+    Ice ice;
+    private void Start()
+    {
+        ice = FindFirstObjectByType<Ice>();
+    }
+
     void Update()
     {
         //Sirve para que comprobar si el personaje puede moverse en esa dirección
@@ -39,7 +46,7 @@ public class Movement : MonoBehaviour
         }
         //Sirve para detectar el input del jugador para que se mueva mediante WASD dependiendo de la direccion en la que se quiera mover
         //Dependiendo de a que tecla le de se moverá hacia el pivote más cercano
-        if (Input.GetKeyDown(KeyCode.W) && canMoveForward != null)
+        if (Input.GetKeyDown(KeyCode.W) && canMoveForward != null || canMoveForward != null && ice.isPlayerOnIce)
         {
             transform.position = new Vector3(canMoveForward.position.x,this.transform.position.y,canMoveForward.position.z);
         }
@@ -56,4 +63,5 @@ public class Movement : MonoBehaviour
             transform.position = new Vector3(canMoveLeft.position.x, this.transform.position.y, canMoveLeft.position.z);
         }
     }
+
 }
