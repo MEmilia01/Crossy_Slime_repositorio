@@ -53,10 +53,10 @@ public class GameManager : MonoBehaviour
         spawnLocation = 0;
         for (int i = 0; i < spawnDistance; i++)
         {
-            SpawnObstacle();
+            //SpawnObstacle();
         }
     }
-    
+    /*
     private void SpawnObstacle()
     {
         // Create grass with terrain height of 0.2f.
@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
         // Update to the next free location
         spawnLocation++;
     }
+    */
 
     private bool InStartArea(Vector2Int location)
     {
@@ -122,7 +123,7 @@ public class GameManager : MonoBehaviour
                 // Spawn new obstacles if necessary
                 while (obstacles.Count < (characterPos.y + spawnDistance))
                 {
-                    SpawnObstacle();
+                   // SpawnObstacle();
                 }
             }
         }
