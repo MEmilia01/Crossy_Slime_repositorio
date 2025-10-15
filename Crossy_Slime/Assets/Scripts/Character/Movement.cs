@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -21,6 +22,7 @@ public class Movement : MonoBehaviour
     Transform canMoveLeft = null;    
     void Update()
     {
+
         //Sirve para que comprobar si el personaje puede moverse en esa dirección
         //Después se almacena el pivote que se ha encontrado
         if (detectorOfGroundForward != null)
@@ -58,23 +60,14 @@ public class Movement : MonoBehaviour
             transform.position = new Vector3(canMoveLeft.position.x, this.transform.position.y, canMoveLeft.position.z);
         }
 
-        //esto es para el movimiento de la camera
+
+        //---------------------------------------------------------------------------------
         /*
-        if (moveDirection != Vector2Int.zero)
-        {
-            Vector2Int destination = characterPos + moveDirection;
-            //in the start area there are no obstacle so you can move anywhere 
-            if (InStartArea(destination) || ((destination.y >= 0) && !obstacles[destination.y].locations.Contains(destination.x)))
-            {//update our character grid coordinate
-                characterPos == destination;
-                //call coroutine to meve the character objetc
-                StartCoroutine(MoveCharacter());
-            }
-        }
+        //esto es para el movimiento de la camera
+        Vector2Int moveDirection = new Vector2Int();    
+        
         //para que la camara este un poco mas atras del jugador
         Vector3 cameraPosition = new(character.position.x + 2, 4, character.position.z - 3);
-        
-        
         //Limita a su vez la posicion de la camara para que no se salga
         //de ciertos limites asi no tiene, que generar de mas
         cameraPosition.x = Mathf.Clamp(cameraPosition.x, -1, 5);
