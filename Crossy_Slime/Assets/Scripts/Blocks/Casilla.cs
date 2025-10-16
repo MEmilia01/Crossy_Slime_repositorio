@@ -16,7 +16,7 @@ public class Casilla : MonoBehaviour
     {
         if (TCasilla == TipoCasillas.ice)
         {
-            // Logica de casilla hielo
+            //Dependiendo del ultimo input registrado por el jugador se moverá en esa dirección
             if (player.lastInput == Input.GetKeyDown(KeyCode.W))
             {
                 player.MoveForward();
@@ -34,6 +34,13 @@ public class Casilla : MonoBehaviour
                 player.MoveLeft();
             }
 
+        }
+        else if (TCasilla == TipoCasillas.longjump)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                player.MoveForward();
+            }
         }
     }
     //Recibimos el pivote 
