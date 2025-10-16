@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour
     [SerializeField] DetectorOfGround detectorOfGroundRight;
     [SerializeField] DetectorOfGround detectorOfGroundLeft;
     bool inputActive = true;
+    public bool lastInput = false;
     void Update()
     {
         if (inputActive)
@@ -35,7 +36,7 @@ public class Movement : MonoBehaviour
             }
         }
     }
-    private void MoveForward()
+    public void MoveForward()
     {
         //Sirve para que comprobar si el personaje puede moverse en esa dirección
         //Después se almacena el pivote que se ha encontrado
@@ -46,9 +47,10 @@ public class Movement : MonoBehaviour
             transform.position = c.GetPivot().position;
             c.Comportamiento();
             inputActive = true;
+            lastInput = Input.GetKeyDown(KeyCode.W);
         }
     }
-    private void MoveBackward()
+    public void MoveBackward()
     {
         if (detectorOfGroundBackward != null)
         {
@@ -57,10 +59,11 @@ public class Movement : MonoBehaviour
             transform.position = c.GetPivot().position;
             c.Comportamiento();
             inputActive = true;
+            lastInput = Input.GetKeyDown(KeyCode.S);
         }
 
     }
-    private void MoveRight()
+    public void MoveRight()
     {
         if (detectorOfGroundRight != null)
         {
@@ -69,9 +72,10 @@ public class Movement : MonoBehaviour
             transform.position = c.GetPivot().position;
             c.Comportamiento();
             inputActive = true;
+            lastInput = Input.GetKeyDown(KeyCode.D);
         }
     }
-    private void MoveLeft()
+    public void MoveLeft()
     {
         if (detectorOfGroundLeft != null)
         {
@@ -80,6 +84,7 @@ public class Movement : MonoBehaviour
             transform.position = c.GetPivot().position;
             c.Comportamiento();
             inputActive = true;
+            lastInput = Input.GetKeyDown(KeyCode.A);
         }
     }
 
