@@ -42,7 +42,9 @@ public class canvasgroup : MonoBehaviour
         puntuacion.SetActive(false);
         menumuerte.SetActive(true);
         pantallacarga.SetActive(false);
+        //que se vea cuando el jugador se "muera"
         //aca hay que poner el boton para la vuelta
+
 
     }
     public void Mostrarpantallacarga()
