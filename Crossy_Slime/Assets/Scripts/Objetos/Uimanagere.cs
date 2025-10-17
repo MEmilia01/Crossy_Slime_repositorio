@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class canvasgroup : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class canvasgroup : MonoBehaviour
     void Start()
     {
         MostrarMenu();
+        num = 0;
     }
     void MostrarMenu()
     {

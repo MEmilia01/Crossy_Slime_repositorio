@@ -666,6 +666,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1634059266132151435, guid: 7defe0e498d1f2d4c84f0c029a4413df, type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4743349076987610784, guid: 7defe0e498d1f2d4c84f0c029a4413df, type: 3}
       propertyPath: m_Name
       value: Muerte
@@ -696,6 +700,10 @@ PrefabInstance:
     - target: {fileID: 107947828546500820, guid: eb994cab35137e34fb128eecee949238, type: 3}
       propertyPath: m_Name
       value: Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 1153187252313735362, guid: eb994cab35137e34fb128eecee949238, type: 3}
+      propertyPath: m_Alpha
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3348025807501729419, guid: eb994cab35137e34fb128eecee949238, type: 3}
       propertyPath: m_Pivot.x
