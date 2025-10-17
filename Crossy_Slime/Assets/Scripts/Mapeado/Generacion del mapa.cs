@@ -11,8 +11,6 @@ public class ProceduralMapGenerator : MonoBehaviour
     public float spawnZ = 0f;         // Posición Z inicial
     public float tileLength = 1.0f;   // Longitud de cada fila en Z (normalmente = tileSize)
 
-    public GameObject player;         // Referencia al jugador para posicionarlo al inicio
-
     private List<GameObject[]> activeRows = new List<GameObject[]>(); // Filas activas
     private float lastSpawnZ;
 
@@ -25,8 +23,6 @@ public class ProceduralMapGenerator : MonoBehaviour
             SpawnRow(spawnZ + i * tileLength);
         }
         lastSpawnZ = spawnZ + (initialRows - 1) * tileLength;
-        // En GenerateMap o Start del generador
-        player.transform.position = new Vector3(mapWidth / 2, 0, 0);
     }
 
     // Llamar desde el jugador o desde Update para chequear si hay que generar más
