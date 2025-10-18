@@ -18,7 +18,7 @@ public class canvasgroup : MonoBehaviour
         MostrarMenu();
         num = 0;
     }
-    void MostrarMenu()
+     public void MostrarMenu()
     {
         //el menu siempre sera el primero de la lista, por eso 
         menu.SetActive(true);
@@ -35,6 +35,8 @@ public class canvasgroup : MonoBehaviour
         menumuerte.SetActive(false);
         pantallacarga.SetActive(false);
         //codigo para que valla contando cuando avance
+        SceneManager.LoadScene("");//se deberia poner el nombre aca de la scena
+        //aca llama para que se ponga la scena del juego
     }
     public void Mostrarmenumuerte()
     {
