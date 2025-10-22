@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class canvasgroup : MonoBehaviour
 {
@@ -15,8 +16,9 @@ public class canvasgroup : MonoBehaviour
     void Start()
     {
         MostrarMenu();
+        num = 0;
     }
-    void MostrarMenu()
+     public void MostrarMenu()
     {
         //el menu siempre sera el primero de la lista, por eso 
         menu.SetActive(true);
@@ -33,6 +35,8 @@ public class canvasgroup : MonoBehaviour
         menumuerte.SetActive(false);
         pantallacarga.SetActive(false);
         //codigo para que valla contando cuando avance
+        SceneManager.LoadScene("");//se deberia poner el nombre aca de la scena
+        //aca llama para que se ponga la scena del juego
     }
     public void Mostrarmenumuerte()
     {
@@ -40,7 +44,9 @@ public class canvasgroup : MonoBehaviour
         puntuacion.SetActive(false);
         menumuerte.SetActive(true);
         pantallacarga.SetActive(false);
+        //que se vea cuando el jugador se "muera"
         //aca hay que poner el boton para la vuelta
+
 
     }
     public void Mostrarpantallacarga()

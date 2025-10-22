@@ -1,13 +1,14 @@
 using UnityEngine;
 public enum TipoCasillas
 {
-    normal,ice,teleport,longjump,breakable
+    normal,ice,teleport,longjump,breakable,dead
 }
 public class Casilla : MonoBehaviour
 {
     public Transform Pivot;
     public TipoCasillas TCasilla;
     Movement player;
+    public bool isDead = false;
     private void Start()
     {
         player = FindFirstObjectByType<Movement>();
@@ -41,6 +42,14 @@ public class Casilla : MonoBehaviour
             {
                 player.MoveForward();
             }
+        }
+        else if (TCasilla == TipoCasillas.teleport)
+        {
+
+        }
+        else if (TCasilla == TipoCasillas.dead)
+        {
+            isDead = true; 
         }
     }
     //Recibimos el pivote 
