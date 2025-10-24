@@ -50,6 +50,7 @@ public class Casilla : MonoBehaviour
         else if (TCasilla == TipoCasillas.dead)
         {
             isDead = true; 
+            player.enabled = false;
         }
     }
     //Recibimos el pivote 
