@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 public enum TipoCasillas
 {
     normal,ice,teleport,longjump,breakable,dead
@@ -9,6 +10,9 @@ public class Casilla : MonoBehaviour
     public TipoCasillas TCasilla;
     Movement player;
     public bool isDead = false;
+    public float chronometer = 0f;
+    float chronometerMax = 4f;
+    bool isStartingChronometer = false;
     private void Start()
     {
         player = FindFirstObjectByType<Movement>();
@@ -49,7 +53,25 @@ public class Casilla : MonoBehaviour
         }
         else if (TCasilla == TipoCasillas.dead)
         {
-            isDead = true; 
+            isDead = true;
+            player.enabled = false;
+        }
+        else if (TCasilla == TipoCasillas.breakable)
+        {
+            isStartingChronometer = true;
+           
+        }
+    }
+    private void Update()
+    {
+        if (isStartingChronometer)
+        {
+            chronometer += Time.deltaTime;
+            if (chronometer >= chronometerMax)
+            {
+                this.TCasilla = TipoCasillas.dead;
+                isStartingChronometer = false;
+            }
         }
     }
     //Recibimos el pivote 
