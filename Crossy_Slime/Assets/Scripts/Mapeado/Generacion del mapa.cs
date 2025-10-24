@@ -71,29 +71,41 @@ public class ProceduralMapGenerator : MonoBehaviour
 
     private void SpawnRow(float zPosition)
     {
+        // Decidir si esta fila será completamente vacía
+        bool makeEntireRowEmpty = Random.value < 0.1f; // 10% de probabilidad
+
         GameObject[] newRow = new GameObject[mapWidth];
         for (int x = 0; x < mapWidth; x++)
         {
+
             GameObject prefab;
 
-            // Forzar los bordes izquierdo y derecho a ser empty
-            if (x == 0 || x == mapWidth - 1)
+            // Si la fila es completamente vacía, todos los bloques son empty
+            if (makeEntireRowEmpty)
             {
                 prefab = empty;
             }
             else
             {
-                // Lógica original para los bloques internos
-                int randomIndex = Random.Range(0, tilePrefabs.Length);
-                prefab = tilePrefabs[randomIndex];
-
-                if (Random.value < 0.1f) // Porcentaje de vacío por fila
+                // Forzar los bordes izquierdo y derecho a ser empty
+                if (x == 0 || x == mapWidth - 1)
                 {
                     prefab = empty;
                 }
-                else if (Random.value < 0.1f) // Porcentaje de breakable por fila
+                else
                 {
-                    prefab = breakable;
+                    // Lógica original para los bloques internos
+                    int randomIndex = Random.Range(0, tilePrefabs.Length);
+                    prefab = tilePrefabs[randomIndex];
+
+                    if (Random.value < 0.1f) // Porcentaje de vacío por fila
+                    {
+                        prefab = empty;
+                    }
+                    else if (Random.value < 0.1f) // Porcentaje de breakable por fila
+                    {
+                        prefab = breakable;
+                    }
                 }
             }
 
