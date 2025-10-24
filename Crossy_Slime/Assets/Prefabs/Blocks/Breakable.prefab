@@ -151,8 +151,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pivot: {fileID: 1061268772967514129}
-  TCasilla: 0
+  TCasilla: 4
   isDead: 0
+  chronometer: 0
 --- !u!1 &6976307061092694957
 GameObject:
   m_ObjectHideFlags: 0
