@@ -5193,7 +5193,7 @@ MonoBehaviour:
   tileSize: 1
   tileLength: 1
   startZ: 3
-  startX: -1
+  startX: -2
   player: {fileID: 939296936}
 --- !u!4 &2035693753
 Transform:
