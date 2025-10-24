@@ -87,11 +87,11 @@ public class ProceduralMapGenerator : MonoBehaviour
                 int randomIndex = Random.Range(0, tilePrefabs.Length);
                 prefab = tilePrefabs[randomIndex];
 
-                if (Random.value < 0.1f) // 20% vacío
+                if (Random.value < 0.1f) // Porcentaje de vacío por fila
                 {
                     prefab = empty;
                 }
-                else if (Random.value < 0.1f) // 10% breakable (nota: esto nunca se ejecuta si ya fue empty)
+                else if (Random.value < 0.1f) // Porcentaje de breakable por fila
                 {
                     prefab = breakable;
                 }
