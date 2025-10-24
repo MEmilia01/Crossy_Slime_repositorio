@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour
     [SerializeField] DetectorOfGround detectorOfGroundRight;
     [SerializeField] DetectorOfGround detectorOfGroundLeft;
     bool inputActive = true;
-    public bool lastInput = false;
+    internal bool lastInput = false;
     void Update()
     {
         if (inputActive)
