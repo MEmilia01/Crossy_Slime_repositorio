@@ -3,43 +3,61 @@ using UnityEngine;
 
 public class ProceduralMapGenerator : MonoBehaviour
 {
-    // Tipos de tiles (excluimos "Vacio" porque no se instancia)
-    public GameObject[] tilePrefabs; // Arrastra aquí: Suelo, Hielo, Teletransporte, saltoGrande, Temporal
+    public GameObject[] tilePrefabs;
+    public GameObject empty;
+    public GameObject breakable;
+    public GameObject ice;
+    public GameObject longJump;
+    public GameObject teleport;
 
-    public int mapWidth = 5;          // Ancho del camino (eje X)
-    public float tileSize = 1.0f;     // Tamaño de cada tile
-    public float spawnZ = 0f;         // Posición Z inicial
-    public float tileLength = 1.0f;   // Longitud de cada fila en Z (normalmente = tileSize)
+    public int mapWidth;
+    public float tileSize = 1.0f;
+    public float tileLength = 1.0f;   // distancia entre filas en Z
+    public float startZ = 3f;         // ¡inicio en Z = 3!
+    public float startX = -2f;        // ¡primera columna en X = -1!
+    public GameObject player;
 
-    public GameObject player;         // Referencia al jugador para posicionarlo al inicio
-
-    private List<GameObject[]> activeRows = new List<GameObject[]>(); // Filas activas
+    private List<GameObject[]> activeRows = new List<GameObject[]>();
     private float lastSpawnZ;
 
     void Start()
     {
-        // Generar las primeras N filas para que el jugador tenga donde empezar
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+            if (player == null)
+            {
+                Debug.LogError("No se encontró un jugador con la etiqueta 'Player'");
+                return;
+            }
+        }
+
+        // Generar filas iniciales desde startZ
         int initialRows = 5;
         for (int i = 0; i < initialRows; i++)
         {
-            SpawnRow(spawnZ + i * tileLength);
+            SpawnRow(startZ + i * tileLength);
         }
-        lastSpawnZ = spawnZ + (initialRows - 1) * tileLength;
-        // En GenerateMap o Start del generador
-        player.transform.position = new Vector3(mapWidth / 2, 0, 0);
+        lastSpawnZ = startZ + (initialRows - 1) * tileLength;
     }
 
-    // Llamar desde el jugador o desde Update para chequear si hay que generar más
+    void Update()
+    {
+        if (player != null)
+        {
+            CheckAndSpawnNewRow(player.transform.position.z);
+        }
+    }
+
     public void CheckAndSpawnNewRow(float playerZ)
     {
-        // Si el jugador está a medio camino de la última fila, genera una nueva
-        if (playerZ + tileLength * 1.5f > lastSpawnZ)
+        if (playerZ + tileLength * 10f > lastSpawnZ)
         {
             lastSpawnZ += tileLength;
             SpawnRow(lastSpawnZ);
 
-            // Opcional: eliminar filas viejas para ahorrar memoria
-            if (activeRows.Count > 10)
+            // Mantener solo las últimas N filas (ej: 20)
+            if (activeRows.Count > 20)
             {
                 GameObject[] oldRow = activeRows[0];
                 activeRows.RemoveAt(0);
@@ -56,19 +74,31 @@ public class ProceduralMapGenerator : MonoBehaviour
         GameObject[] newRow = new GameObject[mapWidth];
         for (int x = 0; x < mapWidth; x++)
         {
-            // Decidir si hay tile o no (ej: 20% de probabilidad de vacío)
-            if (Random.value < 0.2f) // 20% de casillas vacías
+            GameObject prefab;
+
+            // Forzar los bordes izquierdo y derecho a ser empty
+            if (x == 0 || x == mapWidth - 1)
             {
-                newRow[x] = null; // No hay tile
-                continue;
+                prefab = empty;
+            }
+            else
+            {
+                // Lógica original para los bloques internos
+                int randomIndex = Random.Range(0, tilePrefabs.Length);
+                prefab = tilePrefabs[randomIndex];
+
+                if (Random.value < 0.1f) // Porcentaje de vacío por fila
+                {
+                    prefab = empty;
+                }
+                else if (Random.value < 0.1f) // Porcentaje de breakable por fila
+                {
+                    prefab = breakable;
+                }
             }
 
-            // Elegir un tipo de tile aleatorio
-            int randomIndex = Random.Range(0, tilePrefabs.Length);
-            GameObject prefab = tilePrefabs[randomIndex];
-
             Vector3 position = new Vector3(
-                (x - mapWidth / 2.0f) * tileSize, // Centrado en X=0
+                startX + x * tileSize,
                 0,
                 zPosition
             );
