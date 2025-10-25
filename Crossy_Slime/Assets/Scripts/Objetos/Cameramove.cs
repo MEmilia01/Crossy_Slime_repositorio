@@ -1,26 +1,57 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class Cameramove : MonoBehaviour
 {
-    public float speed = 5f; // velocidad de la cámara
-    public KeyCode activateKey = KeyCode.Space; // tecla para activar movimiento
+    public Transform targetCamera;
+    public Vector3 targetPosition;
+    public float duration = 1.5f;
+    private Vector3 startPosition;
+    private bool isTweening = false;
 
-    private bool isMoving = false; // controla si la cámara se mueve
+    void MoveCameraTo(Vector3 endPosition, float duration)
+    {
+        targetCamera.DOMove(endPosition, duration);
+    }
+    void RotateCameraTo(Vector3 endRotation, float duration)
+    {
+        targetCamera.DORotate(endRotation, duration);
+    }
 
-        void Update()
+    void Start()
+    {
+        if (targetCamera != null)
         {
-            // Detectar pulsación para activar/desactivar el movimiento
-            if (Input.GetKeyDown(activateKey))
-            {
-                isMoving = !isMoving; // cambia estado de movimiento
-            }
+            Vector3 targetPos = new Vector3(10, 5, -20);
+            MoveCameraTo(targetPos, 2f); // Move camera over 2 seconds
+        }
+    }
 
-            // Si está activado, mover la cámara
-            if (isMoving)
-            {
-                Vector3 direction = new Vector3(0, 1, 1).normalized; // dirección entre ejes Y y Z
-                transform.position += direction * speed * Time.deltaTime;
-            }
+    public void StartTween()
+    {
+        if (!isTweening)
+        {
+            startPosition = targetCamera.position;
+            StartCoroutine(TweenCamera());
+        }
+    }
 
-        } 
+    private IEnumerator TweenCamera()
+    {
+        isTweening = true;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            targetCamera.position = Vector3.Lerp(startPosition, targetPosition, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        targetCamera.position = targetPosition; // Ensure it reaches the exact target position
+        isTweening = false;
+    }
+
+    void Update()
+    {        } 
 }
