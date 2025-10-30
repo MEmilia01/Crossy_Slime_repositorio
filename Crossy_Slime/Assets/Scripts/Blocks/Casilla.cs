@@ -45,6 +45,7 @@ public class Casilla : MonoBehaviour
             for (int i = 0; i < 2; i++)
             {
                 player.MoveForward();
+                player.MoveForward();
             }
         }
         else if (TCasilla == TipoCasillas.teleport)
