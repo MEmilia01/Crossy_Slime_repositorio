@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 public enum TipoCasillas
 {
-    normal,ice,teleport,longjump,breakable,dead
+    normal, ice, teleport, longjump, breakable, dead
 }
 public class Casilla : MonoBehaviour
 {
@@ -21,31 +21,14 @@ public class Casilla : MonoBehaviour
     {
         if (TCasilla == TipoCasillas.ice)
         {
-            //Dependiendo del ultimo input registrado por el jugador se moverá en esa dirección
-            if (player.lastInput == Input.GetKeyDown(KeyCode.W))
-            {
-                player.MoveForward();
-            }
-            else if (player.lastInput == Input.GetKeyDown(KeyCode.S))
-            {
-                player.MoveBackward();
-            }
-            else if (player.lastInput == Input.GetKeyDown(KeyCode.D))
-            {
-                player.MoveRight();
-            }
-            else if (player.lastInput == Input.GetKeyDown(KeyCode.A))
-            {
-                player.MoveLeft();
-            }
+            player.MoveOnLastDirection();
 
         }
         else if (TCasilla == TipoCasillas.longjump)
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
-                player.MoveForward();
-                player.MoveForward();
+                player.MoveForward(false);
             }
         }
         else if (TCasilla == TipoCasillas.teleport)
@@ -56,11 +39,12 @@ public class Casilla : MonoBehaviour
         {
             isDead = true;
             player.enabled = false;
+
         }
         else if (TCasilla == TipoCasillas.breakable)
         {
             isStartingChronometer = true;
-           
+
         }
     }
     private void Update()
