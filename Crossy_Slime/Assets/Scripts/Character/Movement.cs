@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.TextCore.Text;
+using DG.Tweening;
 
 public class Movement : MonoBehaviour
 {
@@ -14,7 +15,8 @@ public class Movement : MonoBehaviour
     [SerializeField] DetectorOfGround detectorOfGroundRight;
     [SerializeField] DetectorOfGround detectorOfGroundLeft;
     bool inputActive = true;
-    public bool lastInput = false;
+    internal bool lastInput = false;
+    [SerializeField] Transform direccionDeGiro;
     void Update()
     {
         if (inputActive)
@@ -48,6 +50,8 @@ public class Movement : MonoBehaviour
             Casilla c = detectorOfGroundForward.GetCasilla();
             inputActive = false;
             transform.position = c.GetPivot().position;
+            direccionDeGiro.DORotate(new Vector3(0, 0, 0), 0);
+
             c.Comportamiento();
             inputActive = true;
             lastInput = Input.GetKeyDown(KeyCode.W);
@@ -60,6 +64,7 @@ public class Movement : MonoBehaviour
             Casilla c = detectorOfGroundBackward.GetCasilla();
             inputActive = false;
             transform.position = c.GetPivot().position;
+            direccionDeGiro.DORotate(new Vector3(0, 180, 0), 0);
             c.Comportamiento();
             inputActive = true;
             lastInput = Input.GetKeyDown(KeyCode.S);
@@ -73,6 +78,7 @@ public class Movement : MonoBehaviour
             Casilla c = detectorOfGroundRight.GetCasilla();
             inputActive = false;
             transform.position = c.GetPivot().position;
+            direccionDeGiro.DORotate(new Vector3(0, 90, 0), 0);
             c.Comportamiento();
             inputActive = true;
             lastInput = Input.GetKeyDown(KeyCode.D);
@@ -85,6 +91,7 @@ public class Movement : MonoBehaviour
             Casilla c = detectorOfGroundLeft.GetCasilla();
             inputActive = false;
             transform.position = c.GetPivot().position;
+            direccionDeGiro.DORotate(new Vector3(0, 270, 0), 0);
             c.Comportamiento();
             inputActive = true;
             lastInput = Input.GetKeyDown(KeyCode.A);
