@@ -27,7 +27,7 @@ public class Cameramove : MonoBehaviour
         }
     }
 
-    public void StartTween()
+    /*public void StartTween()
     {
         if (!isTweening)
         {
@@ -50,7 +50,7 @@ public class Cameramove : MonoBehaviour
 
         targetCamera.position = targetPosition; // Ensure it reaches the exact target position
         isTweening = false;
-    }
+    }*/
 
     void Update()
     {        } 
