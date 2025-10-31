@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pivot: {fileID: 98110187000085439}
-  TCasilla: 1
+  TCasilla: 2
   isDead: 0
   chronometer: 0
 --- !u!1 &9063515475649004549

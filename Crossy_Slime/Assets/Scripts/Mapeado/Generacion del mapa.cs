@@ -21,6 +21,7 @@ public class ProceduralMapGenerator : MonoBehaviour
     private List<GameObjectType[]> activeRowTypes = new List<GameObjectType[]>(); // para logica sin instanciar
     private float lastSpawnZ;
     private int activeTeleports = 0; // maximo 2
+    private int activeLongJump = 0; // maximo 1 por linea
 
     private enum GameObjectType
     {
@@ -220,45 +221,6 @@ public class ProceduralMapGenerator : MonoBehaviour
             if (pastRows.Count == 0 || pastRows[pastRows.Count - 1][x] != GameObjectType.Ground)
             {
                 candidate = GameObjectType.Ground; // fallback seguro
-            }
-            // "Delante" = se validara al generar la siguiente fila (no podemos garantizarlo ahora)
-            // Pero al menos evitamos hielo al final del mapa sin salida
-            if (x == 1 || x == mapWidth - 2)
-            {
-                // Si esta en el borde interior, asegurar que haya salida
-                bool hasExit = false;
-                // Revisar izquierda/derecha/frente en futuras filas -> difícil ahora
-                // Por simplicidad, evitar hielo en bordes si no hay suelo al lado
-                if ((x > 1 && currentRow[x - 1] == GameObjectType.Ground) ||
-                    (x < mapWidth - 2 && currentRow[x + 1] == GameObjectType.Ground))
-                {
-                    hasExit = true;
-                }
-                if (!hasExit)
-                {
-                    candidate = GameObjectType.Ground;
-                }
-            }
-        }
-
-        // Regla: Plataforma quebradiza → debe tener suelo o hielo adyacente (izq/der/frente)
-        if (candidate == GameObjectType.Breakable)
-        {
-            bool hasAdjacentSafe = false;
-
-            // Izquierda/derecha en misma fila (ya generadas parcialmente)
-            if (x > 1 && currentRow[x - 1] != GameObjectType.Empty)
-                hasAdjacentSafe = true;
-            if (x < mapWidth - 2 && currentRow[x + 1] != GameObjectType.Empty)
-                hasAdjacentSafe = true;
-
-            // Frente = fila anterior, misma X
-            if (pastRows.Count > 0 && pastRows[pastRows.Count - 1][x] != GameObjectType.Empty)
-                hasAdjacentSafe = true;
-
-            if (!hasAdjacentSafe)
-            {
-                candidate = GameObjectType.Ground;
             }
         }
 
