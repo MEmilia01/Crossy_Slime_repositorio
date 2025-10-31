@@ -97,7 +97,7 @@ public class Movement : MonoBehaviour
             direccionDeGiro.DORotate(new Vector3(0, 0, 0), 0);
             if (comprober)
             {
-                c.Comportamiento();
+                c.Comportamiento(this);
             }
             inputActive = true;
             if (inputHandlerType == 1)
@@ -122,7 +122,7 @@ public class Movement : MonoBehaviour
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 180, 0), 0);
-            c.Comportamiento();
+            c.Comportamiento(this);
             inputActive = true;
             if (inputHandlerType == 1)
             {
@@ -144,7 +144,7 @@ public class Movement : MonoBehaviour
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 90, 0), 0);
-            c.Comportamiento();
+            c.Comportamiento(this);
             inputActive = true;
             if (inputHandlerType == 1)
             {
@@ -164,7 +164,7 @@ public class Movement : MonoBehaviour
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 270, 0), 0);
-            c.Comportamiento();
+            c.Comportamiento(this);
             inputActive = true;
             if (inputHandlerType == 1)
             {
