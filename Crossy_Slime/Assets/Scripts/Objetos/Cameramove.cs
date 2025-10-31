@@ -3,24 +3,45 @@ using DG.Tweening;
 
 public class Cameramove : MonoBehaviour
 {
+    public GameObject player;
     public Transform targetCamera;
-    public Vector3 targetPosition;
-    public float duration = 1.5f;
-    private Vector3 startPosition;
 
-    void MoveCameraTo(Vector3 endPosition, float duration)
-    {
-        targetCamera.DOMove(endPosition, duration);
-    }
-    void RotateCameraTo(Vector3 endRotation, float duration)
-    {
-        targetCamera.DORotate(endRotation, duration);
-    }
+    public float speed;
+    public float principio = 2;
+    public float masinicio = 5;
+
+    public float duration = 1f;
+
 
     void Start()
     {
         
+        speed = principio;
     }
     void Update()
-    {        } 
+    {
+
+        transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
+        Debug.Log("temueves, camara");
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Rapidez();
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            back();
+        }
+
+    }  
+    
+    void Rapidez()
+    {
+        DOTween.To(() => speed, x => speed = x, masinicio, 0.2f);
+    }
+
+    void back()
+    {
+        DOTween.To(() => speed, x => speed = x, principio, 0.2f);
+    }
 }

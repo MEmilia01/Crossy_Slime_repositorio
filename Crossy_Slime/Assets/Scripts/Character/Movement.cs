@@ -84,6 +84,7 @@ public class Movement : MonoBehaviour
                 }
             }
         }
+        Debug.Log(transform.position);
     }
     public void MoveForward(bool comprober)
     {
