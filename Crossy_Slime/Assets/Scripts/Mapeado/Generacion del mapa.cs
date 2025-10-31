@@ -191,18 +191,26 @@ public class ProceduralMapGenerator : MonoBehaviour
         // Decidir tipo tentativo
         GameObjectType candidate;
         if (r < 0.05f && canTeleport)
+        {
             candidate = GameObjectType.Teleport;
-        else if (r < 0.15f)
+        }
+        else if (r < 0.05f)
+        {
             candidate = GameObjectType.LongJump;
-        else if (r < 0.30f)
+        }
+        else if (r < 0.10f)
+        {
             candidate = GameObjectType.Breakable;
-        else if (r < 0.45f)
+        }
+        else if (r < 0.40f)
+        {
             candidate = GameObjectType.Ice;
-        else if (r < 0.90f)
+        }
+        else 
+        {
             candidate = GameObjectType.Ground;
-        else
-            candidate = GameObjectType.Empty;
-
+        }
+            
         // Aplicar reglas de vecindad
 
         // Regla: Hielo → detrás debe haber suelo, delante debe haber suelo/tele/longjump/breakable
