@@ -21,23 +21,7 @@ public class Casilla : MonoBehaviour
     {
         if (TCasilla == TipoCasillas.ice)
         {
-            //Dependiendo del ultimo input registrado por el jugador se moverá en esa dirección
-            if (player.lastInput == Input.GetKeyDown(KeyCode.W))
-            {
-                player.MoveForward(true);
-            }
-            else if (player.lastInput == Input.GetKeyDown(KeyCode.S))
-            {
-                player.MoveBackward();
-            }
-            else if (player.lastInput == Input.GetKeyDown(KeyCode.D))
-            {
-                player.MoveRight();
-            }
-            else if (player.lastInput == Input.GetKeyDown(KeyCode.A))
-            {
-                player.MoveLeft();
-            }
+            player.MoveOnLastDirection();
 
         }
         else if (TCasilla == TipoCasillas.longjump)

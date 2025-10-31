@@ -8,7 +8,7 @@ using DG.Tweening;
 
 public class Movement : MonoBehaviour
 {
-    
+
     //Son variables para poder utilizar las funciones de los detectores del script "DetectorOfGround"
     [SerializeField] DetectorOfGround detectorOfGroundForward;
     [SerializeField] DetectorOfGround detectorOfGroundBackward;
@@ -17,27 +17,71 @@ public class Movement : MonoBehaviour
     bool inputActive = true;
     internal bool lastInput = false;
     [SerializeField] Transform direccionDeGiro;
+    int inputHandlerType = 0;
     void Update()
     {
         if (inputActive)
         {
+            inputHandlerType = 0;
             //Sirve para detectar el input del jugador para que se mueva mediante WASD dependiendo de la direccion en la que se quiera mover
             //Dependiendo de a que tecla le de se moverá hacia el pivote más cercano
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space))
             {
-                MoveForward(true);
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    inputHandlerType = 1;
+                    MoveForward(true);
+                }
+                else if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    inputHandlerType = 2;
+                    MoveForward(true);
+                }
+                else if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    inputHandlerType = 3;
+                    MoveForward(true);
+                }
+                    
             }
             else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
-                MoveBackward();
+                if (Input.GetKeyDown(KeyCode.S))
+                {
+                    inputHandlerType = 1;
+                    MoveBackward();
+                }
+                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    inputHandlerType = 2;
+                    MoveBackward();
+                }
             }
             else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
-                MoveRight();
+                if (Input.GetKeyDown(KeyCode.D))
+                {
+                    inputHandlerType = 1;
+                    MoveRight();
+                }
+                else if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    inputHandlerType = 2;
+                    MoveRight();
+                }
             }
             else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                MoveLeft();
+                if (Input.GetKeyDown(KeyCode.A))
+                {
+                    inputHandlerType = 1;
+                    MoveLeft();
+                }
+                else if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    inputHandlerType = 2;
+                    MoveLeft();
+                }
             }
         }
     }
@@ -56,7 +100,18 @@ public class Movement : MonoBehaviour
                 c.Comportamiento();
             }
             inputActive = true;
-            lastInput = Input.GetKeyDown(KeyCode.W);
+            if (inputHandlerType == 1)
+            {
+                lastInput = Input.GetKeyDown(KeyCode.W);
+            }
+            else if(inputHandlerType == 2)
+            {
+                lastInput = Input.GetKeyDown(KeyCode.UpArrow);
+            }
+            else if(inputHandlerType == 3)
+            {
+                lastInput = Input.GetKeyDown(KeyCode.Space);
+            }
         }
     }
     public void MoveBackward()
@@ -69,7 +124,15 @@ public class Movement : MonoBehaviour
             direccionDeGiro.DORotate(new Vector3(0, 180, 0), 0);
             c.Comportamiento();
             inputActive = true;
-            lastInput = Input.GetKeyDown(KeyCode.S);
+            if (inputHandlerType == 1)
+            {
+                lastInput = Input.GetKeyDown(KeyCode.S);
+            }
+            else if (inputHandlerType == 2)
+            {
+                lastInput = Input.GetKeyDown(KeyCode.DownArrow);
+            }
+            
         }
 
     }
@@ -83,7 +146,14 @@ public class Movement : MonoBehaviour
             direccionDeGiro.DORotate(new Vector3(0, 90, 0), 0);
             c.Comportamiento();
             inputActive = true;
-            lastInput = Input.GetKeyDown(KeyCode.D);
+            if (inputHandlerType == 1)
+            {
+                lastInput = Input.GetKeyDown(KeyCode.D);
+            }
+            else if (inputHandlerType == 2)
+            {
+                lastInput = Input.GetKeyDown(KeyCode.RightArrow);
+            }
         }
     }
     public void MoveLeft()
@@ -96,7 +166,14 @@ public class Movement : MonoBehaviour
             direccionDeGiro.DORotate(new Vector3(0, 270, 0), 0);
             c.Comportamiento();
             inputActive = true;
-            lastInput = Input.GetKeyDown(KeyCode.A);
+            if (inputHandlerType == 1)
+            {
+                lastInput = Input.GetKeyDown(KeyCode.A);
+            }
+            else if (inputHandlerType == 2)
+            {
+                lastInput = Input.GetKeyDown(KeyCode.LeftArrow);
+            }
         }
 
 
@@ -113,5 +190,24 @@ public class Movement : MonoBehaviour
         Camera.main.transform.position = cameraPosition;
         */
     }
-
+    public void MoveOnLastDirection()
+    {
+        //Dependiendo del ultimo input registrado por el jugador se moverá en esa dirección
+        if (lastInput == Input.GetKeyDown(KeyCode.W) || lastInput == Input.GetKeyDown(KeyCode.UpArrow) || lastInput == Input.GetKeyDown(KeyCode.Space))
+        {
+            MoveForward(true);
+        }
+        else if (lastInput == Input.GetKeyDown(KeyCode.S) || lastInput == Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            MoveBackward();
+        }
+        else if (lastInput == Input.GetKeyDown(KeyCode.D) || lastInput == Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            MoveRight();
+        }
+        else if (lastInput == Input.GetKeyDown(KeyCode.A) || lastInput == Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            MoveLeft();
+        }
+    }
 }
