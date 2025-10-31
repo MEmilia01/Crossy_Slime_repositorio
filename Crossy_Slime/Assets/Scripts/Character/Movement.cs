@@ -25,7 +25,7 @@ public class Movement : MonoBehaviour
             //Dependiendo de a que tecla le de se moverá hacia el pivote más cercano
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space))
             {
-                MoveForward();
+                MoveForward(true);
             }
             else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
@@ -41,7 +41,7 @@ public class Movement : MonoBehaviour
             }
         }
     }
-    public void MoveForward()
+    public void MoveForward(bool comprober)
     {
         //Sirve para que comprobar si el personaje puede moverse en esa dirección
         //Después se almacena el pivote que se ha encontrado
@@ -51,8 +51,10 @@ public class Movement : MonoBehaviour
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 0, 0), 0);
-
-            c.Comportamiento();
+            if (comprober)
+            {
+                c.Comportamiento();
+            }
             inputActive = true;
             lastInput = Input.GetKeyDown(KeyCode.W);
         }
