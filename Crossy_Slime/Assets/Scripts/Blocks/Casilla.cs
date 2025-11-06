@@ -52,9 +52,12 @@ public class Casilla : MonoBehaviour
             if (chronometer >= chronometerMax)
             {
                 this.TCasilla = TipoCasillas.dead;
-                Comportamiento(player);
                 MeshRenderer meshRenderer = this.GetComponent<MeshRenderer>();
                 meshRenderer.enabled = false;
+                if (player.transform.position == GetPivot().position)
+                {
+                    Comportamiento(player);
+                }
                 isStartingChronometer = false;
             }
         }
