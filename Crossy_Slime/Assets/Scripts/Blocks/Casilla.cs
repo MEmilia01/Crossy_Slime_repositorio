@@ -14,16 +14,10 @@ public class Casilla : MonoBehaviour
     public float chronometer = 0f;
     float chronometerMax = 4f;
     bool isStartingChronometer = false;
-
     public Casilla teleportDestination;
-
-    private void Start()
+    public void Comportamiento(Movement p)
     {
-        player = FindFirstObjectByType<Movement>();
-    }
-
-    public void Comportamiento()
-    {
+        player = p;
         if (TCasilla == TipoCasillas.ice)
         {
             player.MoveOnLastDirection();
@@ -66,6 +60,12 @@ public class Casilla : MonoBehaviour
             if (chronometer >= chronometerMax)
             {
                 this.TCasilla = TipoCasillas.dead;
+                MeshRenderer meshRenderer = this.GetComponent<MeshRenderer>();
+                meshRenderer.enabled = false;
+                if (player.transform.position == GetPivot().position)
+                {
+                    Comportamiento(player);
+                }
                 isStartingChronometer = false;
             }
         }
