@@ -1,28 +1,32 @@
 using UnityEngine;
-using UnityEngine.Rendering;
+
 public enum TipoCasillas
 {
     normal, ice, teleport, longjump, breakable, dead
 }
+
 public class Casilla : MonoBehaviour
 {
     public Transform Pivot;
     public TipoCasillas TCasilla;
-    Movement player;
+    private Movement player;
     public bool isDead = false;
     public float chronometer = 0f;
     float chronometerMax = 4f;
     bool isStartingChronometer = false;
+
+    public Casilla teleportDestination;
+
     private void Start()
     {
         player = FindFirstObjectByType<Movement>();
     }
+
     public void Comportamiento()
     {
         if (TCasilla == TipoCasillas.ice)
         {
             player.MoveOnLastDirection();
-
         }
         else if (TCasilla == TipoCasillas.longjump)
         {
@@ -33,20 +37,27 @@ public class Casilla : MonoBehaviour
         }
         else if (TCasilla == TipoCasillas.teleport)
         {
+            if (teleportDestination != null && teleportDestination.gameObject.activeInHierarchy)
+            {
+                player.transform.position = teleportDestination.GetPivot().position;
 
+                // Desactivar el destino para que no se pueda volver
+                teleportDestination.TCasilla = TipoCasillas.dead;
+                teleportDestination.isDead = true;
+                teleportDestination.gameObject.SetActive(false);
+            }
         }
         else if (TCasilla == TipoCasillas.dead)
         {
             isDead = true;
             player.enabled = false;
-
         }
         else if (TCasilla == TipoCasillas.breakable)
         {
             isStartingChronometer = true;
-
         }
     }
+
     private void Update()
     {
         if (isStartingChronometer)
@@ -59,9 +70,14 @@ public class Casilla : MonoBehaviour
             }
         }
     }
-    //Recibimos el pivote 
+
     public Transform GetPivot()
     {
         return Pivot;
+    }
+
+    public void SetTeleportDestination(Casilla destination)
+    {
+        teleportDestination = destination;
     }
 }

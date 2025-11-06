@@ -18,9 +18,14 @@ public class ProceduralMapGenerator : MonoBehaviour
     public GameObject player;
 
     private List<GameObject[]> activeRows = new List<GameObject[]>();
-    private List<GameObjectType[]> activeRowTypes = new List<GameObjectType[]>(); // para logica sin instanciar
+    private List<GameObjectType[]> activeRowTypes = new List<GameObjectType[]>();
     private float lastSpawnZ;
-    private int activeTeleports = 0; // maximo 2
+    private int activeTeleports = 0; // 0 = ninguno, 1 = origen colocado, 2 = par completo
+    private bool teleportPairIsActive = false; // true mientras origen o destino esten en activeRowTypes
+
+    // Referencia al GameObject del origen (para vincular despues)
+    private GameObject teleportOriginObject = null;
+    private int teleportOriginX = -1;
 
     private enum GameObjectType
     {
@@ -44,7 +49,6 @@ public class ProceduralMapGenerator : MonoBehaviour
             }
         }
 
-        // Generar filas iniciales desde startZ
         int initialRows = 5;
         for (int i = 0; i < initialRows; i++)
         {
@@ -71,11 +75,41 @@ public class ProceduralMapGenerator : MonoBehaviour
             if (activeRows.Count > 20)
             {
                 GameObject[] oldRow = activeRows[0];
+                GameObjectType[] oldRowTypes = activeRowTypes[0];
+
+                // Verificar si la fila que vamos a destruir contiene parte del par de teletransporte
+                bool containedTeleport = ContainsType(oldRowTypes, GameObjectType.Teleport);
+
                 activeRows.RemoveAt(0);
                 activeRowTypes.RemoveAt(0);
+
                 foreach (GameObject tile in oldRow)
                 {
                     if (tile != null) Destroy(tile);
+                }
+
+                // Si el par estaba activo y acabamos de destruir una fila con teletransporte,
+                // revisar si ya NO quedan teletransportes en las filas activas
+                if (teleportPairIsActive && containedTeleport)
+                {
+                    bool anyTeleportRemains = false;
+                    foreach (var row in activeRowTypes)
+                    {
+                        if (ContainsType(row, GameObjectType.Teleport))
+                        {
+                            anyTeleportRemains = true;
+                            break;
+                        }
+                    }
+
+                    if (!anyTeleportRemains)
+                    {
+                        // Ya no hay teletransportes en pantalla: permitir un nuevo par
+                        activeTeleports = 0;
+                        teleportPairIsActive = false;
+                        teleportOriginObject = null;
+                        teleportOriginX = -1;
+                    }
                 }
             }
         }
@@ -83,121 +117,142 @@ public class ProceduralMapGenerator : MonoBehaviour
 
     private void SpawnRow(float zPosition)
     {
-        // Crear fila de tipos primero (logica sin instanciar)
         GameObjectType[] newRowTypes = new GameObjectType[mapWidth];
-
-        // Regla: bordes siempre vacios
         newRowTypes[0] = GameObjectType.Empty;
         newRowTypes[mapWidth - 1] = GameObjectType.Empty;
 
-        // Determinar si esta fila debe ser vacia por regla de salto grande o teletransporte
         bool forceEmptyRow = false;
-        float forcedTeleportRowOffset = -1; // si es 0, debemos poner el segundo teletransporte aqui
+        bool isTeleportLandingRow = false;
 
-        // Revisar las ultimas 4 filas para ver si hay efectos pendientes
-        int rowsBack = Mathf.Min(activeRowTypes.Count, 4);
+        // Revisar efectos pendientes
+        int rowsBack = Mathf.Min(activeRowTypes.Count, 5);
         for (int i = 0; i < rowsBack; i++)
         {
-            int rowIndex = activeRowTypes.Count - 1 - i; // fila mas reciente primero
-            float distanceFromCurrent = (activeRowTypes.Count - rowIndex); // cuantas filas atras
+            int rowIndex = activeRowTypes.Count - 1 - i;
+            int distanceFromCurrent = activeRowTypes.Count - rowIndex;
 
-            // Regla: salto grande → 2 filas vacias, tercera con suelo/quebradiza/hielo en punto de caida
             if (ContainsType(activeRowTypes[rowIndex], GameObjectType.LongJump))
             {
                 if (distanceFromCurrent == 1 || distanceFromCurrent == 2)
                 {
                     forceEmptyRow = true;
                 }
-                // Nota: la fila de aterrizaje es cuando distanceFromCurrent == 3.
-                // La restriccion de no poner otro LongJump en esa columna se aplica mas abajo.
             }
 
-            // Regla: teletransporte -> 2-4 filas vacias, luego el segundo teletransporte
+            // Teletransporte: 3 filas vacias, destino en la cuarta
             if (ContainsType(activeRowTypes[rowIndex], GameObjectType.Teleport) && activeTeleports == 1)
             {
-                // Asumimos que el primer teletransporte ya fue colocado
-                // El segundo debe aparecer entre 2 y 4 filas despues
-                if (distanceFromCurrent >= 2 && distanceFromCurrent <= 4)
+                if (distanceFromCurrent >= 1 && distanceFromCurrent <= 3)
                 {
-                    forcedTeleportRowOffset = distanceFromCurrent; // usamos esto para saber si estamos en la fila correcta
+                    forceEmptyRow = true;
+                }
+                else if (distanceFromCurrent == 4)
+                {
+                    isTeleportLandingRow = true;
                 }
             }
         }
 
-        // CASO 1: Fila forzada como vacia (por salto grande anterior)
         if (forceEmptyRow)
         {
-            // Toda la fila es vacia (excepto bordes, que ya son vacios)
             for (int x = 1; x < mapWidth - 1; x++)
             {
                 newRowTypes[x] = GameObjectType.Empty;
             }
         }
-        // CASO 2: Fila para colocar el segundo teletransporte
-        else if (forcedTeleportRowOffset >= 2 && forcedTeleportRowOffset <= 4 && activeTeleports == 1)
+        else if (isTeleportLandingRow && activeTeleports == 1)
         {
-            // Esta fila debe contener el segundo teletransporte
-            // Elegimos una X valida (no en bordes)
-            int teleportX = Random.Range(1, mapWidth - 1);
+            // === Fila del destino: todo GROUND excepto UN bloque de Teleport (en X != origen) ===
             for (int x = 1; x < mapWidth - 1; x++)
             {
-                newRowTypes[x] = (x == teleportX) ? GameObjectType.Teleport : GameObjectType.Empty;
+                newRowTypes[x] = GameObjectType.Ground;
             }
-            activeTeleports++; // ahora son 2, no se pueden generar mas
+
+            // Elegir una X valida para el destino, DISTINTA de la del origen
+            int destinationX = -1;
+            if (teleportOriginX >= 1 && teleportOriginX <= mapWidth - 2)
+            {
+                // Crear lista de columnas validas (1 a mapWidth-2) excluyendo teleportOriginX
+                List<int> validColumns = new List<int>();
+                for (int x = 1; x < mapWidth - 1; x++)
+                {
+                    if (x != teleportOriginX)
+                    {
+                        validColumns.Add(x);
+                    }
+                }
+
+                if (validColumns.Count > 0)
+                {
+                    destinationX = validColumns[Random.Range(0, validColumns.Count)];
+                }
+                else
+                {
+                    // Caso extremo (mapWidth = 3), forzar offset
+                    destinationX = (teleportOriginX + 1) % mapWidth;
+                    if (destinationX == 0 || destinationX == mapWidth - 1) destinationX = 1;
+                }
+            }
+            else
+            {
+                // Fallback: elegir cualquier X valida
+                destinationX = Random.Range(1, mapWidth - 1);
+            }
+
+            newRowTypes[destinationX] = GameObjectType.Teleport;
+            activeTeleports = 2; // Par completo
         }
-        // CASO 3: Generacion normal con todas las reglas
         else
         {
-            // Limitar a un solo LongJump por fila
+            // Generacion normal
             bool longJumpPlacedThisRow = false;
+            bool teleportPlacedThisRow = false;
 
-            // === Detectar si esta fila es de aterrizaje ===
-            // Si 3 filas atras hubo un LongJump, esta es la fila donde el jugador cae.
-            // En esa misma columna X, NO debe generarse otro LongJump.
             int landingX = -1;
             if (activeRowTypes.Count >= 3)
             {
-                GameObjectType[] threeRowsBack = activeRowTypes[activeRowTypes.Count - 3];
+                var threeRowsBack = activeRowTypes[activeRowTypes.Count - 3];
                 for (int x = 0; x < mapWidth; x++)
                 {
                     if (threeRowsBack[x] == GameObjectType.LongJump)
                     {
-                        landingX = x; // Recordar la columna de aterrizaje
-                        break; // Solo puede haber uno por fila (garantizado por otra regla)
+                        landingX = x;
+                        break;
                     }
                 }
             }
 
-            // Generacion normal con reglas de vecindad
             for (int x = 1; x < mapWidth - 1; x++)
             {
-                // Determinar si en esta columna esta prohibido el LongJump (por ser columna de aterrizaje)
                 bool longJumpForbiddenHere = (x == landingX);
+                bool canPlaceTeleport = (activeTeleports == 0); // Solo si no hay par activo
 
-                // Elegir tipo de bloque, respetando: 
-                // - maximo un LongJump por fila
-                // - prohibicion en columna de aterrizaje
-                GameObjectType type = ChooseTileType(x, activeRowTypes, longJumpPlacedThisRow, longJumpForbiddenHere);
+                GameObjectType type = ChooseTileType(
+                    x,
+                    activeRowTypes,
+                    longJumpPlacedThisRow,
+                    longJumpForbiddenHere,
+                    canPlaceTeleport,
+                    teleportPlacedThisRow
+                );
+
                 newRowTypes[x] = type;
 
-                // Registrar si ya se uso el LongJump en esta fila
                 if (type == GameObjectType.LongJump)
                 {
                     longJumpPlacedThisRow = true;
                 }
-
-                // Contar teletransportes generados
-                if (type == GameObjectType.Teleport && activeTeleports < 2)
+                if (type == GameObjectType.Teleport)
                 {
-                    activeTeleports++;
+                    teleportPlacedThisRow = true;
+                    activeTeleports = 1;
+                    teleportOriginX = x;
+                    teleportPairIsActive = true; // El par ahora esta activo en pantalla
                 }
             }
-
-            // Si generamos un teletransporte y es el primero, las proximas 2-4 filas deben ser vacias y luego el segundo
-            // (eso se manejara en futuras iteraciones)
         }
 
-        // Instanciar los GameObjects
+        // === Instanciar y guardar referencias ===
         GameObject[] newRow = new GameObject[mapWidth];
         for (int x = 0; x < mapWidth; x++)
         {
@@ -206,30 +261,71 @@ public class ProceduralMapGenerator : MonoBehaviour
             GameObject tile = Instantiate(prefab, position, Quaternion.identity);
             tile.name = $"Tile_X{x}_Z{(int)zPosition}";
             newRow[x] = tile;
+
+            // Guardar referencia al origen
+            if (newRowTypes[x] == GameObjectType.Teleport && activeTeleports == 1 && !isTeleportLandingRow)
+            {
+                teleportOriginObject = tile;
+            }
         }
 
         activeRows.Add(newRow);
         activeRowTypes.Add(newRowTypes);
+
+        // === Vincular origen y destino si acabamos de generar el destino ===
+        if (isTeleportLandingRow && activeTeleports == 2 && teleportOriginObject != null)
+        {
+            // Buscar el GameObject del destino en la fila recien creada
+            GameObject teleportDestinationObject = null;
+            for (int x = 0; x < mapWidth; x++)
+            {
+                if (newRow[x] != null && newRowTypes[x] == GameObjectType.Teleport)
+                {
+                    teleportDestinationObject = newRow[x];
+                    break;
+                }
+            }
+
+            if (teleportDestinationObject != null)
+            {
+                // Obtener los componentes Casilla
+                Casilla originCasilla = teleportOriginObject.GetComponent<Casilla>();
+                Casilla destCasilla = teleportDestinationObject.GetComponent<Casilla>();
+
+                if (originCasilla != null && destCasilla != null)
+                {
+                    originCasilla.SetTeleportDestination(destCasilla);
+                    // El destino no necesita apuntar a ningun lado
+                }
+            }
+
+            // Resetear para permitir un nuevo par en el futuro
+            // (opcional: si quieres permitir multiples pares, no resetees aqui)
+            // Pero tu regla dice "maximo 2 en escena", asi que al destruirse el destino, se podria permitir otro.
+            // Por ahora, no reseteamos activeTeleports; se resetea cuando las filas salen de pantalla.
+        }
     }
 
-    // Elige un tipo de bloque basado en probabilidades y reglas de vecindad
-    // - longJumpAlreadyUsed: indica si ya se coloco un LongJump en esta fila
-    // - longJumpForbiddenHere: indica si esta columna esta prohibida para LongJump (por ser columna de aterrizaje)
-    private GameObjectType ChooseTileType(int x, List<GameObjectType[]> pastRows, bool longJumpAlreadyUsed, bool longJumpForbiddenHere)
+    private GameObjectType ChooseTileType(
+        int x,
+        List<GameObjectType[]> pastRows,
+        bool longJumpAlreadyUsed,
+        bool longJumpForbiddenHere,
+        bool canPlaceTeleport,
+        bool teleportAlreadyPlaced)
     {
-        // Probabilidades base
         float r = Random.value;
 
-        // Evitar generar teletransporte si ya hay 2
-        bool canTeleport = activeTeleports < 2;
+        bool allowTeleport = canPlaceTeleport && !teleportAlreadyPlaced;
+        // Importante: si hay teletransporte en la fila, no permitir LongJump
+        bool allowLongJump = !longJumpAlreadyUsed && !longJumpForbiddenHere && !teleportAlreadyPlaced;
 
-        // Decidir tipo tentativo
         GameObjectType candidate;
-        if (r < 0.05f && canTeleport)
+        if (r < 0.03f && allowTeleport) // Reducida probabilidad para equilibrio
         {
             candidate = GameObjectType.Teleport;
         }
-        else if (r < 0.05f && !longJumpAlreadyUsed && !longJumpForbiddenHere)
+        else if (r < 0.05f && allowLongJump)
         {
             candidate = GameObjectType.LongJump;
         }
@@ -246,20 +342,14 @@ public class ProceduralMapGenerator : MonoBehaviour
             candidate = GameObjectType.Ground;
         }
 
-        // Aplicar reglas de vecindad
-
-        // Regla: Hielo → detras debe haber suelo
+        // Regla del hielo
         if (candidate == GameObjectType.Ice)
         {
-            // "Detras" = fila anterior, misma X
             if (pastRows.Count == 0 || pastRows[pastRows.Count - 1][x] != GameObjectType.Ground)
             {
-                candidate = GameObjectType.Ground; // fallback seguro
+                candidate = GameObjectType.Ground;
             }
         }
-
-        // Regla: Salto grande -> no se valida aqui, se fuerzan filas vacias despues
-        // Regla: Teletransporte -> ya limitado por contador
 
         return candidate;
     }
