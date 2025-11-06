@@ -10,7 +10,7 @@ public class ProceduralMapGenerator : MonoBehaviour
     public GameObject teleport;
     public GameObject ground;
 
-    public int mapWidth = 13; 
+    public int mapWidth = 13;
     public float tileSize = 1.0f;
     public float tileLength = 1.0f;
     public float startZ = 3f;
@@ -21,7 +21,6 @@ public class ProceduralMapGenerator : MonoBehaviour
     private List<GameObjectType[]> activeRowTypes = new List<GameObjectType[]>(); // para logica sin instanciar
     private float lastSpawnZ;
     private int activeTeleports = 0; // maximo 2
-    private int activeLongJump = 0; // maximo 1 por linea
 
     private enum GameObjectType
     {
@@ -40,7 +39,7 @@ public class ProceduralMapGenerator : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player");
             if (player == null)
             {
-                Debug.LogError("No se encontró un jugador con la etiqueta 'Player'");
+                Debug.LogError("No se encontro un jugador con la etiqueta 'Player'");
                 return;
             }
         }
@@ -87,41 +86,37 @@ public class ProceduralMapGenerator : MonoBehaviour
         // Crear fila de tipos primero (logica sin instanciar)
         GameObjectType[] newRowTypes = new GameObjectType[mapWidth];
 
-        // Regla: bordes siempre vacíos
+        // Regla: bordes siempre vacios
         newRowTypes[0] = GameObjectType.Empty;
         newRowTypes[mapWidth - 1] = GameObjectType.Empty;
 
-        // Determinar si esta fila debe ser vacía por regla de salto grande o teletransporte
+        // Determinar si esta fila debe ser vacia por regla de salto grande o teletransporte
         bool forceEmptyRow = false;
         float forcedTeleportRowOffset = -1; // si es 0, debemos poner el segundo teletransporte aqui
 
-        // Revisar las últimas 4 filas para ver si hay efectos pendientes
+        // Revisar las ultimas 4 filas para ver si hay efectos pendientes
         int rowsBack = Mathf.Min(activeRowTypes.Count, 4);
         for (int i = 0; i < rowsBack; i++)
         {
             int rowIndex = activeRowTypes.Count - 1 - i; // fila mas reciente primero
             float distanceFromCurrent = (activeRowTypes.Count - rowIndex); // cuantas filas atras
 
-            // Regla: salto grande → 2 filas vacías, tercera con suelo/quebradiza/hielo en punto de caida
+            // Regla: salto grande → 2 filas vacias, tercera con suelo/quebradiza/hielo en punto de caida
             if (ContainsType(activeRowTypes[rowIndex], GameObjectType.LongJump))
             {
                 if (distanceFromCurrent == 1 || distanceFromCurrent == 2)
                 {
                     forceEmptyRow = true;
                 }
-                else if (distanceFromCurrent == 3)
-                {
-                    // En esta fila, en la misma columna X del salto, debe haber suelo/quebradiza/hielo
-                    // Por simplicidad, permitimos generar normalmente, pero evitamos vacío en esa X
-                    // (opcional: guardar la X del salto y forzar ahí)
-                }
+                // Nota: la fila de aterrizaje es cuando distanceFromCurrent == 3.
+                // La restriccion de no poner otro LongJump en esa columna se aplica mas abajo.
             }
 
             // Regla: teletransporte -> 2-4 filas vacias, luego el segundo teletransporte
             if (ContainsType(activeRowTypes[rowIndex], GameObjectType.Teleport) && activeTeleports == 1)
             {
                 // Asumimos que el primer teletransporte ya fue colocado
-                // El segundo debe aparecer entre 2 y 4 filas después
+                // El segundo debe aparecer entre 2 y 4 filas despues
                 if (distanceFromCurrent >= 2 && distanceFromCurrent <= 4)
                 {
                     forcedTeleportRowOffset = distanceFromCurrent; // usamos esto para saber si estamos en la fila correcta
@@ -129,18 +124,20 @@ public class ProceduralMapGenerator : MonoBehaviour
             }
         }
 
+        // CASO 1: Fila forzada como vacia (por salto grande anterior)
         if (forceEmptyRow)
         {
-            // Toda la fila es vacía (excepto bordes, que ya son vacíos)
+            // Toda la fila es vacia (excepto bordes, que ya son vacios)
             for (int x = 1; x < mapWidth - 1; x++)
             {
                 newRowTypes[x] = GameObjectType.Empty;
             }
         }
+        // CASO 2: Fila para colocar el segundo teletransporte
         else if (forcedTeleportRowOffset >= 2 && forcedTeleportRowOffset <= 4 && activeTeleports == 1)
         {
             // Esta fila debe contener el segundo teletransporte
-            // Elegimos una X válida (no en bordes)
+            // Elegimos una X valida (no en bordes)
             int teleportX = Random.Range(1, mapWidth - 1);
             for (int x = 1; x < mapWidth - 1; x++)
             {
@@ -148,14 +145,48 @@ public class ProceduralMapGenerator : MonoBehaviour
             }
             activeTeleports++; // ahora son 2, no se pueden generar mas
         }
+        // CASO 3: Generacion normal con todas las reglas
         else
         {
-            // Generación normal con reglas de vecindad
+            // Limitar a un solo LongJump por fila
+            bool longJumpPlacedThisRow = false;
+
+            // === Detectar si esta fila es de aterrizaje ===
+            // Si 3 filas atras hubo un LongJump, esta es la fila donde el jugador cae.
+            // En esa misma columna X, NO debe generarse otro LongJump.
+            int landingX = -1;
+            if (activeRowTypes.Count >= 3)
+            {
+                GameObjectType[] threeRowsBack = activeRowTypes[activeRowTypes.Count - 3];
+                for (int x = 0; x < mapWidth; x++)
+                {
+                    if (threeRowsBack[x] == GameObjectType.LongJump)
+                    {
+                        landingX = x; // Recordar la columna de aterrizaje
+                        break; // Solo puede haber uno por fila (garantizado por otra regla)
+                    }
+                }
+            }
+
+            // Generacion normal con reglas de vecindad
             for (int x = 1; x < mapWidth - 1; x++)
             {
-                GameObjectType type = ChooseTileType(x, newRowTypes, activeRowTypes);
+                // Determinar si en esta columna esta prohibido el LongJump (por ser columna de aterrizaje)
+                bool longJumpForbiddenHere = (x == landingX);
+
+                // Elegir tipo de bloque, respetando: 
+                // - maximo un LongJump por fila
+                // - prohibicion en columna de aterrizaje
+                GameObjectType type = ChooseTileType(x, activeRowTypes, longJumpPlacedThisRow, longJumpForbiddenHere);
                 newRowTypes[x] = type;
 
+                // Registrar si ya se uso el LongJump en esta fila
+                if (type == GameObjectType.LongJump)
+                {
+                    longJumpPlacedThisRow = true;
+                }
+
+                // Contar teletransportes generados
                 if (type == GameObjectType.Teleport && activeTeleports < 2)
                 {
                     activeTeleports++;
@@ -181,7 +212,10 @@ public class ProceduralMapGenerator : MonoBehaviour
         activeRowTypes.Add(newRowTypes);
     }
 
-    private GameObjectType ChooseTileType(int x, GameObjectType[] currentRow, List<GameObjectType[]> pastRows)
+    // Elige un tipo de bloque basado en probabilidades y reglas de vecindad
+    // - longJumpAlreadyUsed: indica si ya se coloco un LongJump en esta fila
+    // - longJumpForbiddenHere: indica si esta columna esta prohibida para LongJump (por ser columna de aterrizaje)
+    private GameObjectType ChooseTileType(int x, List<GameObjectType[]> pastRows, bool longJumpAlreadyUsed, bool longJumpForbiddenHere)
     {
         // Probabilidades base
         float r = Random.value;
@@ -195,7 +229,7 @@ public class ProceduralMapGenerator : MonoBehaviour
         {
             candidate = GameObjectType.Teleport;
         }
-        else if (r < 0.05f)
+        else if (r < 0.05f && !longJumpAlreadyUsed && !longJumpForbiddenHere)
         {
             candidate = GameObjectType.LongJump;
         }
@@ -207,14 +241,14 @@ public class ProceduralMapGenerator : MonoBehaviour
         {
             candidate = GameObjectType.Ice;
         }
-        else 
+        else
         {
             candidate = GameObjectType.Ground;
         }
-            
+
         // Aplicar reglas de vecindad
 
-        // Regla: Hielo → detrás debe haber suelo, delante debe haber suelo/tele/longjump/breakable
+        // Regla: Hielo → detras debe haber suelo
         if (candidate == GameObjectType.Ice)
         {
             // "Detras" = fila anterior, misma X
