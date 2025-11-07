@@ -14,9 +14,8 @@ public class Cameramove : MonoBehaviour
 
 
     void Start()
-    {
-        
-        speed = principio;
+    {   
+       speed = principio;
     }
     void Update()
     {
