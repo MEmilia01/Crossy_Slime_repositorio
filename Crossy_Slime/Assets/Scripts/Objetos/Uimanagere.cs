@@ -35,7 +35,7 @@ public class canvasgroup : MonoBehaviour
         menumuerte.SetActive(false);
         pantallacarga.SetActive(false);
         //codigo para que valla contando cuando avance
-        SceneManager.LoadScene("Generaciondelmapa");//se deberia poner el nombre aca de la scena
+        //SceneManager.LoadScene("Generaciondelmapa");//se deberia poner el nombre aca de la scena
         //aca llama para que se ponga la scena del juego
     }
     public void Mostrarmenumuerte()
