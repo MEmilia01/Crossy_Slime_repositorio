@@ -3140,8 +3140,8 @@ GameObject:
   - component: {fileID: 880614133}
   - component: {fileID: 880614132}
   m_Layer: 0
-  m_Name: SpawnpointDragon (1)
-  m_TagString: Untagged
+  m_Name: Endpoint
+  m_TagString: Endpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3762,7 +3762,7 @@ GameObject:
   - component: {fileID: 1192342208}
   m_Layer: 0
   m_Name: SpawnpointDragon
-  m_TagString: Untagged
+  m_TagString: Spawnpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
