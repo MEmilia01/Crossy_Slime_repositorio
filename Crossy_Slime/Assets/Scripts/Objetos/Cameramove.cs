@@ -50,7 +50,7 @@ public class Cameramove : MonoBehaviour
                 Rapidez();
             }
         }
-        if(distancia > -7) 
+        else
         {
             enrango = true;
         }
@@ -69,7 +69,8 @@ public class Cameramove : MonoBehaviour
     {
         DOTween.To(() => speed, x => speed = x, masinicio, 0.2f);
 
-        if(enrango == true) { back(); }
+        enrango = true;
+        if(distancia < -7) { back(); }
 
     }
 
