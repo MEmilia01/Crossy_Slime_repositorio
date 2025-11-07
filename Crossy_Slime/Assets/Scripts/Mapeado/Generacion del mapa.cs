@@ -316,7 +316,8 @@ public class ProceduralMapGenerator : MonoBehaviour
     {
         float r = Random.value;
 
-        bool allowTeleport = canPlaceTeleport && !teleportAlreadyPlaced;
+        // Importante: si hay LongJump en la fila, no permitir teletransporte
+        bool allowTeleport = canPlaceTeleport && !longJumpAlreadyUsed && !teleportAlreadyPlaced;
         // Importante: si hay teletransporte en la fila, no permitir LongJump
         bool allowLongJump = !longJumpAlreadyUsed && !longJumpForbiddenHere && !teleportAlreadyPlaced;
 
