@@ -224,8 +224,15 @@ public class ProceduralMapGenerator : MonoBehaviour
 
             for (int x = 1; x < mapWidth - 1; x++)
             {
-                bool longJumpForbiddenHere = (x == landingX);
-                bool canPlaceTeleport = (activeTeleports == 0); // Solo si no hay par activo
+                // si esta es la columna de aterrizaje, forzar Ground
+                if (x == landingX)
+                {
+                    newRowTypes[x] = GameObjectType.Ground;
+                    continue; // Saltar elección aleatoria
+                }
+
+                bool longJumpForbiddenHere = false; 
+                bool canPlaceTeleport = (activeTeleports == 0);
 
                 GameObjectType type = ChooseTileType(
                     x,
@@ -247,7 +254,7 @@ public class ProceduralMapGenerator : MonoBehaviour
                     teleportPlacedThisRow = true;
                     activeTeleports = 1;
                     teleportOriginX = x;
-                    teleportPairIsActive = true; // El par ahora esta activo en pantalla
+                    teleportPairIsActive = true;
                 }
             }
         }
@@ -298,11 +305,6 @@ public class ProceduralMapGenerator : MonoBehaviour
                     // El destino no necesita apuntar a ningun lado
                 }
             }
-
-            // Resetear para permitir un nuevo par en el futuro
-            // (opcional: si quieres permitir multiples pares, no resetees aqui)
-            // Pero tu regla dice "maximo 2 en escena", asi que al destruirse el destino, se podria permitir otro.
-            // Por ahora, no reseteamos activeTeleports; se resetea cuando las filas salen de pantalla.
         }
     }
 
@@ -316,7 +318,8 @@ public class ProceduralMapGenerator : MonoBehaviour
     {
         float r = Random.value;
 
-        bool allowTeleport = canPlaceTeleport && !teleportAlreadyPlaced;
+        // Importante: si hay LongJump en la fila, no permitir teletransporte
+        bool allowTeleport = canPlaceTeleport && !longJumpAlreadyUsed && !teleportAlreadyPlaced;
         // Importante: si hay teletransporte en la fila, no permitir LongJump
         bool allowLongJump = !longJumpAlreadyUsed && !longJumpForbiddenHere && !teleportAlreadyPlaced;
 
@@ -345,9 +348,9 @@ public class ProceduralMapGenerator : MonoBehaviour
         // Regla del hielo
         if (candidate == GameObjectType.Ice)
         {
-            if (pastRows.Count == 0 || pastRows[pastRows.Count - 1][x] != GameObjectType.Ground)
+            if (pastRows.Count == 0 || pastRows[pastRows.Count - 1][x] == GameObjectType.Ground || pastRows[pastRows.Count - 1][x] == GameObjectType.Ice)
             {
-                candidate = GameObjectType.Ground;
+                candidate = GameObjectType.Ice;
             }
         }
 
