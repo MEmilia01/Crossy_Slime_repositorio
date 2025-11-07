@@ -14,6 +14,7 @@ public class Casilla : MonoBehaviour
     public float chronometer = 0f;
     float chronometerMax = 4f;
     bool isStartingChronometer = false;
+    [SerializeField] bool isTeleportActivated = false;
     public Casilla teleportDestination;
     public void Comportamiento(Movement p)
     {
@@ -33,12 +34,14 @@ public class Casilla : MonoBehaviour
         {
             if (teleportDestination != null && teleportDestination.gameObject.activeInHierarchy)
             {
-                player.transform.position = teleportDestination.GetPivot().position;
+                if (isTeleportActivated)
+                {
+                    player.transform.position = teleportDestination.GetPivot().position;
+                    isTeleportActivated = false;
+                }
 
                 // Desactivar el destino para que no se pueda volver
-                teleportDestination.TCasilla = TipoCasillas.dead;
-                teleportDestination.isDead = true;
-                teleportDestination.gameObject.SetActive(false);
+
             }
         }
         else if (TCasilla == TipoCasillas.dead)
@@ -79,5 +82,6 @@ public class Casilla : MonoBehaviour
     public void SetTeleportDestination(Casilla destination)
     {
         teleportDestination = destination;
+        isTeleportActivated = true;
     }
 }
