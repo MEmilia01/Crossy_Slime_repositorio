@@ -28,7 +28,6 @@ public class Cameramove : MonoBehaviour
         transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
        //transform.position = playerposition.position + offset;
         
-        Debug.Log("temueves, camara");
 
         if(Input.GetKeyDown(KeyCode.R))
         {
