@@ -50,7 +50,7 @@ public class Cameramove : MonoBehaviour
                 Rapidez();
             }
         }
-        else
+        if(distancia > -7) 
         {
             enrango = true;
         }
