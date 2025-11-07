@@ -210,4 +210,11 @@ public class Movement : MonoBehaviour
             MoveLeft();
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Dragon"))
+        {
+            this.enabled = false;
+        }
+    }
 }
