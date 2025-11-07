@@ -5430,9 +5430,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 939296936}
   targetCamera: {fileID: 2126132940}
+  distancia: 0
   speed: 0
   principio: 2
-  masinicio: 5
+  masinicio: 4
+  enrango: 1
   duration: 1
 --- !u!1001 &2132617303
 PrefabInstance:
