@@ -25,10 +25,12 @@ public class Casilla : MonoBehaviour
         }
         else if (TCasilla == TipoCasillas.longjump)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 player.MoveForward(false);
+                
             }
+            player.MoveForward(true);
         }
         else if (TCasilla == TipoCasillas.teleport)
         {
