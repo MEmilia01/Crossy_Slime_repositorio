@@ -33,7 +33,7 @@ public class Dragon : MonoBehaviour
     }
     IEnumerator DelayForSpawn()
     {
-        yield return new WaitForSeconds(7);
+        yield return new WaitForSecondsRealtime(4);
         isMoving = false;
     }
 }
