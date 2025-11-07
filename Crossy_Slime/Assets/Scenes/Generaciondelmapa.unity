@@ -5432,8 +5432,8 @@ MonoBehaviour:
   targetCamera: {fileID: 2126132940}
   distancia: 0
   speed: 0
-  principio: 2
-  masinicio: 4
+  principio: 3
+  masinicio: 20
   enrango: 1
   duration: 1
 --- !u!1001 &2132617303
