@@ -2220,10 +2220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3396615209686448136, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2126132940}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
 --- !u!4 &876774680 stripped
@@ -2472,11 +2469,6 @@ PrefabInstance:
 --- !u!1 &939296936 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1590999951160015794, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
-  m_PrefabInstance: {fileID: 845711426}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &939296941 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3396615209686448136, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
   m_PrefabInstance: {fileID: 845711426}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &946326104
@@ -5298,6 +5290,7 @@ GameObject:
   - component: {fileID: 2126132939}
   - component: {fileID: 2126132938}
   - component: {fileID: 2126132941}
+  - component: {fileID: 2126132942}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5373,11 +5366,11 @@ Transform:
   m_GameObject: {fileID: 2126132937}
   serializedVersion: 2
   m_LocalRotation: {x: 0.61566144, y: -0, z: -0, w: 0.7880108}
-  m_LocalPosition: {x: 0.23000002, y: 8.68, z: -1}
+  m_LocalPosition: {x: 4.23, y: 10, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 939296941}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 76, y: 0, z: 0}
 --- !u!114 &2126132941
 MonoBehaviour:
@@ -5423,6 +5416,26 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &2126132942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126132937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c983eb3d7da45a44c8df1d7c70d98326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 939296936}
+  targetCamera: {fileID: 2126132940}
+  distancia: 0
+  speed: 0
+  principio: 2
+  masinicio: 4
+  enrango: 1
+  duration: 1
 --- !u!1001 &2132617303
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5484,6 +5497,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 2126132940}
   - {fileID: 1979780134}
   - {fileID: 2035693753}
   - {fileID: 845711426}

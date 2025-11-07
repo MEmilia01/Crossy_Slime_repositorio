@@ -6,6 +6,9 @@ TagManager:
   tags:
   - IsPossibleMove
   - Ice
+  - Dragon
+  - Spawnpoint
+  - Endpoint
   layers:
   - Default
   - TransparentFX
