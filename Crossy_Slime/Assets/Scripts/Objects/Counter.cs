@@ -6,15 +6,16 @@ public class Counter : MonoBehaviour
     public int adelante;
     public int atras;
     public int puntuacionMax;
+    internal bool havePlayerMoved;
+    internal bool isAvailableMove = false;
 
-    [SerializeField] bool sumaAdelantePosible;
     Movement deadState;
+    Movement player;
 
     void Awake()
     {
         adelante = 0;
         atras = 0;
-        sumaAdelantePosible = true;
     }
 
     void Update()
@@ -24,34 +25,40 @@ public class Counter : MonoBehaviour
 
     public void counterUpdate()
     {
+        if (isAvailableMove)
         {
-            if (sumaAdelantePosible && atras == 0)
-            {
-                if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space))
-                {
-                    adelante++;
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                sumaAdelantePosible = false;
-                atras++;
-            } 
-            else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space))
+            if (havePlayerMoved)
             {
                 if (atras > 0)
                 {
                     atras--;
-                    if (atras == 0)
-                    {
-                        sumaAdelantePosible = true;
-                    }
+                    isAvailableMove = false;
+                }
+                else if (atras <= 0)
+                {
+                    adelante++;
+                    isAvailableMove = false;
                 }
             }
-
-            
+            if (!havePlayerMoved)
+            {
+                atras++;
+                isAvailableMove = false;
+            }
         }
+        
+    }
+    internal void GetMovementForward(Movement p)
+    {
+        player = p;
+        havePlayerMoved = true;
+        isAvailableMove = true;
+    }
+    internal void GetMovementBackward(Movement p)
+    {
+        player = p;
+        havePlayerMoved = false;
+        isAvailableMove = true;
     }
     public void GetStateOfDead(Movement dead)
     {
@@ -72,7 +79,6 @@ public class Counter : MonoBehaviour
     {
         adelante = 0;
         atras = 0;
-        sumaAdelantePosible = true;
         deadState.isDead = false;
     }
 

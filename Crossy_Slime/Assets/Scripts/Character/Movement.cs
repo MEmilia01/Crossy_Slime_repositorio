@@ -123,6 +123,7 @@ public class Movement : MonoBehaviour
             {
                 lastInput = Input.GetKeyDown(KeyCode.Space);
             }
+            counter.GetMovementForward(this);
         }
     }
     public void MoveBackward()
@@ -148,7 +149,7 @@ public class Movement : MonoBehaviour
             {
                 lastInput = Input.GetKeyDown(KeyCode.DownArrow);
             }
-            
+            counter.GetMovementBackward(this);
         }
 
     }
@@ -222,10 +223,12 @@ public class Movement : MonoBehaviour
         if (lastInput == Input.GetKeyDown(KeyCode.W) || lastInput == Input.GetKeyDown(KeyCode.UpArrow) || lastInput == Input.GetKeyDown(KeyCode.Space))
         {
             MoveForward(true);
+            counter.GetMovementForward(this);
         }
         else if (lastInput == Input.GetKeyDown(KeyCode.S) || lastInput == Input.GetKeyDown(KeyCode.DownArrow))
         {
             MoveBackward();
+            counter.GetMovementBackward(this);
         }
         else if (lastInput == Input.GetKeyDown(KeyCode.D) || lastInput == Input.GetKeyDown(KeyCode.RightArrow))
         {
