@@ -2220,8 +2220,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3396615209686448136, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2126132940}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1590999951160015794, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 939296938}
   m_SourcePrefab: {fileID: 100100000, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
 --- !u!4 &876774680 stripped
 Transform:
@@ -2469,6 +2475,25 @@ PrefabInstance:
 --- !u!1 &939296936 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1590999951160015794, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
+  m_PrefabInstance: {fileID: 845711426}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &939296938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939296936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f450b58c2fc6a94b9c3f6538bfbdc5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  adelante: 0
+  atras: 0
+--- !u!4 &939296942 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3396615209686448136, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
   m_PrefabInstance: {fileID: 845711426}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &946326104
@@ -5367,11 +5392,11 @@ Transform:
   m_GameObject: {fileID: 2126132937}
   serializedVersion: 2
   m_LocalRotation: {x: 0.61566144, y: -0, z: -0, w: 0.7880108}
-  m_LocalPosition: {x: 4.23, y: 10, z: -1}
+  m_LocalPosition: {x: 0.23000002, y: 8.68, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 939296942}
   m_LocalEulerAnglesHint: {x: 76, y: 0, z: 0}
 --- !u!114 &2126132941
 MonoBehaviour:
@@ -5433,7 +5458,7 @@ MonoBehaviour:
   targetCamera: {fileID: 2126132940}
   distancia: 0
   speed: 0
-  principio: 3
+  principio: 0
   masinicio: 20
   enrango: 1
   duration: 1
@@ -5498,7 +5523,6 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 2126132940}
   - {fileID: 1979780134}
   - {fileID: 2035693753}
   - {fileID: 845711426}
