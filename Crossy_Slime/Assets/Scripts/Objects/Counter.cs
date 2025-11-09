@@ -7,12 +7,11 @@ public class Counter : MonoBehaviour
     public int atras;
     public int puntuacionMax;
 
-    bool sumaAdelantePosible;
-    bool dead = false;
+    [SerializeField] bool sumaAdelantePosible;
+    Movement deadState;
 
-    void Start()
+    void Awake()
     {
-        dead = GetComponent<Casilla>().isDead;
         adelante = 0;
         atras = 0;
         sumaAdelantePosible = true;
@@ -51,29 +50,33 @@ public class Counter : MonoBehaviour
                 }
             }
 
-            /*if (dead)
-            {
-                if (adelante > puntuacionMax)
-                {
-                    puntuacionMax = adelante;
-                    PlayerPrefs.SetInt("HighScore", puntuacionMax);
-                    PlayerPrefs.Save();
-                    Debug.Log("¡Nuevo récord guardado: " + puntuacionMax + "!");
-                }
-                // ResetGame();
-                dead = false;
-            }*/
+            
         }
     }
-    /*public void ResetGame()
+    public void GetStateOfDead(Movement dead)
+    {
+        deadState = dead;
+        if (deadState.isDead)
+        {
+            if (adelante > puntuacionMax)
+            {
+                puntuacionMax = adelante;
+                PlayerPrefs.SetInt("HighScore", puntuacionMax);
+                PlayerPrefs.Save();
+                Debug.Log("¡Nuevo récord guardado: " + puntuacionMax + "!");
+            }
+            ResetGame();
+        }
+    }
+    public void ResetGame()
     {
         adelante = 0;
         atras = 0;
         sumaAdelantePosible = true;
-        dead = false;
+        deadState.isDead = false;
     }
 
     // Métodos de acceso (para UI)
     public int GetCurrentScore() => adelante;
-    public int GetHighScore() => puntuacionMax;*/
+    public int GetHighScore() => puntuacionMax;
 }

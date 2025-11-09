@@ -18,6 +18,12 @@ public class Movement : MonoBehaviour
     internal bool lastInput = false;
     [SerializeField] Transform direccionDeGiro;
     int inputHandlerType = 0;
+    internal bool isDead = false;
+    Counter counter;
+    private void Start()
+    {
+        counter = GetComponent<Counter>();
+    }
     void Update()
     {
         if (inputActive)
@@ -98,6 +104,11 @@ public class Movement : MonoBehaviour
             if (comprober)
             {
                 c.Comportamiento(this);
+                if (c.TCasilla == TipoCasillas.dead)
+                {
+                    isDead = true;
+                    counter.GetStateOfDead(this);
+                }
             }
             inputActive = true;
             if (inputHandlerType == 1)
@@ -123,6 +134,11 @@ public class Movement : MonoBehaviour
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 180, 0), 0);
             c.Comportamiento(this);
+            if (c.TCasilla == TipoCasillas.dead)
+            {
+                isDead = true;
+                counter.GetStateOfDead(this);
+            }
             inputActive = true;
             if (inputHandlerType == 1)
             {
@@ -145,6 +161,11 @@ public class Movement : MonoBehaviour
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 90, 0), 0);
             c.Comportamiento(this);
+            if (c.TCasilla == TipoCasillas.dead)
+            {
+                isDead = true;
+                counter.GetStateOfDead(this);
+            }
             inputActive = true;
             if (inputHandlerType == 1)
             {
@@ -165,6 +186,11 @@ public class Movement : MonoBehaviour
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 270, 0), 0);
             c.Comportamiento(this);
+            if (c.TCasilla == TipoCasillas.dead)
+            {
+                isDead = true;
+                counter.GetStateOfDead(this);
+            }
             inputActive = true;
             if (inputHandlerType == 1)
             {

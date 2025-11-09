@@ -10,7 +10,6 @@ public class Casilla : MonoBehaviour
     public Transform Pivot;
     public TipoCasillas TCasilla;
     private Movement player;
-    public bool isDead = false;
     public float chronometer = 0f;
     float chronometerMax = 4f;
     bool isStartingChronometer = false;
@@ -48,7 +47,6 @@ public class Casilla : MonoBehaviour
         }
         else if (TCasilla == TipoCasillas.dead)
         {
-            isDead = true;
             player.enabled = false;
         }
         else if (TCasilla == TipoCasillas.breakable)
@@ -75,7 +73,7 @@ public class Casilla : MonoBehaviour
             }
         }
     }
-
+    
     public Transform GetPivot()
     {
         return Pivot;
