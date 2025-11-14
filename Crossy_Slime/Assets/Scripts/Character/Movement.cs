@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.TextCore.Text;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 public class Movement : MonoBehaviour
 {
@@ -17,7 +18,15 @@ public class Movement : MonoBehaviour
     bool inputActive = true;
     internal bool lastInput = false;
     [SerializeField] Transform direccionDeGiro;
+    [SerializeField] Transform agitacionMuerte;
     int inputHandlerType = 0;
+    [SerializeField]Mesh slimeMuerto;
+    [SerializeField]MeshFilter slimeDead;
+    bool isAllowedAnimation = true;
+    private void Start()
+    {
+        
+    }
     void Update()
     {
         if (inputActive)
@@ -215,6 +224,16 @@ public class Movement : MonoBehaviour
         if (collision.gameObject.CompareTag("Dragon"))
         {
             this.enabled = false;
+            if (isAllowedAnimation)
+            {
+                DoAnimationOfDead();
+            }
         }
+    }
+    void DoAnimationOfDead()
+    {
+        agitacionMuerte.DOShakeScale(3, 1, 4, 0);
+        slimeDead.mesh = slimeMuerto;
+        isAllowedAnimation = false;
     }
 }
