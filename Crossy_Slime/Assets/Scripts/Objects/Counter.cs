@@ -63,23 +63,12 @@ public class Counter : MonoBehaviour
     public void GetStateOfDead(Movement dead)
     {
         deadState = dead;
-        if (deadState.isDead)
-        {
-            if (adelante > puntuacionMax)
-            {
-                puntuacionMax = adelante;
-                PlayerPrefs.SetInt("HighScore", puntuacionMax);
-                PlayerPrefs.Save();
-                Debug.Log("¡Nuevo récord guardado: " + puntuacionMax + "!");
-            }
-            ResetGame();
-        }
+        
     }
     public void ResetGame()
     {
         adelante = 0;
         atras = 0;
-        deadState.isDead = false;
     }
 
     // Métodos de acceso (para UI)
