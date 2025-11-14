@@ -16,6 +16,7 @@ public class Cameramove : MonoBehaviour
     public bool empezar = false;
 
     public float duration = 1f;
+    
 
     void Inicio()
     {
@@ -25,6 +26,8 @@ public class Cameramove : MonoBehaviour
 
     void Start()
     {  
+     
+        //necesito que el menu mande una señal, con el cual se inicie la camara
         
     }
     void Update()

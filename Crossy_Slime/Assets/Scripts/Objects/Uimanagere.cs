@@ -14,8 +14,10 @@ public class canvasgroup : MonoBehaviour
     
     [SerializeField] Movement player;
 
+
     void Start()
     {
+
         MostrarMenu();
         num = 0;
     }
