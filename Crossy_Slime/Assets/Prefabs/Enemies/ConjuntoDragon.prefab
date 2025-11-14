@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8668540389055082558}
   - component: {fileID: 6516821768190356205}
   m_Layer: 0
-  m_Name: Endpoint
+  m_Name: EndPoint
   m_TagString: Endpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 7146197045703664239}
   - component: {fileID: 3174515158079791746}
   m_Layer: 0
-  m_Name: SpawnpointDragon
+  m_Name: SpawnPoint
   m_TagString: Spawnpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
