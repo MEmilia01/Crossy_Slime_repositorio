@@ -196,6 +196,7 @@ MonoBehaviour:
   detectorOfGroundRight: {fileID: 4932326547220229487}
   detectorOfGroundLeft: {fileID: 4754478222522264085}
   direccionDeGiro: {fileID: 7775815381386426099}
+  agitacionMuerte: {fileID: 7775815381386426099}
 --- !u!65 &4250623480947175929
 BoxCollider:
   m_ObjectHideFlags: 0

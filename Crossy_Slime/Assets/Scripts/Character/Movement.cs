@@ -17,6 +17,7 @@ public class Movement : MonoBehaviour
     bool inputActive = true;
     internal bool lastInput = false;
     [SerializeField] Transform direccionDeGiro;
+    [SerializeField] Transform agitacionMuerte;
     int inputHandlerType = 0;
     void Update()
     {
@@ -215,6 +216,7 @@ public class Movement : MonoBehaviour
         if (collision.gameObject.CompareTag("Dragon"))
         {
             this.enabled = false;
+            agitacionMuerte.DOShakeScale(3,3,6,0);
         }
     }
 }
