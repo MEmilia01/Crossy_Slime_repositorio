@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using JetBrains.Annotations;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ProceduralMapGenerator : MonoBehaviour
@@ -12,6 +13,7 @@ public class ProceduralMapGenerator : MonoBehaviour
     public GameObject dragon;
 
     public int mapWidth = 13;
+    public int index = 0;
     public float tileSize = 1.0f;
     public float tileLength = 1.0f;
     public float startZ = 3f;
@@ -123,9 +125,13 @@ public class ProceduralMapGenerator : MonoBehaviour
         GameObjectType[] newRowTypes = new GameObjectType[mapWidth];
         newRowTypes[0] = GameObjectType.Empty;
         newRowTypes[mapWidth - 1] = GameObjectType.Empty;
-
         bool forceEmptyRow = false;
         bool isTeleportLandingRow = false;
+
+        if (!forceEmptyRow)
+        {
+            index++;
+        }
 
         // Revisar efectos pendientes
         int rowsBack = Mathf.Min(activeRowTypes.Count, 5);
