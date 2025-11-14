@@ -9,6 +9,7 @@ public class ProceduralMapGenerator : MonoBehaviour
     public GameObject longJump;
     public GameObject teleport;
     public GameObject ground;
+    public GameObject dragon;
 
     public int mapWidth = 13;
     public float tileSize = 1.0f;
@@ -34,7 +35,8 @@ public class ProceduralMapGenerator : MonoBehaviour
         Breakable,
         Ice,
         LongJump,
-        Teleport
+        Teleport,
+        Dragon
     }
 
     void Start()
@@ -377,6 +379,7 @@ public class ProceduralMapGenerator : MonoBehaviour
             case GameObjectType.Ice: return ice;
             case GameObjectType.LongJump: return longJump;
             case GameObjectType.Teleport: return teleport;
+            case GameObjectType.Dragon: return dragon;
             default: return empty;
         }
     }
