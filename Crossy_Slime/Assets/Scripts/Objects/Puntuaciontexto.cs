@@ -3,9 +3,9 @@ using TMPro;
 
 public class Puntuaciontexto : MonoBehaviour
 {
-    private int puntosinico = 0;
-    public int puntosbloques;
-    public int puntosfinal;
+    private float puntosinico = 0f;
+    public float puntosbloques;
+    public float puntosfinal;
 
     private TextMeshProUGUI textMesh;
 
@@ -18,6 +18,7 @@ public class Puntuaciontexto : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        puntosbloques += Time.deltaTime;
         textMesh.text = puntosbloques.ToString("0");
     }
 }
