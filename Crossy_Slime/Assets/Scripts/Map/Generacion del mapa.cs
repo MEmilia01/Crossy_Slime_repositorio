@@ -292,6 +292,7 @@ public class ProceduralMapGenerator : MonoBehaviour
         }
 
         // === Instanciar y guardar referencias ===
+        //aca es lo de la puntuacion ^^
         GameObject[] newRow = new GameObject[mapWidth];
         for (int x = 0; x < mapWidth; x++)
         {
