@@ -26,7 +26,6 @@ public class ProceduralMapGenerator : MonoBehaviour
     // Referencia al GameObject del origen (para vincular despues)
     private GameObject teleportOriginObject = null;
     private int teleportOriginX = -1;
-
     private enum GameObjectType
     {
         Empty,
@@ -298,7 +297,6 @@ public class ProceduralMapGenerator : MonoBehaviour
                 // Obtener los componentes Casilla
                 Casilla originCasilla = teleportOriginObject.GetComponent<Casilla>();
                 Casilla destCasilla = teleportDestinationObject.GetComponent<Casilla>();
-
                 if (originCasilla != null && destCasilla != null)
                 {
                     originCasilla.SetTeleportDestination(destCasilla);
