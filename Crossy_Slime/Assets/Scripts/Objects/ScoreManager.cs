@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class ScoreManager : MonoBehaviour
@@ -8,8 +7,8 @@ public class ScoreManager : MonoBehaviour
     public int highScore = 0;               // Récord personal (guardado)
 
     [Header("UI")]
-    public Text scoreText;                // Componente TextUI (personalizado)
-    public Text highScoreText;            // Para mostrar récord separado
+    public TMP_Text scoreText;                // Componente TextUI (personalizado)
+    public TMP_Text highScoreText;            // Para mostrar récord separado
 
     void Start()
     {
@@ -68,12 +67,23 @@ public class ScoreManager : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = currentScore.ToString();
+            scoreText.text = currentScore.ToString("0");
         }
 
         if (highScoreText != null)
         {
-            highScoreText.text = highScore.ToString();
+            highScoreText.text = highScore.ToString("1");
         }
+    }
+
+    // Reinicia el high score a 0 (guardado y en memoria)
+    public void ResetHighScore()
+    {
+        highScore = 0;
+        PlayerPrefs.SetInt("HighScore", 0);
+        PlayerPrefs.Save();
+
+        Debug.Log("High score reiniciado a 0.");
+        UpdateUI(); // Opcional: actualiza el texto en pantalla
     }
 }
