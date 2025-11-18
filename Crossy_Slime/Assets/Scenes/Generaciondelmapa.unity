@@ -2220,7 +2220,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3396615209686448136, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2126132940}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
 --- !u!4 &876774680 stripped
@@ -2469,6 +2472,11 @@ PrefabInstance:
 --- !u!1 &939296936 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1590999951160015794, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
+  m_PrefabInstance: {fileID: 845711426}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &939296942 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3396615209686448136, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
   m_PrefabInstance: {fileID: 845711426}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &946326104
@@ -5180,6 +5188,7 @@ MonoBehaviour:
   longJump: {fileID: 6545827463078101332, guid: ef6a94fbe9ebe8248a44130e7ff1cc0b, type: 3}
   teleport: {fileID: 2209843890073679203, guid: 3e401469da8e89043aaff160d1bcd6f4, type: 3}
   ground: {fileID: 3183980298221116878, guid: 8dfa39ba0b140994a94c6fec9bb03bba, type: 3}
+  dragon: {fileID: 1433345453923144923, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
   mapWidth: 13
   tileSize: 1
   tileLength: 1
@@ -5366,11 +5375,11 @@ Transform:
   m_GameObject: {fileID: 2126132937}
   serializedVersion: 2
   m_LocalRotation: {x: 0.61566144, y: -0, z: -0, w: 0.7880108}
-  m_LocalPosition: {x: 4.23, y: 10, z: -1}
+  m_LocalPosition: {x: 0.23000002, y: 8.68, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 939296942}
   m_LocalEulerAnglesHint: {x: 76, y: 0, z: 0}
 --- !u!114 &2126132941
 MonoBehaviour:
@@ -5432,8 +5441,8 @@ MonoBehaviour:
   targetCamera: {fileID: 2126132940}
   distancia: 0
   speed: 0
-  principio: 2
-  masinicio: 4
+  principio: 0
+  masinicio: 20
   enrango: 1
   duration: 1
 --- !u!1001 &2132617303
@@ -5497,7 +5506,6 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 2126132940}
   - {fileID: 1979780134}
   - {fileID: 2035693753}
   - {fileID: 845711426}

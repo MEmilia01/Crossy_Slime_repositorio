@@ -41,7 +41,7 @@ public class Cameramove : MonoBehaviour
         distancia = transform.position.z - player.transform.position.z;
         //tiene que estar entre 1 y -9
         
-        if(distancia < -8)
+        if(distancia < -5)
         {
             enrango = false;
             if(enrango != true)
@@ -69,7 +69,7 @@ public class Cameramove : MonoBehaviour
         DOTween.To(() => speed, x => speed = x, masinicio, 0.2f);
 
         enrango = true;
-        if(distancia < -8) { back(); }
+        if(distancia < -3) { back(); }
 
     }
 
