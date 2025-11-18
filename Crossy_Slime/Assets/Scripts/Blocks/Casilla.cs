@@ -13,8 +13,10 @@ public class Casilla : MonoBehaviour
     public float chronometer = 0f;
     float chronometerMax = 4f;
     bool isStartingChronometer = false;
-    [SerializeField] bool isTeleportActivated = false;
+    [SerializeField] internal bool isTeleportActivated = false;
     public Casilla teleportDestination;
+    [SerializeField] internal Mesh teleportDeactivated;
+    [SerializeField] internal MeshFilter teleportMeshDeactivated;
     public void Comportamiento(Movement p)
     {
         player = p;
@@ -27,18 +29,20 @@ public class Casilla : MonoBehaviour
             for (int i = 0; i < 2; i++)
             {
                 player.MoveForward(false);
-                
+
             }
             player.MoveForward(true);
         }
         else if (TCasilla == TipoCasillas.teleport)
         {
+
             if (teleportDestination != null && teleportDestination.gameObject.activeInHierarchy)
             {
                 if (isTeleportActivated)
                 {
                     player.transform.position = teleportDestination.GetPivot().position;
                     isTeleportActivated = false;
+                    teleportMeshDeactivated.mesh = teleportDeactivated;
                 }
 
                 // Desactivar el destino para que no se pueda volver
@@ -54,7 +58,6 @@ public class Casilla : MonoBehaviour
             isStartingChronometer = true;
         }
     }
-
     private void Update()
     {
         if (isStartingChronometer)
@@ -73,12 +76,10 @@ public class Casilla : MonoBehaviour
             }
         }
     }
-    
     public Transform GetPivot()
     {
         return Pivot;
     }
-
     public void SetTeleportDestination(Casilla destination)
     {
         teleportDestination = destination;

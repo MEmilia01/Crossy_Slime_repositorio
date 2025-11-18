@@ -331,7 +331,6 @@ public class ProceduralMapGenerator : MonoBehaviour
                 // Obtener los componentes Casilla
                 Casilla originCasilla = teleportOriginObject.GetComponent<Casilla>();
                 Casilla destCasilla = teleportDestinationObject.GetComponent<Casilla>();
-
                 if (originCasilla != null && destCasilla != null)
                 {
                     originCasilla.SetTeleportDestination(destCasilla);
