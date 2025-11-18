@@ -2233,7 +2233,8 @@ PrefabInstance:
       propertyPath: scoreManager
       value: 
       objectReference: {fileID: 1690365017}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4136478773559841411, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
