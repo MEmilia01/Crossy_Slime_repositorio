@@ -23,6 +23,9 @@ public class Movement : MonoBehaviour
     [SerializeField]Mesh slimeMuerto;
     [SerializeField]MeshFilter slimeDead;
     bool isAllowedAnimation = true;
+    [SerializeField] private ScoreManager scoreManager;
+    [SerializeField] private float mapStartZ = 3f;
+    [SerializeField] private float tileLength = 1f;
     private void Start()
     {
         
@@ -101,6 +104,13 @@ public class Movement : MonoBehaviour
         if (detectorOfGroundForward != null)
         {
             Casilla c = detectorOfGroundForward.GetCasilla();
+            if (scoreManager != null && c != null)
+            {
+                // Calcular índice de fila desde la posición Z del pivote (o del tile)
+                float z = c.GetPivot().position.z; // o c.transform.position.z
+                int rowIndex = Mathf.FloorToInt((z - mapStartZ) / tileLength);
+                scoreManager.NewIndex(rowIndex);
+            }
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 0, 0), 0);
@@ -128,6 +138,13 @@ public class Movement : MonoBehaviour
         if (detectorOfGroundBackward != null)
         {
             Casilla c = detectorOfGroundBackward.GetCasilla();
+            if (scoreManager != null && c != null)
+            {
+                // Calcular índice de fila desde la posición Z del pivote (o del tile)
+                float z = c.GetPivot().position.z; // o c.transform.position.z
+                int rowIndex = Mathf.FloorToInt((z - mapStartZ) / tileLength);
+                scoreManager.NewIndex(rowIndex);
+            }
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 180, 0), 0);
@@ -149,6 +166,13 @@ public class Movement : MonoBehaviour
         if (detectorOfGroundRight != null)
         {
             Casilla c = detectorOfGroundRight.GetCasilla();
+            if (scoreManager != null && c != null)
+            {
+                // Calcular índice de fila desde la posición Z del pivote (o del tile)
+                float z = c.GetPivot().position.z; // o c.transform.position.z
+                int rowIndex = Mathf.FloorToInt((z - mapStartZ) / tileLength);
+                scoreManager.NewIndex(rowIndex);
+            }
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 90, 0), 0);
@@ -169,6 +193,13 @@ public class Movement : MonoBehaviour
         if (detectorOfGroundLeft != null)
         {
             Casilla c = detectorOfGroundLeft.GetCasilla();
+            if (scoreManager != null && c != null)
+            {
+                // Calcular índice de fila desde la posición Z del pivote (o del tile)
+                float z = c.GetPivot().position.z; // o c.transform.position.z
+                int rowIndex = Mathf.FloorToInt((z - mapStartZ) / tileLength);
+                scoreManager.NewIndex(rowIndex);
+            }
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 270, 0), 0);
@@ -224,6 +255,7 @@ public class Movement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Dragon"))
         {
+            scoreManager?.GameCompleted();
             this.enabled = false;
             if (isAllowedAnimation)
             {
@@ -236,5 +268,14 @@ public class Movement : MonoBehaviour
         agitacionMuerte.DOShakeScale(3, 1, 4, 0);
         slimeDead.mesh = slimeMuerto;
         isAllowedAnimation = false;
+    }
+
+    public void ResetPlayer()
+    {
+        scoreManager?.ResetScore();
+        isAllowedAnimation = true;
+        slimeDead.mesh = null; // o el mesh original
+        this.enabled = true;
+        // Reinicia posición, rotación, etc.
     }
 }

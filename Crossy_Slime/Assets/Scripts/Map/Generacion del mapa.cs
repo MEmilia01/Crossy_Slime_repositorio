@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using JetBrains.Annotations;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ProceduralMapGenerator : MonoBehaviour
@@ -12,6 +13,7 @@ public class ProceduralMapGenerator : MonoBehaviour
     public GameObject dragon;
 
     public int mapWidth = 13;
+    public int index = 0;
     public float tileSize = 1.0f;
     public float tileLength = 1.0f;
     public float startZ = 3f;
@@ -27,6 +29,13 @@ public class ProceduralMapGenerator : MonoBehaviour
     // Referencia al GameObject del origen (para vincular despues)
     private GameObject teleportOriginObject = null;
     private int teleportOriginX = -1;
+
+    [Header("Dragon Settings")]
+    public float dragonSpawnChance = 0.02f;
+    public string dragonTag = "Dragon";
+    private int activeDragonCount = 0;
+    public int maxActiveDragons = 2;
+
     private enum GameObjectType
     {
         Empty,
@@ -111,6 +120,23 @@ public class ProceduralMapGenerator : MonoBehaviour
                         teleportOriginX = -1;
                     }
                 }
+
+                if (dragon != null)
+                {
+                    // Umbral: más atrás que la fila más antigua activa
+                    float minActiveZ = lastSpawnZ - (activeRows.Count - 1) * tileLength;
+                    float destroyThresholdZ = minActiveZ - tileLength * 0.5f;
+
+                    GameObject[] dragons = GameObject.FindGameObjectsWithTag(dragonTag);
+                    foreach (GameObject d in dragons)
+                    {
+                        if (d.transform.position.z < destroyThresholdZ)
+                        {
+                            Destroy(d);
+                            activeDragonCount = Mathf.Max(0, activeDragonCount - 1);
+                        }
+                    }
+                }
             }
         }
     }
@@ -122,9 +148,13 @@ public class ProceduralMapGenerator : MonoBehaviour
         GameObjectType[] newRowTypes = new GameObjectType[mapWidth];
         newRowTypes[0] = GameObjectType.Empty;
         newRowTypes[mapWidth - 1] = GameObjectType.Empty;
-
         bool forceEmptyRow = false;
         bool isTeleportLandingRow = false;
+
+        if (!forceEmptyRow)
+        {
+            index++;
+        }
 
         // Revisar efectos pendientes
         int rowsBack = Mathf.Min(activeRowTypes.Count, 5);
@@ -262,6 +292,7 @@ public class ProceduralMapGenerator : MonoBehaviour
         }
 
         // === Instanciar y guardar referencias ===
+        //aca es lo de la puntuacion ^^
         GameObject[] newRow = new GameObject[mapWidth];
         for (int x = 0; x < mapWidth; x++)
         {
@@ -316,8 +347,11 @@ public class ProceduralMapGenerator : MonoBehaviour
 
     private void TrySpawnDragonOverRow(float z, GameObjectType[] rowTypes, float startX, float tileSize)
     {
-        // Probabilidad baja: 2% por fila válida
-        if (Random.value >= 0.02f) return;
+        // Contar dragones activos
+        if (activeDragonCount >= maxActiveDragons) return;
+
+        // Probabilidad de spawn
+        if (Random.value >= dragonSpawnChance) return;
 
         // Buscar secuencia de 3 Ground consecutivos (x, x+1, x+2), desde x=1 hasta x=mapWidth-4 (inclusive)
         List<int> validStartXIndices = new List<int>();
@@ -361,6 +395,8 @@ public class ProceduralMapGenerator : MonoBehaviour
         {
             Debug.LogWarning("Dragon prefab debe tener objetos hijo llamados 'SpawnPoint' y 'EndPoint'");
         }
+
+        activeDragonCount++;
     }
 
     private GameObjectType ChooseTileType(

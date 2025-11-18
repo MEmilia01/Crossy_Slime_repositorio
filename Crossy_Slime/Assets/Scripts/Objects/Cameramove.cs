@@ -13,17 +13,27 @@ public class Cameramove : MonoBehaviour
     public float principio = 2;
     public float masinicio = 5;
     public bool enrango = true;
+    public bool empezar = false;
 
     public float duration = 1f;
 
+    void Inicio()
+    {
+        enrango = true;
+        speed = principio;
+    }
 
     void Start()
-    {   
-       enrango = true;
-       speed = principio;
+    {  
+        
     }
     void Update()
     {
+        if (empezar == true)
+        {
+            Inicio();
+            empezar = false;
+        }
 
         transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
        //transform.position = playerposition.position + offset;
@@ -41,7 +51,7 @@ public class Cameramove : MonoBehaviour
         distancia = transform.position.z - player.transform.position.z;
         //tiene que estar entre 1 y -9
         
-        if(distancia < -5)
+        if(distancia < -6)
         {
             enrango = false;
             if(enrango != true)

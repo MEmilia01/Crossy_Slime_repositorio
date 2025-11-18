@@ -10,8 +10,9 @@ public class canvasgroup : MonoBehaviour
     public GameObject menumuerte;
     public GameObject pantallacarga;
     //aca se podra guardar la puntuacion
-    public int num = 0;
-
+    public float num;
+    
+    [SerializeField] Movement player;
 
     void Start()
     {
@@ -34,9 +35,10 @@ public class canvasgroup : MonoBehaviour
         puntuacion.SetActive(true);
         menumuerte.SetActive(false);
         pantallacarga.SetActive(false);
-        //codigo para que valla contando cuando avance
-        //SceneManager.LoadScene("Generaciondelmapa");//se deberia poner el nombre aca de la scena
-        //aca llama para que se ponga la scena del juego
+        //Con puntuaciontexto se pone el texto por pantalla
+        //y en counter esta el contador que cuanta por fila
+
+
     }
     public void Mostrarmenumuerte()
     {
@@ -45,9 +47,7 @@ public class canvasgroup : MonoBehaviour
         menumuerte.SetActive(true);
         pantallacarga.SetActive(false);
         //que se vea cuando el jugador se "muera"
-        //aca hay que poner el boton para la vuelta
-
-
+        //aca hay que poner el boton para la 
     }
     public void Mostrarpantallacarga()
     {
