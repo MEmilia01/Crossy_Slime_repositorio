@@ -30,6 +30,12 @@ public class ProceduralMapGenerator : MonoBehaviour
     private GameObject teleportOriginObject = null;
     private int teleportOriginX = -1;
 
+    [Header("Dragon Settings")]
+    public float dragonSpawnChance = 0.02f;
+    public string dragonTag = "Dragon";
+    private int activeDragonCount = 0;
+    public int maxActiveDragons = 2;
+
     private enum GameObjectType
     {
         Empty,
@@ -112,6 +118,23 @@ public class ProceduralMapGenerator : MonoBehaviour
                         teleportPairIsActive = false;
                         teleportOriginObject = null;
                         teleportOriginX = -1;
+                    }
+                }
+
+                if (dragon != null)
+                {
+                    // Umbral: más atrás que la fila más antigua activa
+                    float minActiveZ = lastSpawnZ - (activeRows.Count - 1) * tileLength;
+                    float destroyThresholdZ = minActiveZ - tileLength * 0.5f;
+
+                    GameObject[] dragons = GameObject.FindGameObjectsWithTag(dragonTag);
+                    foreach (GameObject d in dragons)
+                    {
+                        if (d.transform.position.z < destroyThresholdZ)
+                        {
+                            Destroy(d);
+                            activeDragonCount = Mathf.Max(0, activeDragonCount - 1);
+                        }
                     }
                 }
             }
@@ -324,8 +347,11 @@ public class ProceduralMapGenerator : MonoBehaviour
 
     private void TrySpawnDragonOverRow(float z, GameObjectType[] rowTypes, float startX, float tileSize)
     {
-        // Probabilidad baja: 2% por fila válida
-        if (Random.value >= 0.02f) return;
+        // Contar dragones activos
+        if (activeDragonCount >= maxActiveDragons) return;
+
+        // Probabilidad de spawn
+        if (Random.value >= dragonSpawnChance) return;
 
         // Buscar secuencia de 3 Ground consecutivos (x, x+1, x+2), desde x=1 hasta x=mapWidth-4 (inclusive)
         List<int> validStartXIndices = new List<int>();
@@ -369,6 +395,8 @@ public class ProceduralMapGenerator : MonoBehaviour
         {
             Debug.LogWarning("Dragon prefab debe tener objetos hijo llamados 'SpawnPoint' y 'EndPoint'");
         }
+
+        activeDragonCount++;
     }
 
     private GameObjectType ChooseTileType(
