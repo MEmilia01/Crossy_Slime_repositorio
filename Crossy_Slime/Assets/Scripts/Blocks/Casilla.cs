@@ -27,6 +27,7 @@ public class Casilla : MonoBehaviour
         else if (TCasilla == TipoCasillas.ice)
         {
             player.MoveOnLastDirection();
+            AudioManager.Instance.SoundIce();
         }
         else if (TCasilla == TipoCasillas.longjump)
         {
@@ -44,6 +45,7 @@ public class Casilla : MonoBehaviour
             {
                 if (isTeleportActivated)
                 {
+                    AudioManager.Instance.SoundTeleport();
                     player.transform.position = teleportDestination.GetPivot().position;
                     isTeleportActivated = false;
                     teleportMeshDeactivated.mesh = teleportDeactivated;
