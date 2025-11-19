@@ -43,6 +43,7 @@ public class Casilla : MonoBehaviour
                     player.transform.position = teleportDestination.GetPivot().position;
                     isTeleportActivated = false;
                     teleportMeshDeactivated.mesh = teleportDeactivated;
+                    CloseTeleport();
                 }
 
                 // Desactivar el destino para que no se pueda volver
@@ -57,6 +58,10 @@ public class Casilla : MonoBehaviour
         {
             isStartingChronometer = true;
         }
+    }
+    void CloseTeleport()
+    {
+        teleportDestination.teleportMeshDeactivated.mesh = teleportDeactivated;
     }
     private void Update()
     {
