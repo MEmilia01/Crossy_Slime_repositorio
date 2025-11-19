@@ -261,6 +261,7 @@ public class Movement : MonoBehaviour
             if (isAllowedAnimation)
             {
                 DoAnimationOfDead();
+                slimeAudioController.StartSoundDie();
             }
         }
     }
