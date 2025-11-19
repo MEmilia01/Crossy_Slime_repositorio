@@ -20,7 +20,11 @@ public class Casilla : MonoBehaviour
     public void Comportamiento(Movement p)
     {
         player = p;
-        if (TCasilla == TipoCasillas.ice)
+        if (TCasilla == TipoCasillas.normal)
+        {
+            AudioManager.Instance.SoundGrass();
+        }
+        else if (TCasilla == TipoCasillas.ice)
         {
             player.MoveOnLastDirection();
         }
@@ -52,6 +56,7 @@ public class Casilla : MonoBehaviour
         }
         else if (TCasilla == TipoCasillas.dead)
         {
+            AudioManager.Instance.DieForVacio();
             player.enabled = false;
         }
         else if (TCasilla == TipoCasillas.breakable)

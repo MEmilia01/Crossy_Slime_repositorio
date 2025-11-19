@@ -26,7 +26,6 @@ public class Movement : MonoBehaviour
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private float mapStartZ = 3f;
     [SerializeField] private float tileLength = 1f;
-    [SerializeField]SlimeAudios slimeAudioController;
     void Update()
     {
         if (inputActive)
@@ -111,14 +110,10 @@ public class Movement : MonoBehaviour
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 0, 0), 0);
-            slimeAudioController.StartSoundWalking();
+            AudioManager.Instance.Walking();
             if (comprober)
             {
                 c.Comportamiento(this);
-            }
-            if (c.TCasilla == TipoCasillas.dead)
-            {
-                slimeAudioController.StartSoundVacio();
             }
             inputActive = true;
             if (inputHandlerType == 1)
@@ -150,7 +145,7 @@ public class Movement : MonoBehaviour
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 180, 0), 0);
-            slimeAudioController.StartSoundWalking();
+            AudioManager.Instance.Walking();
             c.Comportamiento(this);
             inputActive = true;
             if (inputHandlerType == 1)
@@ -179,7 +174,7 @@ public class Movement : MonoBehaviour
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 90, 0), 0);
-            slimeAudioController.StartSoundWalking();
+            AudioManager.Instance.Walking();
             c.Comportamiento(this);
             inputActive = true;
             if (inputHandlerType == 1)
@@ -207,7 +202,7 @@ public class Movement : MonoBehaviour
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 270, 0), 0);
-            slimeAudioController.StartSoundWalking();
+            AudioManager.Instance.Walking();
             c.Comportamiento(this);
             inputActive = true;
             if (inputHandlerType == 1)
@@ -265,7 +260,7 @@ public class Movement : MonoBehaviour
             if (isAllowedAnimation)
             {
                 DoAnimationOfDead();
-                slimeAudioController.StartSoundDie();
+                AudioManager.Instance.DieForDragon();
             }
         }
     }

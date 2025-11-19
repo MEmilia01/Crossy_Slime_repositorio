@@ -152,10 +152,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pivot: {fileID: 208009231416370004}
   TCasilla: 0
-  isDead: 0
   chronometer: 0
   isTeleportActivated: 0
   teleportDestination: {fileID: 0}
+  teleportDeactivated: {fileID: 0}
+  teleportMeshDeactivated: {fileID: 0}
+  effectOfCasillaGrass: {fileID: 0}
+  effectOfCasillaVacio: {fileID: 0}
 --- !u!1 &4221656360259440958
 GameObject:
   m_ObjectHideFlags: 0
