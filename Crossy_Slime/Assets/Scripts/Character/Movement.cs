@@ -116,6 +116,10 @@ public class Movement : MonoBehaviour
             {
                 c.Comportamiento(this);
             }
+            if (c.TCasilla == TipoCasillas.dead)
+            {
+                slimeAudioController.StartSoundVacio();
+            }
             inputActive = true;
             if (inputHandlerType == 1)
             {

@@ -3,7 +3,8 @@ using UnityEngine;
 public class SlimeAudios : MonoBehaviour
 {
     [SerializeField]AudioSource slimeWalk;
-    [SerializeField] AudioSource slimeDie;
+    [SerializeField]AudioSource slimeDieDragon;
+    [SerializeField] AudioSource slimeDieVacio; 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     internal void StartSoundWalking()
     {
@@ -11,6 +12,10 @@ public class SlimeAudios : MonoBehaviour
     }
     internal void StartSoundDie()
     {
-        slimeDie.Play();
+        slimeDieDragon.Play();
+    }
+    internal void StartSoundVacio()
+    {
+        slimeDieVacio.Play();
     }
 }
