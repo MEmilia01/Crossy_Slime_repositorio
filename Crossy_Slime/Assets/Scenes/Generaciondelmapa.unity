@@ -2233,6 +2233,10 @@ PrefabInstance:
       propertyPath: scoreManager
       value: 
       objectReference: {fileID: 1690365017}
+    - target: {fileID: 8567119584298613134, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
+      propertyPath: slimeAudioController
+      value: 
+      objectReference: {fileID: 1222327415}
     m_RemovedComponents:
     - {fileID: 4136478773559841411, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
     m_RemovedGameObjects: []
@@ -3113,6 +3117,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8624096311821089945, guid: 8dfa39ba0b140994a94c6fec9bb03bba, type: 3}
   m_PrefabInstance: {fileID: 1983774385}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1222327415 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1456118213880026187, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+  m_PrefabInstance: {fileID: 5627448422152098859}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e348619765c4ec4b97aec98396be746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1229999911 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8624096311821089945, guid: 8dfa39ba0b140994a94c6fec9bb03bba, type: 3}
@@ -5675,6 +5690,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dfa39ba0b140994a94c6fec9bb03bba, type: 3}
+--- !u!1001 &5627448422152098859
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6993308636028229167, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360198009437943148, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.8774643
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360198009437943148, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.1764965
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360198009437943148, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.380279
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360198009437943148, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360198009437943148, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360198009437943148, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360198009437943148, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360198009437943148, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360198009437943148, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360198009437943148, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5686,3 +5758,4 @@ SceneRoots:
   - {fileID: 1496158812}
   - {fileID: 1968973508}
   - {fileID: 1767009027}
+  - {fileID: 5627448422152098859}
