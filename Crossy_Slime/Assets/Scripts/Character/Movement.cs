@@ -26,6 +26,11 @@ public class Movement : MonoBehaviour
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private float mapStartZ = 3f;
     [SerializeField] private float tileLength = 1f;
+
+    [Header("UI Menús")]
+    public GameObject menuPuntuacion;
+    public GameObject menuMuerte;
+
     void Update()
     {
         if (inputActive)
@@ -262,6 +267,8 @@ public class Movement : MonoBehaviour
                 DoAnimationOfDead();
                 AudioManager.Instance.DieForDragon();
             }
+            menuPuntuacion.SetActive(false);
+            menuMuerte.SetActive(true);
         }
     }
     void DoAnimationOfDead()

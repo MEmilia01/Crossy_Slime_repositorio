@@ -1,2 +1,18 @@
 fileFormatVersion: 2
 guid: 3079449c33b0f3747aa3c01ad07c4a80
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Pivot: {instanceID: 0}
+  - teleportDestination: {instanceID: 0}
+  - teleportDeactivated: {instanceID: 0}
+  - teleportMeshDeactivated: {instanceID: 0}
+  - canvas: {instanceID: 0}
+  - menuPuntuacion: {fileID: 1751661043133254772, guid: 7defe0e498d1f2d4c84f0c029a4413df, type: 3}
+  - menuMuerte: {fileID: 1209137897850372019, guid: 32b4ff4f03cd0ea44bb342331ed5245f, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

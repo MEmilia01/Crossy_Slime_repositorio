@@ -17,6 +17,11 @@ public class Casilla : MonoBehaviour
     public Casilla teleportDestination;
     [SerializeField] internal Mesh teleportDeactivated;
     [SerializeField] internal MeshFilter teleportMeshDeactivated;
+    public Canvas canvas;
+    [Header("UI Menus")]
+    public GameObject menuPuntuacion;
+    public GameObject menuMuerte;
+
     public void Comportamiento(Movement p)
     {
         player = p;
@@ -60,6 +65,8 @@ public class Casilla : MonoBehaviour
         {
             AudioManager.Instance.DieForVacio();
             player.enabled = false;
+            menuPuntuacion.SetActive(false);
+            menuMuerte.SetActive(true);
         }
         else if (TCasilla == TipoCasillas.breakable)
         {

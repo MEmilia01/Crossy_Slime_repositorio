@@ -2230,9 +2230,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8567119584298613134, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
+      propertyPath: menuMuerte
+      value: 
+      objectReference: {fileID: 1071533610}
+    - target: {fileID: 8567119584298613134, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
       propertyPath: scoreManager
       value: 
       objectReference: {fileID: 1690365017}
+    - target: {fileID: 8567119584298613134, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
+      propertyPath: menuPuntuacion
+      value: 
+      objectReference: {fileID: 2140851679}
     - target: {fileID: 8567119584298613134, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
       propertyPath: slimeAudioController
       value: 
@@ -2878,6 +2886,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8624096311821089945, guid: 8dfa39ba0b140994a94c6fec9bb03bba, type: 3}
   m_PrefabInstance: {fileID: 2132617303}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1071533610 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1914946821278246800, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+  m_PrefabInstance: {fileID: 1767009027}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1092965428
 PrefabInstance:
@@ -4270,6 +4283,11 @@ MonoBehaviour:
   highScore: 0
   scoreText: {fileID: 488787358}
   highScoreText: {fileID: 1684302450}
+--- !u!223 &1690365021 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 2065685595853136569, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+  m_PrefabInstance: {fileID: 1767009027}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1698929537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5626,6 +5644,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 939296936}
   targetCamera: {fileID: 2126132940}
+  canvas: {fileID: 1690365021}
+  menuPuntuacion: {fileID: 2140851679}
+  menuMuerte: {fileID: 1071533610}
   distancia: 0
   speed: 0
   principio: 3
@@ -5690,6 +5711,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dfa39ba0b140994a94c6fec9bb03bba, type: 3}
+--- !u!1 &2140851679 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6730244222100054398, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+  m_PrefabInstance: {fileID: 1767009027}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5627448422152098859
 PrefabInstance:
   m_ObjectHideFlags: 0
