@@ -40,16 +40,12 @@ public class Uimanagere : MonoBehaviour
         pantallacarga.SetActive(false);
         //Con puntuaciontexto se pone el texto por pantalla
         //y en counter esta el contador que cuanta por fila
-        player.enabled = true;
+        player.enabled = true; // para que el jugador sea movible
 
-        num = 1; // esto activa la camara 
+        num = 1; // esto activa la camara
+        
+
         //esto hace que la camara se detenga
-        /*
-        if (referenciamuerteI.enabled == false)
-        {
-            Mostrarmenumuerte();
-        }
-        */
         if (referenciamuerteII.enabled == false)
         {
             Mostrarmenumuerte();

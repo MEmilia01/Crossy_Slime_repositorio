@@ -31,7 +31,6 @@ public class Cameramove : MonoBehaviour
     void Start()
     {  
      
-        
     }
     void Update()
     {
@@ -41,17 +40,13 @@ public class Cameramove : MonoBehaviour
 
 
         if (Input.GetKeyDown(KeyCode.C))
-            Inicio();
+        { Inicio(); }
 
 
         if(Input.GetKeyDown(KeyCode.R))
-        {
-            Rapidez();
-        }
+        { Rapidez(); }
         else if (Input.GetKeyDown(KeyCode.T))
-        {
-            back();
-        }
+        { back(); }
         
         distancia = transform.position.z - player.transform.position.z;
         //tiene que estar entre 1 y -9
@@ -61,9 +56,7 @@ public class Cameramove : MonoBehaviour
         if(distancia < -5 && enrango)
         {
             enrango = false;
-
-                Rapidez();
-            
+            Rapidez();
         }
         else if (distancia > -5 && !enrango)
         {
@@ -81,11 +74,6 @@ public class Cameramove : MonoBehaviour
         }
 
         //esto hace que la camara se detenga
-       /* if (referenciamuerteI.enabled == false)
-        {
-            stop();
-        }
-       */
         if (referenciamuerteII.enabled == false)
         {
             stop();
