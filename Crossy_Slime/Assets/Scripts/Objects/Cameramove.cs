@@ -2,6 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem;
+using System.Security.Cryptography;
 
 public class Cameramove : MonoBehaviour
 {
@@ -65,7 +66,16 @@ public class Cameramove : MonoBehaviour
         {
             enrango = true;
         }
-        
+
+        //esto hace que la camara se detenga
+        if (referenciamuerteI.enabled == false)
+        {
+            stop();
+        }
+        if (referenciamuerteII.enabled == false)
+        {
+            stop();
+        }
     }  
     
     void Rapidez()
@@ -80,5 +90,9 @@ public class Cameramove : MonoBehaviour
     void back()
     {
         DOTween.To(() => speed, x => speed = x, principio, 0.2f);
+    }
+    void stop()
+    {
+        DOTween.To(() => speed, x => speed = x, 0, 0.2f);
     }
 }

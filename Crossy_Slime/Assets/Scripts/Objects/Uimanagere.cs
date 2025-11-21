@@ -16,10 +16,8 @@ public class Uimanagere : MonoBehaviour
     public Casilla referenciamuerteI;
     public Movement referenciamuerteII;
 
-
     void Start()
     {
-
         MostrarMenu();
         num = 0;
     }
@@ -42,6 +40,16 @@ public class Uimanagere : MonoBehaviour
         //Con puntuaciontexto se pone el texto por pantalla
         //y en counter esta el contador que cuanta por fila
         num = 1; // esto activa la camara 
+        //esto hace que la camara se detenga
+
+        if (referenciamuerteI.enabled == false)
+        {
+            Mostrarmenumuerte();
+        }
+        if (referenciamuerteII.enabled == false)
+        {
+            Mostrarmenumuerte();
+        }
 
     }
     public void Mostrarmenumuerte()
