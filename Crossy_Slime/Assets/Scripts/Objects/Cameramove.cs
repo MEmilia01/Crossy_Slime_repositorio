@@ -6,13 +6,11 @@ using UnityEngine.InputSystem;
 
 public class Cameramove : MonoBehaviour
 {
+    public static Cameramove cameramove;
     public GameObject player;
     public Transform targetCamera;
     public Canvas canvas;
-
-    [Header("UI Menús")]
-    public GameObject menuPuntuacion;
-    public GameObject menuMuerte;
+    public Dead die;
 
     public float distancia;
     public float speed;
@@ -29,10 +27,6 @@ public class Cameramove : MonoBehaviour
         speed = principio;
     }
 
-    void Start()
-    {
-        player.GetComponent<Movement>().enabled = true;
-    }
     void Update()
     {
         if (empezar == true)
@@ -72,10 +66,7 @@ public class Cameramove : MonoBehaviour
 
         if (distancia > 2)
         {
-            Stop();
-            player.GetComponent<Movement>().enabled = false;
-            menuPuntuacion.SetActive(false);
-            menuMuerte.SetActive(true);
+            die.IsDead();
         }
 
         /*
@@ -100,7 +91,7 @@ public class Cameramove : MonoBehaviour
         DOTween.To(() => speed, x => speed = x, principio, 0.2f);
     }
 
-    void Stop()
+    public void Stop()
     {
         speed = 0;
     }

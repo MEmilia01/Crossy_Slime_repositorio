@@ -17,10 +17,14 @@ public class Casilla : MonoBehaviour
     public Casilla teleportDestination;
     [SerializeField] internal Mesh teleportDeactivated;
     [SerializeField] internal MeshFilter teleportMeshDeactivated;
-    public Canvas canvas;
-    [Header("UI Menus")]
-    public GameObject menuPuntuacion;
-    public GameObject menuMuerte;
+    [SerializeField] internal Mesh longJumpDeactivated;
+    [SerializeField] internal MeshFilter longJumpMeshDeactivated;
+    public Dead die;
+
+    private void Awake()
+    {
+        die = Dead.dead;
+    }
 
     public void Comportamiento(Movement p)
     {
@@ -36,6 +40,7 @@ public class Casilla : MonoBehaviour
         }
         else if (TCasilla == TipoCasillas.longjump)
         {
+            longJumpMeshDeactivated.mesh = longJumpDeactivated;
             for (int i = 0; i < 2; i++)
             {
                 player.MoveForward(false);
@@ -64,9 +69,7 @@ public class Casilla : MonoBehaviour
         else if (TCasilla == TipoCasillas.dead)
         {
             AudioManager.Instance.DieForVacio();
-            player.enabled = false;
-            menuPuntuacion.SetActive(false);
-            menuMuerte.SetActive(true);
+            die.IsDead();
         }
         else if (TCasilla == TipoCasillas.breakable)
         {
