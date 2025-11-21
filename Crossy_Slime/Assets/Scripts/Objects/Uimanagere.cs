@@ -13,7 +13,7 @@ public class Uimanagere : MonoBehaviour
     public float num;
     
     [SerializeField] Movement player;
-    public Casilla referenciamuerteI;
+    //public Casilla referenciamuerteI;
     public Movement referenciamuerteII;
 
     void Start()
@@ -29,6 +29,7 @@ public class Uimanagere : MonoBehaviour
         menumuerte.SetActive(false);
         pantallacarga.SetActive(false);
         //
+        player.enabled = false;
     }
     public void Mostrarpuntuacion()
     {
@@ -39,6 +40,8 @@ public class Uimanagere : MonoBehaviour
         pantallacarga.SetActive(false);
         //Con puntuaciontexto se pone el texto por pantalla
         //y en counter esta el contador que cuanta por fila
+        player.enabled = true;
+
         num = 1; // esto activa la camara 
         //esto hace que la camara se detenga
         /*

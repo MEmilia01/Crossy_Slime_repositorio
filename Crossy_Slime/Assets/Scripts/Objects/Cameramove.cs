@@ -11,37 +11,38 @@ public class Cameramove : MonoBehaviour
    
     public float distancia;
     public float speed;
-    public float principio = 2;
-    public float masinicio = 5;
+    public float principio;
+    public float masinicio;
     public bool enrango = true;
 
     public float duration = 1f;
 
     public Uimanagere referenciaui;
-    public Casilla referenciamuerteI;
+    //public Casilla referenciamuerteI;
     public Movement referenciamuerteII;
 
-    void Inicio()
+    public void Inicio()
     {
         enrango = true;
         speed = principio;
     }
+    //nunca invocar desde el update, ya que resetearia 
 
     void Start()
     {  
      
-        //necesito que el menu mande una señal, con el cual se inicie la camara
-        player.GetComponent<Movement>().enabled = true;
         
     }
     void Update()
     {
-        if (referenciaui.num > 0)
-        { Inicio(); }
 
-        transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
-       //transform.position = playerposition.position + offset;
-        
+        transform.position += new Vector3(0, 0, Time.deltaTime * speed);
+        //transform.position = playerposition.position + offset;
+
+
+        if (Input.GetKeyDown(KeyCode.C))
+            Inicio();
+
 
         if(Input.GetKeyDown(KeyCode.R))
         {
@@ -55,17 +56,28 @@ public class Cameramove : MonoBehaviour
         distancia = transform.position.z - player.transform.position.z;
         //tiene que estar entre 1 y -9
         
-        if(distancia < -6)
+
+
+        if(distancia < -5 && enrango)
         {
             enrango = false;
-            if(enrango != true)
-            {
+
                 Rapidez();
-            }
+            
         }
-        else
+        else if (distancia > -5 && !enrango)
         {
             enrango = true;
+            back();
+        }
+
+
+
+        // para que detenga la camara cuando muere
+        if (distancia > 1)
+        {
+            stop();
+            player.GetComponent<Movement>().enabled = false;
         }
 
         //esto hace que la camara se detenga
@@ -83,10 +95,6 @@ public class Cameramove : MonoBehaviour
     void Rapidez()
     {
         DOTween.To(() => speed, x => speed = x, masinicio, 0.2f);
-
-        enrango = true;
-        if(distancia < -3) { back(); }
-
     }
 
     void back()
@@ -95,7 +103,6 @@ public class Cameramove : MonoBehaviour
     }
     void stop()
     {
-        DOTween.To(() => speed, x => speed = x, 0, 0.2f);
-        player.GetComponent<Movement>().enabled = false;
+        speed = 0;        
     }
 }
