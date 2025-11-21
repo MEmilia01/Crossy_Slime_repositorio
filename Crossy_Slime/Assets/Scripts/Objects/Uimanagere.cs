@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class canvasgroup : MonoBehaviour
+public class Uimanagere : MonoBehaviour
 {
     //esto sirve para que sea mas facil encontrar los objetos y evitar que se lien
     public GameObject menu;
@@ -39,7 +39,7 @@ public class canvasgroup : MonoBehaviour
         pantallacarga.SetActive(false);
         //Con puntuaciontexto se pone el texto por pantalla
         //y en counter esta el contador que cuanta por fila
-
+        num = 1;
 
     }
     public void Mostrarmenumuerte()

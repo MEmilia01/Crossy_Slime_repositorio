@@ -13,10 +13,10 @@ public class Cameramove : MonoBehaviour
     public float principio = 2;
     public float masinicio = 5;
     public bool enrango = true;
-    public bool empezar = false;
 
     public float duration = 1f;
-    
+
+    public Uimanagere referenciaui;
 
     void Inicio()
     {
@@ -32,11 +32,8 @@ public class Cameramove : MonoBehaviour
     }
     void Update()
     {
-        if (empezar == true)
-        {
-            Inicio();
-            empezar = false;
-        }
+        if (referenciaui.num > 0)
+        { Inicio(); }
 
         transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
        //transform.position = playerposition.position + offset;
@@ -46,7 +43,7 @@ public class Cameramove : MonoBehaviour
         {
             Rapidez();
         }
-        else if (Input.GetKeyDown(KeyCode.E))
+        else if (Input.GetKeyDown(KeyCode.T))
         {
             back();
         }
@@ -67,14 +64,6 @@ public class Cameramove : MonoBehaviour
             enrango = true;
         }
         
-        
-
-        /*
-        if(player.GetComponent<inputActive>)
-        {
-            //camara se queda quieta
-        }
-        */
     }  
     
     void Rapidez()
