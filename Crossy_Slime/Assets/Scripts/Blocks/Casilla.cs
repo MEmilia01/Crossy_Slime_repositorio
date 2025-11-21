@@ -13,32 +13,48 @@ public class Casilla : MonoBehaviour
     public float chronometer = 0f;
     float chronometerMax = 4f;
     bool isStartingChronometer = false;
-    [SerializeField] bool isTeleportActivated = false;
+    [SerializeField] internal bool isTeleportActivated = false;
     public Casilla teleportDestination;
+    [SerializeField] internal Mesh teleportDeactivated;
+    [SerializeField] internal MeshFilter teleportMeshDeactivated;
+    public Canvas canvas;
+    [Header("UI Menus")]
+    public GameObject menuPuntuacion;
+    public GameObject menuMuerte;
+
     public void Comportamiento(Movement p)
     {
         player = p;
-        if (TCasilla == TipoCasillas.ice)
+        if (TCasilla == TipoCasillas.normal)
+        {
+            AudioManager.Instance.SoundGrass();
+        }
+        else if (TCasilla == TipoCasillas.ice)
         {
             player.MoveOnLastDirection();
+            AudioManager.Instance.SoundIce();
         }
         else if (TCasilla == TipoCasillas.longjump)
         {
             for (int i = 0; i < 2; i++)
             {
                 player.MoveForward(false);
-                
+
             }
             player.MoveForward(true);
         }
         else if (TCasilla == TipoCasillas.teleport)
         {
+
             if (teleportDestination != null && teleportDestination.gameObject.activeInHierarchy)
             {
                 if (isTeleportActivated)
                 {
+                    AudioManager.Instance.SoundTeleport();
                     player.transform.position = teleportDestination.GetPivot().position;
                     isTeleportActivated = false;
+                    teleportMeshDeactivated.mesh = teleportDeactivated;
+                    CloseTeleport();
                 }
 
                 // Desactivar el destino para que no se pueda volver
@@ -47,14 +63,20 @@ public class Casilla : MonoBehaviour
         }
         else if (TCasilla == TipoCasillas.dead)
         {
+            AudioManager.Instance.DieForVacio();
             player.enabled = false;
+            menuPuntuacion.SetActive(false);
+            menuMuerte.SetActive(true);
         }
         else if (TCasilla == TipoCasillas.breakable)
         {
             isStartingChronometer = true;
         }
     }
-
+    void CloseTeleport()
+    {
+        teleportDestination.teleportMeshDeactivated.mesh = teleportDeactivated;
+    }
     private void Update()
     {
         if (isStartingChronometer)
@@ -73,12 +95,10 @@ public class Casilla : MonoBehaviour
             }
         }
     }
-    
     public Transform GetPivot()
     {
         return Pivot;
     }
-
     public void SetTeleportDestination(Casilla destination)
     {
         teleportDestination = destination;

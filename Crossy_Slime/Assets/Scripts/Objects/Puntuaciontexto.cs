@@ -18,7 +18,6 @@ public class Puntuaciontexto : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        puntosbloques += Time.deltaTime;
         textMesh.text = puntosbloques.ToString("0");
     }
 }

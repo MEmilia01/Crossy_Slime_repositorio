@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using JetBrains.Annotations;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ProceduralMapGenerator : MonoBehaviour
@@ -12,6 +13,7 @@ public class ProceduralMapGenerator : MonoBehaviour
     public GameObject dragon;
 
     public int mapWidth = 13;
+    public int index = 0;
     public float tileSize = 1.0f;
     public float tileLength = 1.0f;
     public float startZ = 3f;
@@ -28,6 +30,12 @@ public class ProceduralMapGenerator : MonoBehaviour
     private GameObject teleportOriginObject = null;
     private int teleportOriginX = -1;
 
+    [Header("Dragon Settings")]
+    public float dragonSpawnChance = 0.02f;
+    public string dragonTag = "Dragon";
+    private int activeDragonCount = 0;
+    public int maxActiveDragons = 2;
+
     private enum GameObjectType
     {
         Empty,
@@ -35,8 +43,7 @@ public class ProceduralMapGenerator : MonoBehaviour
         Breakable,
         Ice,
         LongJump,
-        Teleport,
-        Dragon
+        Teleport
     }
 
     void Start()
@@ -113,18 +120,41 @@ public class ProceduralMapGenerator : MonoBehaviour
                         teleportOriginX = -1;
                     }
                 }
+
+                if (dragon != null)
+                {
+                    // Umbral: más atrás que la fila más antigua activa
+                    float minActiveZ = lastSpawnZ - (activeRows.Count - 1) * tileLength;
+                    float destroyThresholdZ = minActiveZ - tileLength * 0.5f;
+
+                    GameObject[] dragons = GameObject.FindGameObjectsWithTag(dragonTag);
+                    foreach (GameObject d in dragons)
+                    {
+                        if (d.transform.position.z < destroyThresholdZ)
+                        {
+                            Destroy(d);
+                            activeDragonCount = Mathf.Max(0, activeDragonCount - 1);
+                        }
+                    }
+                }
             }
         }
     }
 
-    private void SpawnRow(float zPosition)
+    
+
+    public void SpawnRow(float zPosition)
     {
         GameObjectType[] newRowTypes = new GameObjectType[mapWidth];
         newRowTypes[0] = GameObjectType.Empty;
         newRowTypes[mapWidth - 1] = GameObjectType.Empty;
-
         bool forceEmptyRow = false;
         bool isTeleportLandingRow = false;
+
+        if (!forceEmptyRow)
+        {
+            index++;
+        }
 
         // Revisar efectos pendientes
         int rowsBack = Mathf.Min(activeRowTypes.Count, 5);
@@ -301,7 +331,6 @@ public class ProceduralMapGenerator : MonoBehaviour
                 // Obtener los componentes Casilla
                 Casilla originCasilla = teleportOriginObject.GetComponent<Casilla>();
                 Casilla destCasilla = teleportDestinationObject.GetComponent<Casilla>();
-
                 if (originCasilla != null && destCasilla != null)
                 {
                     originCasilla.SetTeleportDestination(destCasilla);
@@ -309,6 +338,65 @@ public class ProceduralMapGenerator : MonoBehaviour
                 }
             }
         }
+
+        if (!forceEmptyRow && !isTeleportLandingRow && activeTeleports != 1)
+        {
+            TrySpawnDragonOverRow(zPosition, newRowTypes, startX, tileSize);
+        }
+    }
+
+    private void TrySpawnDragonOverRow(float z, GameObjectType[] rowTypes, float startX, float tileSize)
+    {
+        // Contar dragones activos
+        if (activeDragonCount >= maxActiveDragons) return;
+
+        // Probabilidad de spawn
+        if (Random.value >= dragonSpawnChance) return;
+
+        // Buscar secuencia de 3 Ground consecutivos (x, x+1, x+2), desde x=1 hasta x=mapWidth-4 (inclusive)
+        List<int> validStartXIndices = new List<int>();
+        for (int x = 1; x <= mapWidth - 4; x++) // x+2 debe ser <= mapWidth-2 (porque bordes son Empty)
+        {
+            if (rowTypes[x] == GameObjectType.Ground &&
+                rowTypes[x + 1] == GameObjectType.Ground &&
+                rowTypes[x + 2] == GameObjectType.Ground)
+            {
+                validStartXIndices.Add(x);
+            }
+        }
+
+        if (validStartXIndices.Count == 0) return;
+
+        int startXIndex = validStartXIndices[Random.Range(0, validStartXIndices.Count)];
+
+        // Posición central del dragón: en el medio de los 3 tiles (x + 1)
+        float dragonX = startX + (startXIndex + 1) * tileSize; // centro en columna central
+        float dragonY = 1.15f; // un poco por encima del suelo (ajusta según el pivot del prefab)
+        float dragonZ = z;
+
+        // Instanciar el dragón
+        GameObject dragonObj = Instantiate(dragon, new Vector3(dragonX, dragonY, dragonZ), Quaternion.identity);
+        dragonObj.name = $"Dragon_RowZ{(int)z}";
+
+        // Configurar sus puntos de spawn y end (suponiendo que están como hijos con nombres fijos)
+        GameObject spawnPoint = dragonObj.transform.Find("SpawnPoint")?.gameObject;
+        GameObject endPoint = dragonObj.transform.Find("EndPoint")?.gameObject;
+
+        if (spawnPoint != null && endPoint != null)
+        {
+            // Mover los puntos a los extremos del dragón (izquierda y derecha)
+            // Asumiendo que el dragón mira a la derecha por defecto y se mueve hacia la izquierda
+            float offset = tileSize * 25f;
+
+            spawnPoint.transform.position = new Vector3(dragonX + offset, dragonY, dragonZ);   // derecha
+            endPoint.transform.position = new Vector3(dragonX - offset, dragonY, dragonZ);   // izquierda
+        }
+        else
+        {
+            Debug.LogWarning("Dragon prefab debe tener objetos hijo llamados 'SpawnPoint' y 'EndPoint'");
+        }
+
+        activeDragonCount++;
     }
 
     private GameObjectType ChooseTileType(
@@ -339,7 +427,7 @@ public class ProceduralMapGenerator : MonoBehaviour
         {
             candidate = GameObjectType.Breakable;
         }
-        else if (r < 0.40f)
+        else if (r < 0.30f)
         {
             candidate = GameObjectType.Ice;
         }
@@ -379,7 +467,6 @@ public class ProceduralMapGenerator : MonoBehaviour
             case GameObjectType.Ice: return ice;
             case GameObjectType.LongJump: return longJump;
             case GameObjectType.Teleport: return teleport;
-            case GameObjectType.Dragon: return dragon;
             default: return empty;
         }
     }

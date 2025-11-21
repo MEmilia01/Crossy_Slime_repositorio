@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.TextCore.Text;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 public class Movement : MonoBehaviour
 {
@@ -17,13 +18,19 @@ public class Movement : MonoBehaviour
     bool inputActive = true;
     internal bool lastInput = false;
     [SerializeField] Transform direccionDeGiro;
+    [SerializeField] Transform agitacionMuerte;
     int inputHandlerType = 0;
-    internal bool isDead = false;
-    Counter counter;
-    private void Start()
-    {
-        counter = GetComponent<Counter>();
-    }
+    [SerializeField]Mesh slimeMuerto;
+    [SerializeField]MeshFilter slimeDead;
+    bool isAllowedAnimation = true;
+    [SerializeField] private ScoreManager scoreManager;
+    [SerializeField] private float mapStartZ = 3f;
+    [SerializeField] private float tileLength = 1f;
+
+    [Header("UI Menús")]
+    public GameObject menuPuntuacion;
+    public GameObject menuMuerte;
+
     void Update()
     {
         if (inputActive)
@@ -98,17 +105,20 @@ public class Movement : MonoBehaviour
         if (detectorOfGroundForward != null)
         {
             Casilla c = detectorOfGroundForward.GetCasilla();
+            if (scoreManager != null && c != null)
+            {
+                // Calcular índice de fila desde la posición Z del pivote (o del tile)
+                float z = c.GetPivot().position.z; // o c.transform.position.z
+                int rowIndex = Mathf.FloorToInt((z - mapStartZ) / tileLength);
+                scoreManager.NewIndex(rowIndex);
+            }
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 0, 0), 0);
+            AudioManager.Instance.Walking();
             if (comprober)
             {
                 c.Comportamiento(this);
-                if (c.TCasilla == TipoCasillas.dead)
-                {
-                    isDead = true;
-                    counter.GetStateOfDead(this);
-                }
             }
             inputActive = true;
             if (inputHandlerType == 1)
@@ -123,7 +133,6 @@ public class Movement : MonoBehaviour
             {
                 lastInput = Input.GetKeyDown(KeyCode.Space);
             }
-            counter.GetMovementForward(this);
         }
     }
     public void MoveBackward()
@@ -131,15 +140,18 @@ public class Movement : MonoBehaviour
         if (detectorOfGroundBackward != null)
         {
             Casilla c = detectorOfGroundBackward.GetCasilla();
+            if (scoreManager != null && c != null)
+            {
+                // Calcular índice de fila desde la posición Z del pivote (o del tile)
+                float z = c.GetPivot().position.z; // o c.transform.position.z
+                int rowIndex = Mathf.FloorToInt((z - mapStartZ) / tileLength);
+                scoreManager.NewIndex(rowIndex);
+            }
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 180, 0), 0);
+            AudioManager.Instance.Walking();
             c.Comportamiento(this);
-            if (c.TCasilla == TipoCasillas.dead)
-            {
-                isDead = true;
-                counter.GetStateOfDead(this);
-            }
             inputActive = true;
             if (inputHandlerType == 1)
             {
@@ -149,7 +161,6 @@ public class Movement : MonoBehaviour
             {
                 lastInput = Input.GetKeyDown(KeyCode.DownArrow);
             }
-            counter.GetMovementBackward(this);
         }
 
     }
@@ -158,15 +169,18 @@ public class Movement : MonoBehaviour
         if (detectorOfGroundRight != null)
         {
             Casilla c = detectorOfGroundRight.GetCasilla();
+            if (scoreManager != null && c != null)
+            {
+                // Calcular índice de fila desde la posición Z del pivote (o del tile)
+                float z = c.GetPivot().position.z; // o c.transform.position.z
+                int rowIndex = Mathf.FloorToInt((z - mapStartZ) / tileLength);
+                scoreManager.NewIndex(rowIndex);
+            }
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 90, 0), 0);
+            AudioManager.Instance.Walking();
             c.Comportamiento(this);
-            if (c.TCasilla == TipoCasillas.dead)
-            {
-                isDead = true;
-                counter.GetStateOfDead(this);
-            }
             inputActive = true;
             if (inputHandlerType == 1)
             {
@@ -183,15 +197,18 @@ public class Movement : MonoBehaviour
         if (detectorOfGroundLeft != null)
         {
             Casilla c = detectorOfGroundLeft.GetCasilla();
+            if (scoreManager != null && c != null)
+            {
+                // Calcular índice de fila desde la posición Z del pivote (o del tile)
+                float z = c.GetPivot().position.z; // o c.transform.position.z
+                int rowIndex = Mathf.FloorToInt((z - mapStartZ) / tileLength);
+                scoreManager.NewIndex(rowIndex);
+            }
             inputActive = false;
             transform.position = c.GetPivot().position;
             direccionDeGiro.DORotate(new Vector3(0, 270, 0), 0);
+            AudioManager.Instance.Walking();
             c.Comportamiento(this);
-            if (c.TCasilla == TipoCasillas.dead)
-            {
-                isDead = true;
-                counter.GetStateOfDead(this);
-            }
             inputActive = true;
             if (inputHandlerType == 1)
             {
@@ -223,12 +240,12 @@ public class Movement : MonoBehaviour
         if (lastInput == Input.GetKeyDown(KeyCode.W) || lastInput == Input.GetKeyDown(KeyCode.UpArrow) || lastInput == Input.GetKeyDown(KeyCode.Space))
         {
             MoveForward(true);
-            counter.GetMovementForward(this);
+
         }
         else if (lastInput == Input.GetKeyDown(KeyCode.S) || lastInput == Input.GetKeyDown(KeyCode.DownArrow))
         {
             MoveBackward();
-            counter.GetMovementBackward(this);
+    
         }
         else if (lastInput == Input.GetKeyDown(KeyCode.D) || lastInput == Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -243,7 +260,30 @@ public class Movement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Dragon"))
         {
+            scoreManager?.GameCompleted();
             this.enabled = false;
+            if (isAllowedAnimation)
+            {
+                DoAnimationOfDead();
+                AudioManager.Instance.DieForDragon();
+            }
+            menuPuntuacion.SetActive(false);
+            menuMuerte.SetActive(true);
         }
+    }
+    void DoAnimationOfDead()
+    {
+        agitacionMuerte.DOShakeScale(3, 1, 4, 0);
+        slimeDead.mesh = slimeMuerto;
+        isAllowedAnimation = false;
+    }
+
+    public void ResetPlayer()
+    {
+        scoreManager?.ResetScore();
+        isAllowedAnimation = true;
+        slimeDead.mesh = null; // o el mesh original
+        this.enabled = true;
+        // Reinicia posición, rotación, etc.
     }
 }

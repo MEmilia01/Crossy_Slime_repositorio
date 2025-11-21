@@ -197,6 +197,13 @@ MonoBehaviour:
   detectorOfGroundRight: {fileID: 4932326547220229487}
   detectorOfGroundLeft: {fileID: 4754478222522264085}
   direccionDeGiro: {fileID: 7775815381386426099}
+  agitacionMuerte: {fileID: 7775815381386426099}
+  slimeMuerto: {fileID: -2432090755550338912, guid: 069e57de3c5c69e40af738ce8c79a908, type: 3}
+  slimeDead: {fileID: 171831376642522824}
+  scoreManager: {fileID: 4136478773559841411}
+  mapStartZ: 3
+  tileLength: 1
+  slimeAudioController: {fileID: 0}
 --- !u!65 &4250623480947175929
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -230,9 +237,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f450b58c2fc6a94b9c3f6538bfbdc5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adelante: 0
-  atras: 0
-  puntuacionMax: 0
+  currentScore: 0
+  highScore: 0
+  scoreText: {fileID: 0}
+  highScoreText: {fileID: 0}
 --- !u!1 &6263827334604465661
 GameObject:
   m_ObjectHideFlags: 0
