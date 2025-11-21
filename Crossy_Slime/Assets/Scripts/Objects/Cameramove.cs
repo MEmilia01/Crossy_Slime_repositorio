@@ -31,6 +31,7 @@ public class Cameramove : MonoBehaviour
     {  
      
         //necesito que el menu mande una señal, con el cual se inicie la camara
+        player.GetComponent<Movement>().enabled = true;
         
     }
     void Update()
@@ -68,10 +69,11 @@ public class Cameramove : MonoBehaviour
         }
 
         //esto hace que la camara se detenga
-        if (referenciamuerteI.enabled == false)
+       /* if (referenciamuerteI.enabled == false)
         {
             stop();
         }
+       */
         if (referenciamuerteII.enabled == false)
         {
             stop();
@@ -94,5 +96,6 @@ public class Cameramove : MonoBehaviour
     void stop()
     {
         DOTween.To(() => speed, x => speed = x, 0, 0.2f);
+        player.GetComponent<Movement>().enabled = false;
     }
 }

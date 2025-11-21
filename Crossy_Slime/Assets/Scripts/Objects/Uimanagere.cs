@@ -41,11 +41,12 @@ public class Uimanagere : MonoBehaviour
         //y en counter esta el contador que cuanta por fila
         num = 1; // esto activa la camara 
         //esto hace que la camara se detenga
-
+        /*
         if (referenciamuerteI.enabled == false)
         {
             Mostrarmenumuerte();
         }
+        */
         if (referenciamuerteII.enabled == false)
         {
             Mostrarmenumuerte();
