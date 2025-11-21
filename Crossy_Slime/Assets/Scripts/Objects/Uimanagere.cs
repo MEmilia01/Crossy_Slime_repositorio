@@ -13,6 +13,8 @@ public class Uimanagere : MonoBehaviour
     public float num;
     
     [SerializeField] Movement player;
+    public Casilla referenciamuerteI;
+    public Movement referenciamuerteII;
 
 
     void Start()
@@ -39,7 +41,7 @@ public class Uimanagere : MonoBehaviour
         pantallacarga.SetActive(false);
         //Con puntuaciontexto se pone el texto por pantalla
         //y en counter esta el contador que cuanta por fila
-        num = 1;
+        num = 1; // esto activa la camara 
 
     }
     public void Mostrarmenumuerte()
@@ -50,6 +52,7 @@ public class Uimanagere : MonoBehaviour
         pantallacarga.SetActive(false);
         //que se vea cuando el jugador se "muera"
         //aca hay que poner el boton para la 
+
     }
     public void Mostrarpantallacarga()
     {

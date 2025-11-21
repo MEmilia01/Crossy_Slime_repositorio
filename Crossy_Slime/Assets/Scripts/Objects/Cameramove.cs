@@ -17,6 +17,8 @@ public class Cameramove : MonoBehaviour
     public float duration = 1f;
 
     public Uimanagere referenciaui;
+    public Casilla referenciamuerteI;
+    public Movement referenciamuerteII;
 
     void Inicio()
     {
