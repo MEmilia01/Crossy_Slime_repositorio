@@ -109,6 +109,7 @@ public class Movement : MonoBehaviour
             }
             inputActive = false;
             transform.position = c.GetPivot().position;
+            direccionDeGiro.DOJump(transform.position, 1, 1, 0.5f);
             direccionDeGiro.DORotate(new Vector3(0, 0, 0), 0);
             AudioManager.Instance.Walking();
             if (comprober)
@@ -144,6 +145,7 @@ public class Movement : MonoBehaviour
             }
             inputActive = false;
             transform.position = c.GetPivot().position;
+            direccionDeGiro.DOJump(transform.position, 1, 1, 0.5f);
             direccionDeGiro.DORotate(new Vector3(0, 180, 0), 0);
             AudioManager.Instance.Walking();
             c.Comportamiento(this);
@@ -173,6 +175,7 @@ public class Movement : MonoBehaviour
             }
             inputActive = false;
             transform.position = c.GetPivot().position;
+            direccionDeGiro.DOJump(transform.position, 1, 1, 0.5f);
             direccionDeGiro.DORotate(new Vector3(0, 90, 0), 0);
             AudioManager.Instance.Walking();
             c.Comportamiento(this);
@@ -200,7 +203,9 @@ public class Movement : MonoBehaviour
                 scoreManager.NewIndex(rowIndex);
             }
             inputActive = false;
+            direccionDeGiro.DOJump(transform.position, 1, 1, 0.5f);
             transform.position = c.GetPivot().position;
+            direccionDeGiro.DOJump(transform.position, 1, 1, 0.5f);
             direccionDeGiro.DORotate(new Vector3(0, 270, 0), 0);
             AudioManager.Instance.Walking();
             c.Comportamiento(this);
