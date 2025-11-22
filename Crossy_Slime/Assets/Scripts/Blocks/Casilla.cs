@@ -99,6 +99,7 @@ public class Casilla : MonoBehaviour
                 if (isTeleportActivated)
                 {
                     AudioManager.Instance.SoundTeleport();
+                    player.Teleport();
                     player.transform.position = teleportDestination.GetPivot().position;
                     isTeleportActivated = false;
                     teleportMeshDeactivated.mesh = teleportDeactivated;
