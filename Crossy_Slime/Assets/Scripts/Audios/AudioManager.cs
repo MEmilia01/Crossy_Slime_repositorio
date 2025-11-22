@@ -5,7 +5,8 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
     [SerializeField] AudioSource audioController;
     [SerializeField] AudioSource audioControllerWalkingSlime;
-    [SerializeField] AudioSource audioControllerDieVacio; 
+    [SerializeField] AudioSource audioControllerDieVacio;
+    [SerializeField] AudioClip dragon;
     [SerializeField] AudioClip slimeDieDragon;
     [SerializeField] AudioClip slimeDieGrifo;
     [SerializeField] AudioClip slimeDieVacio;
@@ -30,6 +31,13 @@ public class AudioManager : MonoBehaviour
     internal void Walking()
     {
         audioControllerWalkingSlime.Play();
+    }
+    internal void Dragon()
+    {
+        audioController.clip = dragon;
+        audioController.priority = 128;
+        audioController.volume = 1;
+        audioController.Play();
     }
     internal void DieForVacio()
     {
