@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.TextCore.Text;
 using DG.Tweening;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 public class Movement : MonoBehaviour
 {
@@ -16,16 +17,17 @@ public class Movement : MonoBehaviour
     [SerializeField] DetectorOfGround detectorOfGroundRight;
     [SerializeField] DetectorOfGround detectorOfGroundLeft;
     bool inputActive = true;
-    internal bool lastInput = false;
+    internal string lastInput = " ";
     [SerializeField] Transform direccionDeGiro;
     [SerializeField] Transform agitacionMuerte;
     int inputHandlerType = 0;
-    [SerializeField]Mesh slimeMuerto;
-    [SerializeField]MeshFilter slimeDead;
+    [SerializeField] Mesh slimeMuerto;
+    [SerializeField] MeshFilter slimeDead;
     bool isAllowedAnimation = true;
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private float mapStartZ = 3f;
     [SerializeField] private float tileLength = 1f;
+    Tween jump;
     void Update()
     {
         if (inputActive)
@@ -38,19 +40,19 @@ public class Movement : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.W))
                 {
                     inputHandlerType = 1;
-                    MoveForward(true);
+                    MoveForward();
                 }
                 else if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
                     inputHandlerType = 2;
-                    MoveForward(true);
+                    MoveForward();
                 }
                 else if (Input.GetKeyDown(KeyCode.Space))
                 {
                     inputHandlerType = 3;
-                    MoveForward(true);
+                    MoveForward();
                 }
-                    
+
             }
             else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
@@ -93,7 +95,7 @@ public class Movement : MonoBehaviour
             }
         }
     }
-    public void MoveForward(bool comprober)
+    public void MoveForward()
     {
         //Sirve para que comprobar si el personaje puede moverse en esa dirección
         //Después se almacena el pivote que se ha encontrado
@@ -108,26 +110,37 @@ public class Movement : MonoBehaviour
                 scoreManager.NewIndex(rowIndex);
             }
             inputActive = false;
-            transform.position = c.GetPivot().position;
+            //transform.position = c.GetPivot().position;
+
+            jump.Kill();
             direccionDeGiro.DORotate(new Vector3(0, 0, 0), 0);
             AudioManager.Instance.Walking();
-            if (comprober)
-            {
-                c.Comportamiento(this);
-            }
-            inputActive = true;
             if (inputHandlerType == 1)
             {
-                lastInput = Input.GetKeyDown(KeyCode.W);
+                lastInput = "W";
+                PlayerPrefs.SetString("W", lastInput);
+                PlayerPrefs.Save(); 
             }
-            else if(inputHandlerType == 2)
+            else if (inputHandlerType == 2)
             {
-                lastInput = Input.GetKeyDown(KeyCode.UpArrow);
+                lastInput = "Flecha arriba";
+                PlayerPrefs.SetString("Flecha arriba", lastInput);
+                PlayerPrefs.Save(); 
             }
-            else if(inputHandlerType == 3)
+            else if (inputHandlerType == 3)
             {
-                lastInput = Input.GetKeyDown(KeyCode.Space);
+                lastInput = "Space";
+                PlayerPrefs.SetString("Space", lastInput);
+                PlayerPrefs.Save(); 
             }
+            jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
+                .OnComplete(() =>
+                {
+                    inputActive = true;
+                    c.Comportamiento(this);
+                });
+            //inputActive = true;
+
         }
     }
     public void MoveBackward()
@@ -143,19 +156,29 @@ public class Movement : MonoBehaviour
                 scoreManager.NewIndex(rowIndex);
             }
             inputActive = false;
-            transform.position = c.GetPivot().position;
+            jump.Kill();
             direccionDeGiro.DORotate(new Vector3(0, 180, 0), 0);
             AudioManager.Instance.Walking();
-            c.Comportamiento(this);
-            inputActive = true;
             if (inputHandlerType == 1)
             {
-                lastInput = Input.GetKeyDown(KeyCode.S);
+                lastInput = "S";
+                PlayerPrefs.SetString("S", lastInput);
+                PlayerPrefs.Save(); 
             }
             else if (inputHandlerType == 2)
             {
-                lastInput = Input.GetKeyDown(KeyCode.DownArrow);
+                lastInput = "Flecha abajo";
+                PlayerPrefs.SetString("Flecha abajo", lastInput);
+                PlayerPrefs.Save(); 
             }
+            jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
+                .OnComplete(() =>
+                {
+                    inputActive = true;
+                    c.Comportamiento(this);
+                });
+
+
         }
 
     }
@@ -172,19 +195,30 @@ public class Movement : MonoBehaviour
                 scoreManager.NewIndex(rowIndex);
             }
             inputActive = false;
-            transform.position = c.GetPivot().position;
+            jump.Kill();
             direccionDeGiro.DORotate(new Vector3(0, 90, 0), 0);
             AudioManager.Instance.Walking();
-            c.Comportamiento(this);
-            inputActive = true;
             if (inputHandlerType == 1)
             {
-                lastInput = Input.GetKeyDown(KeyCode.D);
+                lastInput = "D";
+                PlayerPrefs.SetString("D", lastInput);
+                PlayerPrefs.Save(); 
             }
             else if (inputHandlerType == 2)
             {
-                lastInput = Input.GetKeyDown(KeyCode.RightArrow);
+                lastInput = "Flecha derecha";
+                PlayerPrefs.SetString("Flecha derecha", lastInput);
+                PlayerPrefs.Save(); 
             }
+            jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
+                .OnComplete(() =>
+                {
+                    inputActive = true;
+                    c.Comportamiento(this);
+                });
+
+
+
         }
     }
     public void MoveLeft()
@@ -200,19 +234,29 @@ public class Movement : MonoBehaviour
                 scoreManager.NewIndex(rowIndex);
             }
             inputActive = false;
-            transform.position = c.GetPivot().position;
+            jump.Kill();
             direccionDeGiro.DORotate(new Vector3(0, 270, 0), 0);
             AudioManager.Instance.Walking();
-            c.Comportamiento(this);
-            inputActive = true;
             if (inputHandlerType == 1)
             {
-                lastInput = Input.GetKeyDown(KeyCode.A);
+                lastInput = "A";
+                PlayerPrefs.SetString("A", lastInput);
+                PlayerPrefs.Save();
             }
             else if (inputHandlerType == 2)
             {
-                lastInput = Input.GetKeyDown(KeyCode.LeftArrow);
+                lastInput = "Flecha izquierda";
+                PlayerPrefs.SetString("Flecha izquierda", lastInput);
+                PlayerPrefs.Save(); 
             }
+            jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
+                .OnComplete(() =>
+                {
+                    inputActive = true;
+                    c.Comportamiento(this);
+                });
+
+
         }
 
 
@@ -229,27 +273,33 @@ public class Movement : MonoBehaviour
         Camera.main.transform.position = cameraPosition;
         */
     }
-    public void MoveOnLastDirection()
+    public void SlideOnIce(Vector3 positionCasilla, Casilla c)
     {
-        //Dependiendo del ultimo input registrado por el jugador se moverá en esa dirección
-        if (lastInput == Input.GetKeyDown(KeyCode.W) || lastInput == Input.GetKeyDown(KeyCode.UpArrow) || lastInput == Input.GetKeyDown(KeyCode.Space))
-        {
-            MoveForward(true);
+        inputActive = false;
+        jump.Kill();
 
-        }
-        else if (lastInput == Input.GetKeyDown(KeyCode.S) || lastInput == Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            MoveBackward();
-    
-        }
-        else if (lastInput == Input.GetKeyDown(KeyCode.D) || lastInput == Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            MoveRight();
-        }
-        else if (lastInput == Input.GetKeyDown(KeyCode.A) || lastInput == Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            MoveLeft();
-        }
+        jump = this.gameObject.transform.DOMove(positionCasilla, 0.05f)
+            .OnComplete(() =>
+            {
+                inputActive = true;
+                c.Comportamiento(this);
+            });
+    }
+    public void LongJump(Vector3 position)
+    {
+        inputActive = false;
+        jump.Kill();
+
+        jump = this.gameObject.transform.DOJump(position, 1, 1, 0.1f)
+            .OnComplete(() => inputActive = true);
+    }
+    public void Teleport()
+    {
+        inputActive = false;
+        jump.Kill();
+
+        jump = this.gameObject.transform.DOPunchScale(new Vector3 (0,0,1), 0.1f, 1)
+            .OnComplete(() => inputActive = true);
     }
     private void OnCollisionEnter(Collision collision)
     {
