@@ -7,10 +7,13 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource audioControllerWalkingSlime;
     [SerializeField] AudioSource audioControllerDieVacio; 
     [SerializeField] AudioClip slimeDieDragon;
+    [SerializeField] AudioClip slimeDieGrifo;
     [SerializeField] AudioClip slimeDieVacio;
     [SerializeField] AudioClip grass;
     [SerializeField] AudioClip ice;
     [SerializeField] AudioClip teleport;
+    [SerializeField] AudioClip longJump;
+    [SerializeField] AudioClip breakable;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -39,6 +42,13 @@ public class AudioManager : MonoBehaviour
         audioController.volume = 1;
         audioController.Play();
     }
+    internal void DieForGrifo()
+    {
+        audioController.clip = slimeDieGrifo;
+        audioController.priority = 128;
+        audioController.volume = 1;
+        audioController.Play();
+    }
     internal void SoundGrass()
     {
         audioController.clip = grass;
@@ -56,6 +66,22 @@ public class AudioManager : MonoBehaviour
     internal void SoundTeleport()
     {
         audioController.clip = teleport;
+        audioController.priority = 50;
+        audioController.volume = 1f;
+        audioController.Play();
+    }
+
+    internal void SoundLongJump()
+    { 
+        audioController.clip = longJump;
+        audioController.priority = 50;
+        audioController.volume = 1f;
+        audioController.Play();
+    }
+
+    internal void SoundBreakable()
+    {
+        audioController.clip = breakable;
         audioController.priority = 50;
         audioController.volume = 1f;
         audioController.Play();

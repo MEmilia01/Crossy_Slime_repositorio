@@ -96,6 +96,7 @@ public class Casilla : MonoBehaviour
                 Casilla casilla = collider.GetComponent<Casilla>();
                 if (casilla != null)
                 {
+                    AudioManager.Instance.SoundLongJump();
                     player.LongJump(casilla.GetPivot().position);
                 }
             }
