@@ -8,6 +8,7 @@ public class Cameramove : MonoBehaviour
 {
     public static Cameramove cameramove;
     public GameObject player;
+    public GameObject grifo;
     public Transform targetCamera;
     public Canvas canvas;
     public Dead die;
@@ -66,6 +67,8 @@ public class Cameramove : MonoBehaviour
 
         if (distancia > 2)
         {
+            grifo.SetActive(true);
+            grifo.transform.position = player.transform.position + new Vector3(5, -1, 0); //por alguan razon se desajusta y con este vector es facil de ajustar
             die.IsDead();
         }
 

@@ -48,6 +48,7 @@ public class ProceduralMapGenerator : MonoBehaviour
 
     void Start()
     {
+        player.SetActive(true);
         if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player");
@@ -76,12 +77,12 @@ public class ProceduralMapGenerator : MonoBehaviour
 
     public void CheckAndSpawnNewRow(float playerZ)
     {
-        if (playerZ + tileLength * 10f > lastSpawnZ)
+        if (playerZ + tileLength * 15f > lastSpawnZ)
         {
             lastSpawnZ += tileLength;
             SpawnRow(lastSpawnZ);
 
-            if (activeRows.Count > 20)
+            if (activeRows.Count > 30)
             {
                 GameObject[] oldRow = activeRows[0];
                 GameObjectType[] oldRowTypes = activeRowTypes[0];
@@ -386,7 +387,7 @@ public class ProceduralMapGenerator : MonoBehaviour
         {
             // Mover los puntos a los extremos del dragón (izquierda y derecha)
             // Asumiendo que el dragón mira a la derecha por defecto y se mueve hacia la izquierda
-            float offset = tileSize * 25f;
+            float offset = tileSize * 20f;
 
             spawnPoint.transform.position = new Vector3(dragonX + offset, dragonY, dragonZ);   // derecha
             endPoint.transform.position = new Vector3(dragonX - offset, dragonY, dragonZ);   // izquierda
