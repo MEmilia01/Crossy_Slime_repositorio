@@ -1,4 +1,7 @@
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public enum TipoCasillas
 {
@@ -26,17 +29,67 @@ public class Casilla : MonoBehaviour
         }
         else if (TCasilla == TipoCasillas.ice)
         {
-            player.MoveOnLastDirection();
             AudioManager.Instance.SoundIce();
+            if (player.lastInput == "W" || player.lastInput == "Flecha arriba" || player.lastInput == "Space")
+            {
+                Collider[] colliders = Physics.OverlapBox(transform.position + new Vector3(0, 0, 1), new Vector3(0.25f, 0.25f, 0.25f), Quaternion.identity);
+                foreach (Collider collider in colliders)
+                {
+                    Casilla casilla = collider.GetComponent<Casilla>();
+                    if (casilla != null)
+                    {
+                        player.SlideOnIce(casilla.GetPivot().position, casilla);
+                    }
+                }
+            }
+            else if (player.lastInput == "S" || player.lastInput == "Flecha abajo")
+            {
+                Collider[] colliders = Physics.OverlapBox(transform.position + new Vector3(0, 0, -1), new Vector3(0.25f, 0.25f, 0.25f), Quaternion.identity);
+                foreach (Collider collider in colliders)
+                {
+                    Casilla casilla = collider.GetComponent<Casilla>();
+                    if (casilla != null)
+                    {
+                        player.SlideOnIce(casilla.GetPivot().position, casilla);
+                    }
+                }
+            }
+            else if (player.lastInput == "D" || player.lastInput == "Flecha derecha")
+            {
+                Collider[] colliders = Physics.OverlapBox(transform.position + new Vector3(1, 0, 0), new Vector3(0.25f, 0.25f, 0.25f), Quaternion.identity);
+                foreach (Collider collider in colliders)
+                {
+                    Casilla casilla = collider.GetComponent<Casilla>();
+                    if (casilla != null)
+                    {
+                        player.SlideOnIce(casilla.GetPivot().position, casilla);
+                    }
+                }
+            }
+            else if (player.lastInput == "A" || player.lastInput == "Flecha izquierda")
+            {
+                Collider[] colliders = Physics.OverlapBox(transform.position + new Vector3(-1, 0, 0), new Vector3(0.25f, 0.25f, 0.25f), Quaternion.identity);
+                foreach (Collider collider in colliders)
+                {
+                    Casilla casilla = collider.GetComponent<Casilla>();
+                    if (casilla != null)
+                    {
+                        player.SlideOnIce(casilla.GetPivot().position, casilla);
+                    }
+                }
+            }
         }
         else if (TCasilla == TipoCasillas.longjump)
         {
-            for (int i = 0; i < 2; i++)
+            Collider[] colliders = Physics.OverlapBox(transform.position + new Vector3(0, 0, 1) * 3, new Vector3(0.25f, 0.25f, 0.25f), Quaternion.identity);
+            foreach (Collider collider in colliders)
             {
-                player.MoveForward(false);
-
+                Casilla casilla = collider.GetComponent<Casilla>();
+                if (casilla != null)
+                {
+                    player.LongJump(casilla.GetPivot().position);
+                }
             }
-            player.MoveForward(true);
         }
         else if (TCasilla == TipoCasillas.teleport)
         {
