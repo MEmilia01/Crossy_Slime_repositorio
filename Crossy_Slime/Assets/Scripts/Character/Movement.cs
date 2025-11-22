@@ -119,21 +119,21 @@ public class Movement : MonoBehaviour
             {
                 lastInput = "W";
                 PlayerPrefs.SetString("W", lastInput);
-                PlayerPrefs.Save(); // Guardar inmediatamente
+                PlayerPrefs.Save(); 
                 Debug.Log("Input guardado: " + lastInput);
             }
             else if (inputHandlerType == 2)
             {
                 lastInput = "Flecha arriba";
                 PlayerPrefs.SetString("Flecha arriba", lastInput);
-                PlayerPrefs.Save(); // Guardar inmediatamente
+                PlayerPrefs.Save(); 
                 Debug.Log("Input guardado: " + lastInput);
             }
             else if (inputHandlerType == 3)
             {
                 lastInput = "Space";
                 PlayerPrefs.SetString("Space", lastInput);
-                PlayerPrefs.Save(); // Guardar inmediatamente
+                PlayerPrefs.Save(); 
                 Debug.Log("Input guardado: " + lastInput);
             }
             jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
@@ -166,14 +166,14 @@ public class Movement : MonoBehaviour
             {
                 lastInput = "S";
                 PlayerPrefs.SetString("S", lastInput);
-                PlayerPrefs.Save(); // Guardar inmediatamente
+                PlayerPrefs.Save(); 
                 Debug.Log("Input guardado: " + lastInput);
             }
             else if (inputHandlerType == 2)
             {
                 lastInput = "Flecha abajo";
                 PlayerPrefs.SetString("Flecha abajo", lastInput);
-                PlayerPrefs.Save(); // Guardar inmediatamente
+                PlayerPrefs.Save(); 
                 Debug.Log("Input guardado: " + lastInput);
             }
             jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
@@ -207,14 +207,14 @@ public class Movement : MonoBehaviour
             {
                 lastInput = "D";
                 PlayerPrefs.SetString("D", lastInput);
-                PlayerPrefs.Save(); // Guardar inmediatamente
+                PlayerPrefs.Save(); 
                 Debug.Log("Input guardado: " + lastInput);
             }
             else if (inputHandlerType == 2)
             {
                 lastInput = "Flecha derecha";
                 PlayerPrefs.SetString("Flecha derecha", lastInput);
-                PlayerPrefs.Save(); // Guardar inmediatamente
+                PlayerPrefs.Save(); 
                 Debug.Log("Input guardado: " + lastInput);
             }
             jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
@@ -248,14 +248,14 @@ public class Movement : MonoBehaviour
             {
                 lastInput = "A";
                 PlayerPrefs.SetString("A", lastInput);
-                PlayerPrefs.Save(); // Guardar inmediatamente
+                PlayerPrefs.Save(); 
                 Debug.Log("Input guardado: " + lastInput);
             }
             else if (inputHandlerType == 2)
             {
                 lastInput = "Flecha izquierda";
                 PlayerPrefs.SetString("Flecha izquierda", lastInput);
-                PlayerPrefs.Save(); // Guardar inmediatamente
+                PlayerPrefs.Save(); 
                 Debug.Log("Input guardado: " + lastInput);
             }
             jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
@@ -287,7 +287,7 @@ public class Movement : MonoBehaviour
         inputActive = false;
         jump.Kill();
 
-        jump = this.gameObject.transform.DOJump(positionCasilla, 1, 1, 0.05f)
+        jump = this.gameObject.transform.DOMove(positionCasilla, 0.05f)
             .OnComplete(() =>
             {
                 inputActive = true;
