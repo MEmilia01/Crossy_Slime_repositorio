@@ -312,8 +312,7 @@ public class Movement : MonoBehaviour
                 DoAnimationOfDead();
                 AudioManager.Instance.DieForDragon();
             }
-            menuPuntuacion.SetActive(false);
-            menuMuerte.SetActive(true);
+
         }
     }
     void DoAnimationOfDead()
