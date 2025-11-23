@@ -6,12 +6,12 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource audioController;
     [SerializeField] AudioSource audioControllerWalkingSlime;
     [SerializeField] AudioSource audioControllerDieVacio;
+    [SerializeField] AudioSource audioControllerIce;
     [SerializeField] AudioClip dragon;
     [SerializeField] AudioClip slimeDieDragon;
     [SerializeField] AudioClip slimeDieGrifo;
     [SerializeField] AudioClip slimeDieVacio;
     [SerializeField] AudioClip grass;
-    [SerializeField] AudioClip ice;
     [SerializeField] AudioClip teleport;
     [SerializeField] AudioClip longJump;
     [SerializeField] AudioClip breakable;
@@ -66,10 +66,7 @@ public class AudioManager : MonoBehaviour
     }
     internal void SoundIce()
     {
-        audioController.clip = ice;
-        audioController.priority = 50;
-        audioController.volume = 1f;
-        audioController.Play();
+        audioControllerIce.Play();
     }
     internal void SoundTeleport()
     {
