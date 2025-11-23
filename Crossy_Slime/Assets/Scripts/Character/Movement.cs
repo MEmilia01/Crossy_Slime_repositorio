@@ -16,19 +16,28 @@ public class Movement : MonoBehaviour
     [SerializeField] DetectorOfGround detectorOfGroundBackward;
     [SerializeField] DetectorOfGround detectorOfGroundRight;
     [SerializeField] DetectorOfGround detectorOfGroundLeft;
+    //Variable para saber si se puede volver a pulsar una tecla
     bool inputActive = true;
+    //Sirve para guardar el ultimo input
     internal string lastInput = " ";
+    // Se utilizan para las animaciones
     [SerializeField] Transform direccionDeGiro;
     [SerializeField] Transform agitacionMuerte;
+    //Se utiliza para almacenar el tipo de input
     int inputHandlerType = 0;
+    //Se usan para cambiar la malla del objeto al del slime muerto
     [SerializeField] Mesh slimeMuerto;
     [SerializeField] MeshFilter slimeDead;
+    //Se usa para permitir que solo haga una vez la animacion
     bool isAllowedAnimation = true;
+    //Se usa para usar todos los metodos relacionados con la puntuacion
     [SerializeField] private ScoreManager scoreManager;
+    //Se usa para actualizar la puntuacion
     [SerializeField] private float mapStartZ = 3f;
     [SerializeField] private float tileLength = 1f;
+    //Se usa para las animaciones de salto del slime
     Tween jump;
-
+    //Se usa para comprobar si se ha muerto o no cuando el dragón le ha tocado
     bool isDead = true;
     void Update()
     {
