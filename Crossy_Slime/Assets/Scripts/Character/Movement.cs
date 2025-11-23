@@ -23,6 +23,7 @@ public class Movement : MonoBehaviour
     // Se utilizan para las animaciones
     [SerializeField] Transform direccionDeGiro;
     [SerializeField] Transform agitacionMuerte;
+    [SerializeField] Transform agitacionTeletransporte;
     //Se utiliza para almacenar el tipo de input
     int inputHandlerType = 0;
     //Se usan para cambiar la malla del objeto al del slime muerto
@@ -44,7 +45,7 @@ public class Movement : MonoBehaviour
         if (inputActive)
         {
             inputHandlerType = 0;
-            //Sirve para detectar el input del jugador para que se mueva mediante WASD dependiendo de la direccion en la que se quiera mover
+            //Sirve para detectar el input del jugador para que se mueva mediante WASD/ las flechas/ espacio dependiendo de la direccion en la que se quiera mover
             //Dependiendo de a que tecla le de se moverá hacia el pivote más cercano
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space))
             {
@@ -319,7 +320,7 @@ public class Movement : MonoBehaviour
         inputActive = false;
         jump.Kill();
 
-        jump = this.gameObject.transform.DOPunchScale(new Vector3(0, 0, 1), 0.1f, 1)
+        jump = agitacionTeletransporte.DOPunchScale(new Vector3(0, 0, 1), 0.1f, 1)
             .OnComplete(() => inputActive = true);
     }
     private void OnCollisionEnter(Collision collision)
