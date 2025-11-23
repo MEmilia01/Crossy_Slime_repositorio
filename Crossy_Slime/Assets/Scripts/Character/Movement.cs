@@ -28,6 +28,8 @@ public class Movement : MonoBehaviour
     [SerializeField] private float mapStartZ = 3f;
     [SerializeField] private float tileLength = 1f;
     Tween jump;
+
+    bool isDead = true;
     void Update()
     {
         if (inputActive)
@@ -119,19 +121,19 @@ public class Movement : MonoBehaviour
             {
                 lastInput = "W";
                 PlayerPrefs.SetString("W", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             else if (inputHandlerType == 2)
             {
                 lastInput = "Flecha arriba";
                 PlayerPrefs.SetString("Flecha arriba", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             else if (inputHandlerType == 3)
             {
                 lastInput = "Space";
                 PlayerPrefs.SetString("Space", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
                 .OnComplete(() =>
@@ -163,13 +165,13 @@ public class Movement : MonoBehaviour
             {
                 lastInput = "S";
                 PlayerPrefs.SetString("S", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             else if (inputHandlerType == 2)
             {
                 lastInput = "Flecha abajo";
                 PlayerPrefs.SetString("Flecha abajo", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
                 .OnComplete(() =>
@@ -202,13 +204,13 @@ public class Movement : MonoBehaviour
             {
                 lastInput = "D";
                 PlayerPrefs.SetString("D", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             else if (inputHandlerType == 2)
             {
                 lastInput = "Flecha derecha";
                 PlayerPrefs.SetString("Flecha derecha", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
                 .OnComplete(() =>
@@ -247,7 +249,7 @@ public class Movement : MonoBehaviour
             {
                 lastInput = "Flecha izquierda";
                 PlayerPrefs.SetString("Flecha izquierda", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
                 .OnComplete(() =>
@@ -282,7 +284,17 @@ public class Movement : MonoBehaviour
             .OnComplete(() =>
             {
                 inputActive = true;
-                c.Comportamiento(this);
+                if (c.TCasilla == TipoCasillas.dead)
+                {
+                    Dead.dead.IsDead();
+                    AudioManager.Instance.DieForVacio();
+                    return;
+                }
+                else
+                {
+                    c.Comportamiento(this);
+                }
+
             });
     }
     public void LongJump(Vector3 position)
@@ -298,22 +310,27 @@ public class Movement : MonoBehaviour
         inputActive = false;
         jump.Kill();
 
-        jump = this.gameObject.transform.DOPunchScale(new Vector3 (0,0,1), 0.1f, 1)
+        jump = this.gameObject.transform.DOPunchScale(new Vector3(0, 0, 1), 0.1f, 1)
             .OnComplete(() => inputActive = true);
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Dragon"))
         {
-            scoreManager?.GameCompleted();
-            this.enabled = false;
-            if (isAllowedAnimation)
+            if (isDead)
             {
-                DoAnimationOfDead();
-                AudioManager.Instance.DieForDragon();
+                Dead.dead.IsDead();
+                scoreManager?.GameCompleted();
+                this.enabled = false;
+                if (isAllowedAnimation)
+                {
+                    DoAnimationOfDead();
+                    AudioManager.Instance.DieForDragon();
+                }
+                isDead = false;
             }
-
         }
+
     }
     void DoAnimationOfDead()
     {

@@ -24,11 +24,11 @@ public class Dead : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == dragon)
-        {
-            Debug.Log("Dead by dragon");
-            IsDead();
-        }
+        //if (collision.gameObject == dragon)
+        //{
+        //    Debug.Log("Dead by dragon");
+        //    //IsDead();
+        //}
         if (collision.gameObject == grifo)
         {
             Debug.Log("Dead by Grifo");

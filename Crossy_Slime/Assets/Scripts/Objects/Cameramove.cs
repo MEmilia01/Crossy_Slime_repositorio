@@ -37,16 +37,20 @@ public class Cameramove : MonoBehaviour
         }
 
         transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
-       //transform.position = playerposition.position + offset;
-        
+        //transform.position = playerposition.position + offset;
 
-        if(Input.GetKeyDown(KeyCode.R))
+
+        if (Input.GetKeyDown(KeyCode.R))
         {
             Rapidez();
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
             back();
+        }
+        else if (Input.GetKeyDown(KeyCode.N))
+        {
+            Stop();
         }
         
         distancia = transform.position.z - player.transform.position.z;
