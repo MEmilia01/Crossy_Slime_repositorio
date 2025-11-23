@@ -24,11 +24,6 @@ public class Casilla : MonoBehaviour
     [SerializeField] internal MeshFilter longJumpMeshDeactivated;
     public Dead die;
 
-    private void Awake()
-    {
-        die = Dead.dead;
-    }
-
     public void Comportamiento(Movement p)
     {
         player = p;
@@ -123,7 +118,7 @@ public class Casilla : MonoBehaviour
         else if (TCasilla == TipoCasillas.dead)
         {
             AudioManager.Instance.DieForVacio();
-            die.IsDead();
+            Dead.dead.IsDead();
         }
         else if (TCasilla == TipoCasillas.breakable)
         {

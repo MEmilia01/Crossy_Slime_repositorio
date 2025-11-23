@@ -16,24 +16,36 @@ public class Movement : MonoBehaviour
     [SerializeField] DetectorOfGround detectorOfGroundBackward;
     [SerializeField] DetectorOfGround detectorOfGroundRight;
     [SerializeField] DetectorOfGround detectorOfGroundLeft;
+    //Variable para saber si se puede volver a pulsar una tecla
     bool inputActive = true;
+    //Sirve para guardar el ultimo input
     internal string lastInput = " ";
+    // Se utilizan para las animaciones
     [SerializeField] Transform direccionDeGiro;
     [SerializeField] Transform agitacionMuerte;
+    [SerializeField] Transform agitacionTeletransporte;
+    //Se utiliza para almacenar el tipo de input
     int inputHandlerType = 0;
+    //Se usan para cambiar la malla del objeto al del slime muerto
     [SerializeField] Mesh slimeMuerto;
     [SerializeField] MeshFilter slimeDead;
+    //Se usa para permitir que solo haga una vez la animacion
     bool isAllowedAnimation = true;
+    //Se usa para usar todos los metodos relacionados con la puntuacion
     [SerializeField] private ScoreManager scoreManager;
+    //Se usa para actualizar la puntuacion
     [SerializeField] private float mapStartZ = 3f;
     [SerializeField] private float tileLength = 1f;
+    //Se usa para las animaciones de salto del slime
     Tween jump;
+    //Se usa para comprobar si se ha muerto o no cuando el dragón le ha tocado
+    bool isDead = true;
     void Update()
     {
         if (inputActive)
         {
             inputHandlerType = 0;
-            //Sirve para detectar el input del jugador para que se mueva mediante WASD dependiendo de la direccion en la que se quiera mover
+            //Sirve para detectar el input del jugador para que se mueva mediante WASD/ las flechas/ espacio dependiendo de la direccion en la que se quiera mover
             //Dependiendo de a que tecla le de se moverá hacia el pivote más cercano
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space))
             {
@@ -119,19 +131,19 @@ public class Movement : MonoBehaviour
             {
                 lastInput = "W";
                 PlayerPrefs.SetString("W", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             else if (inputHandlerType == 2)
             {
                 lastInput = "Flecha arriba";
                 PlayerPrefs.SetString("Flecha arriba", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             else if (inputHandlerType == 3)
             {
                 lastInput = "Space";
                 PlayerPrefs.SetString("Space", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
                 .OnComplete(() =>
@@ -163,13 +175,13 @@ public class Movement : MonoBehaviour
             {
                 lastInput = "S";
                 PlayerPrefs.SetString("S", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             else if (inputHandlerType == 2)
             {
                 lastInput = "Flecha abajo";
                 PlayerPrefs.SetString("Flecha abajo", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
                 .OnComplete(() =>
@@ -202,13 +214,13 @@ public class Movement : MonoBehaviour
             {
                 lastInput = "D";
                 PlayerPrefs.SetString("D", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             else if (inputHandlerType == 2)
             {
                 lastInput = "Flecha derecha";
                 PlayerPrefs.SetString("Flecha derecha", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
                 .OnComplete(() =>
@@ -247,7 +259,7 @@ public class Movement : MonoBehaviour
             {
                 lastInput = "Flecha izquierda";
                 PlayerPrefs.SetString("Flecha izquierda", lastInput);
-                PlayerPrefs.Save(); 
+                PlayerPrefs.Save();
             }
             jump = this.gameObject.transform.DOJump(c.GetPivot().position, 1, 1, 0.05f)
                 .OnComplete(() =>
@@ -282,7 +294,17 @@ public class Movement : MonoBehaviour
             .OnComplete(() =>
             {
                 inputActive = true;
-                c.Comportamiento(this);
+                if (c.TCasilla == TipoCasillas.dead)
+                {
+                    Dead.dead.IsDead();
+                    AudioManager.Instance.DieForVacio();
+                    return;
+                }
+                else
+                {
+                    c.Comportamiento(this);
+                }
+
             });
     }
     public void LongJump(Vector3 position)
@@ -298,22 +320,27 @@ public class Movement : MonoBehaviour
         inputActive = false;
         jump.Kill();
 
-        jump = this.gameObject.transform.DOPunchScale(new Vector3 (0,0,1), 0.1f, 1)
+        jump = agitacionTeletransporte.DOPunchScale(new Vector3(0, 0, 1), 0.1f, 1)
             .OnComplete(() => inputActive = true);
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Dragon"))
         {
-            scoreManager?.GameCompleted();
-            this.enabled = false;
-            if (isAllowedAnimation)
+            if (isDead)
             {
-                DoAnimationOfDead();
-                AudioManager.Instance.DieForDragon();
+                Dead.dead.IsDead();
+                scoreManager?.GameCompleted();
+                this.enabled = false;
+                if (isAllowedAnimation)
+                {
+                    DoAnimationOfDead();
+                    AudioManager.Instance.DieForDragon();
+                }
+                isDead = false;
             }
-
         }
+
     }
     void DoAnimationOfDead()
     {
