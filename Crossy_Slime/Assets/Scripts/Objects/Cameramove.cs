@@ -1,96 +1,98 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem;
-using System.Security.Cryptography;
 
 public class Cameramove : MonoBehaviour
 {
+    public static Cameramove cameramove;
     public GameObject player;
     public Transform targetCamera;
-   
+    public Canvas canvas;
+    public Dead die;
+
     public float distancia;
     public float speed;
-    public float principio;
-    public float masinicio;
+    public float principio = 2;
+    public float masinicio = 5;
     public bool enrango = true;
+    public bool empezar = false;
 
     public float duration = 1f;
 
-    public Uimanagere referenciaui;
-    //public Casilla referenciamuerteI;
-    public Movement referenciamuerteII;
-
-    public void Inicio()
+    void Inicio()
     {
         enrango = true;
         speed = principio;
     }
-    //nunca invocar desde el update, ya que resetearia 
 
-    void Start()
-    {  
-     
-    }
     void Update()
     {
+        if (empezar == true)
+        {
+            Inicio();
+            empezar = false;
+        }
 
-        transform.position += new Vector3(0, 0, Time.deltaTime * speed);
-        //transform.position = playerposition.position + offset;
-
-
-        if (Input.GetKeyDown(KeyCode.C))
-        { Inicio(); }
-
+        transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
+       //transform.position = playerposition.position + offset;
+        
 
         if(Input.GetKeyDown(KeyCode.R))
-        { Rapidez(); }
-        else if (Input.GetKeyDown(KeyCode.T))
-        { back(); }
+        {
+            Rapidez();
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            back();
+        }
         
         distancia = transform.position.z - player.transform.position.z;
         //tiene que estar entre 1 y -9
         
-
-
-        if(distancia < -5 && enrango)
+        if(distancia < -6)
         {
             enrango = false;
-            Rapidez();
+            if(enrango != true)
+            {
+                Rapidez();
+            }
         }
-        else if (distancia > -5 && !enrango)
+        else
         {
             enrango = true;
-            back();
         }
 
-
-
-        // para que detenga la camara cuando muere
-        if (distancia > 1)
+        if (distancia > 2)
         {
-            stop();
-            player.GetComponent<Movement>().enabled = false;
+            die.IsDead();
         }
 
-        //esto hace que la camara se detenga
-        if (referenciamuerteII.enabled == false)
+        /*
+        if(player.GetComponent<inputActive>)
         {
-            stop();
+            //camara se queda quieta
         }
+        */
     }  
     
     void Rapidez()
     {
         DOTween.To(() => speed, x => speed = x, masinicio, 0.2f);
+
+        enrango = true;
+        if(distancia < -3) { back(); }
+
     }
 
     void back()
     {
         DOTween.To(() => speed, x => speed = x, principio, 0.2f);
     }
-    void stop()
+
+    public void Stop()
     {
-        speed = 0;        
+        speed = 0;
     }
 }

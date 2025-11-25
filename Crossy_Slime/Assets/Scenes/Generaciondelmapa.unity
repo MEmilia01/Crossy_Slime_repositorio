@@ -2249,7 +2249,10 @@ PrefabInstance:
     - {fileID: 4136478773559841411, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1590999951160015794, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 939296944}
   m_SourcePrefab: {fileID: 100100000, guid: f9be9db95c903ee4a81d92469aa41138, type: 3}
 --- !u!4 &876774680 stripped
 Transform:
@@ -2510,6 +2513,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df235ea1b917f154e9c46f2c7f7247f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &939296944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939296936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd5f1f6592e2094a96908d3b3bac296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 939296936}
+  dragon: {fileID: 1433345453923144923, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+  camara: {fileID: 2126132942}
+  casillaMuerte: {fileID: 5588493216892362832, guid: 28ba1f54274478a4a96ad7d9f2eeac0d, type: 3}
+  menuPuntuacion: {fileID: 2140851679}
+  menuMuerte: {fileID: 1071533610}
 --- !u!1001 &946326104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4283,17 +4304,11 @@ MonoBehaviour:
   highScore: 0
   scoreText: {fileID: 488787358}
   highScoreText: {fileID: 1684302450}
---- !u!114 &1690365022 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3805253870081233273, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+--- !u!223 &1690365021 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 2065685595853136569, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
   m_PrefabInstance: {fileID: 1767009027}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1690365011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81cf6e184068e6840afd7fa5ea57445e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1698929537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4716,10 +4731,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3805253870081233273, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: player
-      value: 
-      objectReference: {fileID: 939296939}
-    - target: {fileID: 3805253870081233273, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
-      propertyPath: referenciamuerteII
       value: 
       objectReference: {fileID: 939296939}
     - target: {fileID: 6550879129002117311, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
@@ -5654,14 +5665,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 939296936}
   targetCamera: {fileID: 2126132940}
+  canvas: {fileID: 1690365021}
+  die: {fileID: 939296944}
   distancia: 0
   speed: 0
-  principio: 1
-  masinicio: 10
+  principio: 3
+  masinicio: 20
   enrango: 1
+  empezar: 0
   duration: 1
-  referenciaui: {fileID: 1690365022}
-  referenciamuerteII: {fileID: 939296939}
 --- !u!1001 &2132617303
 PrefabInstance:
   m_ObjectHideFlags: 0
