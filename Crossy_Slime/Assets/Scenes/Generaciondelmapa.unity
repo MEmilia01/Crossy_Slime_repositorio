@@ -5829,6 +5829,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1456118213880026187, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: dragon
+      value: 
+      objectReference: {fileID: 8300000, guid: 85be7b673b4ce864586d0c65abb5fbf4, type: 3}
+    - target: {fileID: 1456118213880026187, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
       propertyPath: longJump
       value: 
       objectReference: {fileID: 8300000, guid: c39f985040c7e2c4c9f4ec79b36c2ab8, type: 3}

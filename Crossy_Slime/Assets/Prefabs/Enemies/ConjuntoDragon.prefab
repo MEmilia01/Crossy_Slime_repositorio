@@ -374,8 +374,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28d0757bbfb86544d8de9a8b062d5ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoint: {fileID: 2138899866779941361}
-  endPoint: {fileID: 828329289878492547}
+  spawnPoint: {fileID: 5352860019998981470}
+  endPoint: {fileID: 7292723768145281014}
+  dragonCerrado: {fileID: 7505488743366890841}
+  dragonAbierto: {fileID: 5847665033706385771}
+  flapInterval: 1
+  flapHeight: 1
+  flapDuration: 1
+  speedDragon: 10
 --- !u!54 &4006379507350972219
 Rigidbody:
   m_ObjectHideFlags: 0
