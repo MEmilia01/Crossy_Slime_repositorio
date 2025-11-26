@@ -20,24 +20,35 @@ public class Cameramove : MonoBehaviour
     public bool empezar = false;
 
     public float duration = 1f;
+    public Vector3 posicioiniciocam;
 
     void Inicio()
     {
+        Guardarinicio();
         enrango = true;
         speed = principio;
+    }
+    void Guardarinicio()
+    {
+        posicioiniciocam = Camera.main.transform.position;
+    }
+    public void Reposicioninicio()
+    {
+        Camera.main.transform.position = posicioiniciocam;
     }
 
     void Update()
     {
         if (empezar == true)
         {
-            Inicio();
+            Inicio(); 
             empezar = false;
         }
-
-        transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
-       //transform.position = playerposition.position + offset;
-        
+        if (enrango == true)
+        {
+            transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
+            //transform.position = playerposition.position + offset;
+        }
 
         if(Input.GetKeyDown(KeyCode.R))
         {
@@ -69,12 +80,6 @@ public class Cameramove : MonoBehaviour
             die.IsDead();
         }
 
-        /*
-        if(player.GetComponent<inputActive>)
-        {
-            //camara se queda quieta
-        }
-        */
     }  
     
     void Rapidez()

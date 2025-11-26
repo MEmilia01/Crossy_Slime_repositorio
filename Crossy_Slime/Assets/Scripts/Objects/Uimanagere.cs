@@ -13,15 +13,26 @@ public class Uimanagere : MonoBehaviour
     public float num;
     
     [SerializeField] Movement player;
-    //public Casilla referenciamuerteI;
-    public Movement referenciamuerteII;
+    public Cameramove camera;
 
+    public Vector3 posicioparainicio;
+    
     void Start()
     {
+        guardarinicio();
         MostrarMenu();
         num = 0;
     }
-     public void MostrarMenu()
+    void guardarinicio()
+    {
+        posicioparainicio = player.transform.position;
+    }
+    void Reposicionamientoinicio()
+    {
+        player.transform.position = posicioparainicio;
+    }
+
+    public void MostrarMenu()
     {
         //el menu siempre sera el primero de la lista, por eso 
         menu.SetActive(true);
@@ -30,6 +41,8 @@ public class Uimanagere : MonoBehaviour
         pantallacarga.SetActive(false);
         //
         player.enabled = false;
+        Reposicionamientoinicio();
+        camera.Reposicioninicio();
     }
     public void Mostrarpuntuacion()
     {
@@ -38,19 +51,9 @@ public class Uimanagere : MonoBehaviour
         puntuacion.SetActive(true);
         menumuerte.SetActive(false);
         pantallacarga.SetActive(false);
-        //Con puntuaciontexto se pone el texto por pantalla
-        //y en counter esta el contador que cuanta por fila
+        //y en counter esta el contador 
         player.enabled = true; // para que el jugador sea movible
-
         num = 1; // esto activa la camara
-        
-
-        //esto hace que la camara se detenga
-        if (referenciamuerteII.enabled == false)
-        {
-            Mostrarmenumuerte();
-        }
-
     }
     public void Mostrarmenumuerte()
     {
@@ -69,5 +72,7 @@ public class Uimanagere : MonoBehaviour
         puntuacion.SetActive(false);
         menumuerte.SetActive(false);
         pantallacarga.SetActive(true);
+        // hay que hacer que espere unos segundos
+        MostrarMenu();
     }
 }
