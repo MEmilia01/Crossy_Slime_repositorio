@@ -30,7 +30,7 @@ public class Dragon : MonoBehaviour
     {
         yield return null; // Espera al menos un frame
         ResetPosition();
-        AudioManager.Instance?.Dragon();
+        AudioManager.Instance.Dragon();
         StartCoroutine(FlapRoutine());
     }
 
@@ -52,10 +52,9 @@ public class Dragon : MonoBehaviour
     {
 
         // Cancelar flap anterior (seguro, incluso si es null)
-        currentFlapSequence?.Kill();
-        currentFlapSequence = null;
+        currentFlapSequence.Kill();
 
-        AudioManager.Instance?.Dragon();
+        AudioManager.Instance.Dragon();
 
         // Mostrar alas abiertas
         dragonCerrado.SetActive(false);
@@ -81,12 +80,7 @@ public class Dragon : MonoBehaviour
             .Append(transform.DOMoveY(startY, flapDuration * 0.5f)
                 .SetEase(Ease.InSine)
                 .SetTarget(gameObject))
-            .OnComplete(() =>
-            {
-
-                currentFlapSequence = null;
-            })
-            .SetTarget(gameObject); // tambien en la secuencia global
+                .SetTarget(gameObject); // tambien en la secuencia global
         
     }
 
@@ -95,7 +89,7 @@ public class Dragon : MonoBehaviour
         if (collision.transform == endPoint)
         {
             StopAllCoroutines(); // detiene FlapRoutine
-            currentFlapSequence?.Kill();
+            currentFlapSequence.Kill();
 
             ResetPosition();
             StartCoroutine(FlapRoutine()); // reinicia el ciclo
@@ -112,12 +106,11 @@ public class Dragon : MonoBehaviour
     // Limpieza explicita (previene errores al destruir o desactivar)
     void OnDisable()
     {
-        currentFlapSequence?.Kill();
-        currentFlapSequence = null;
+        currentFlapSequence.Kill();
     }
 
     void OnDestroy()
     {
-        currentFlapSequence?.Kill();
+        currentFlapSequence.Kill();
     }
 }
