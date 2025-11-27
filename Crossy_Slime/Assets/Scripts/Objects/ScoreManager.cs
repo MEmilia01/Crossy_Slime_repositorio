@@ -3,6 +3,7 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
+    int score = 0;
     public int currentScore = 0;            // Último "index" alcanzado (fila más alta)
     public int highScore = 0;               // Récord personal (guardado)
 
@@ -16,6 +17,12 @@ public class ScoreManager : MonoBehaviour
         UpdateUI();
     }
 
+
+    public void restart() 
+    { 
+        currentScore = score;
+        scoreText.text = currentScore.ToString("0");
+    }
     // Se llama cada vez que el jugador llega a una nueva fila (index = nº de fila)
     public void NewIndex(int index)
     {

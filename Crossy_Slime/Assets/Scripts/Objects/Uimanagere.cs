@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ public class Uimanagere : MonoBehaviour
     
     [SerializeField] Movement player;
     public Cameramove camera;
+    public ScoreManager scoreman;
 
     public Vector3 posicioparainicio;
     
@@ -52,8 +54,9 @@ public class Uimanagere : MonoBehaviour
         menumuerte.SetActive(false);
         pantallacarga.SetActive(false);
         //y en counter esta el contador 
+        scoreman.restart();
         player.enabled = true; // para que el jugador sea movible
-        num = 1; // esto activa la camara
+        num = 1; // esto activa la camar
     }
     public void Mostrarmenumuerte()
     {
