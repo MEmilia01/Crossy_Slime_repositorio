@@ -1,39 +1,123 @@
-using System.Collections;
+﻿using DG.Tweening;
 using UnityEngine;
+using System.Collections;
 
 public class Dragon : MonoBehaviour
 {
-    [SerializeField] GameObject spawnPoint;
-    [SerializeField] GameObject endPoint;
-    float speedDragon = 20;
-    bool isMoving;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] Transform spawnPoint;
+    [SerializeField] Transform endPoint;
+    [SerializeField] GameObject dragonCerrado;
+    [SerializeField] GameObject dragonAbierto;
+
+    [SerializeField] float flapInterval = 8f;
+    [SerializeField] float flapHeight = 2f;
+    [SerializeField] float flapDuration = 2f;
+
+    [SerializeField] float speedDragon = 10f;
+
+    Sequence currentFlapSequence;
+
     void Start()
     {
-        this.transform.position = spawnPoint.transform.position;
+        // Inicializa DOTween explicitamente y espera un frame si es necesario
+        DOTween.Init(false, false, LogBehaviour.Verbose);
+
+        // Opcional: asegurar que el primer frame ya paso (evita edge cases con transform.position)
+        StartCoroutine(InitAfterFrame());
     }
 
-    // Update is called once per frame
+    IEnumerator InitAfterFrame()
+    {
+        yield return null; // Espera al menos un frame
+        ResetPosition();
+        AudioManager.Instance?.Dragon();
+        StartCoroutine(FlapRoutine());
+    }
+
     void Update()
     {
-        if (!isMoving)
+        transform.position -= transform.right * speedDragon * Time.deltaTime;
+    }
+
+    IEnumerator FlapRoutine()
+    {
+        while (true)
         {
-            this.transform.position += -transform.right * speedDragon * Time.deltaTime;
+            yield return new WaitForSeconds(flapInterval);
+            Flap();
         }
     }
+
+    void Flap()
+    {
+
+        // Cancelar flap anterior (seguro, incluso si es null)
+        currentFlapSequence?.Kill();
+        currentFlapSequence = null;
+
+        AudioManager.Instance?.Dragon();
+
+        // Mostrar alas abiertas
+        dragonCerrado.SetActive(false);
+        dragonAbierto.SetActive(true);
+
+        // Guardar posicion Y inicial para el ciclo completo
+        float startY = transform.position.y;
+
+        // Usa callbacks con captura segura y SetTarget
+        currentFlapSequence = DOTween.Sequence()
+            .Append(transform.DOMoveY(startY + flapHeight, flapDuration * 0.5f)
+                .SetEase(Ease.OutSine)
+                .SetTarget(gameObject))
+            .AppendCallback(() =>
+            {
+                // Al llegar arriba: cerrar alas
+                if (dragonAbierto != null && dragonCerrado != null)
+                {
+                    dragonAbierto.SetActive(false);
+                    dragonCerrado.SetActive(true);
+                }
+            })
+            .Append(transform.DOMoveY(startY, flapDuration * 0.5f)
+                .SetEase(Ease.InSine)
+                .SetTarget(gameObject))
+            .OnComplete(() =>
+            {
+
+                currentFlapSequence = null;
+            })
+            .SetTarget(gameObject); // tambien en la secuencia global
         
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == endPoint)
+        if (collision.transform == endPoint)
         {
-            isMoving = true;
-            StartCoroutine(DelayForSpawn());
-            this.transform.position = spawnPoint.transform.position;
+            StopAllCoroutines(); // detiene FlapRoutine
+            currentFlapSequence?.Kill();
+
+            ResetPosition();
+            StartCoroutine(FlapRoutine()); // reinicia el ciclo
         }
     }
-    IEnumerator DelayForSpawn()
+
+    void ResetPosition()
     {
-        yield return new WaitForSecondsRealtime(4);
-        isMoving = false;
+        transform.position = spawnPoint.position;
+        dragonAbierto.SetActive(false);
+        dragonCerrado.SetActive(true);
+    }
+
+    // Limpieza explicita (previene errores al destruir o desactivar)
+    void OnDisable()
+    {
+        currentFlapSequence?.Kill();
+        currentFlapSequence = null;
+    }
+
+    void OnDestroy()
+    {
+        currentFlapSequence?.Kill();
     }
 }

@@ -187,7 +187,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590999951160015794}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df235ea1b917f154e9c46f2c7f7247f5, type: 3}
   m_Name: 
@@ -198,13 +198,12 @@ MonoBehaviour:
   detectorOfGroundLeft: {fileID: 4754478222522264085}
   direccionDeGiro: {fileID: 7775815381386426099}
   agitacionMuerte: {fileID: 7775815381386426099}
+  agitacionTeletransporte: {fileID: 7775815381386426099}
   slimeMuerto: {fileID: -2432090755550338912, guid: 069e57de3c5c69e40af738ce8c79a908, type: 3}
   slimeDead: {fileID: 171831376642522824}
   scoreManager: {fileID: 4136478773559841411}
   mapStartZ: 3
   tileLength: 1
-  menuPuntuacion: {fileID: 0}
-  menuMuerte: {fileID: 0}
 --- !u!65 &4250623480947175929
 BoxCollider:
   m_ObjectHideFlags: 0

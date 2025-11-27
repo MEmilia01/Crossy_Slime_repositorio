@@ -1,14 +1,21 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Dead : MonoBehaviour
 {
     public GameObject player;
     public GameObject dragon;
+    public GameObject grifo;
     public Cameramove camara;
     public GameObject casillaMuerte;
     public GameObject menuPuntuacion;
     public GameObject menuMuerte;
     public static Dead dead;
+
+    private void Start()
+    {
+        grifo.SetActive(false);
+    }
 
     private void Awake()
     {
@@ -17,9 +24,15 @@ public class Dead : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == dragon)
+        //if (collision.gameObject == dragon)
+        //{
+        //    Debug.Log("Dead by dragon");
+        //    //IsDead();
+        //}
+        if (collision.gameObject == grifo)
         {
-            IsDead();
+            Debug.Log("Dead by Grifo");
+            player.SetActive(false);
         }
     }
 
