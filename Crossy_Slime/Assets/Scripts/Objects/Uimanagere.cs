@@ -18,9 +18,11 @@ public class Uimanagere : MonoBehaviour
     public ScoreManager scoreman;
 
     public Vector3 posicioparainicio;
-    
+    string currentSceneName;
+
     void Start()
     {
+        currentSceneName = SceneManager.GetActiveScene().name;
         guardarinicio();
         MostrarMenu();
         num = 0;
@@ -33,7 +35,6 @@ public class Uimanagere : MonoBehaviour
     {
         player.transform.position = posicioparainicio;
     }
-
     public void MostrarMenu()
     {
         //el menu siempre sera el primero de la lista, por eso 
@@ -43,8 +44,10 @@ public class Uimanagere : MonoBehaviour
         pantallacarga.SetActive(false);
         //
         player.enabled = false;
+        /*
         Reposicionamientoinicio();
         camera.Reposicioninicio();
+        */
     }
     public void Mostrarpuntuacion()
     {
@@ -76,6 +79,7 @@ public class Uimanagere : MonoBehaviour
         menumuerte.SetActive(false);
         pantallacarga.SetActive(true);
         // hay que hacer que espere unos segundos
+        SceneManager.LoadScene(currentSceneName);
         MostrarMenu();
     }
 }
