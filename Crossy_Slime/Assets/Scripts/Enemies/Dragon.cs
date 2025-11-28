@@ -85,4 +85,9 @@ public class Dragon : MonoBehaviour
         transform.position = spawnPoint.position;
         meshFilterDragon.mesh = meshDragonArriba;
     }
+
+    private void OnDestroy()
+    {
+        currentFlapSequence.Kill();
+    }
 }
