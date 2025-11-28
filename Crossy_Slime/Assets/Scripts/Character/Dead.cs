@@ -11,6 +11,7 @@ public class Dead : MonoBehaviour
     public GameObject menuPuntuacion;
     public GameObject menuMuerte;
     public static Dead dead;
+    public ScoreManager scoreManager;
 
     private void Start()
     {
@@ -42,5 +43,6 @@ public class Dead : MonoBehaviour
         player.GetComponent<Movement>().enabled = false;
         menuPuntuacion.SetActive(false);
         menuMuerte.SetActive(true);
+        scoreManager.GameCompleted();
     }
 }

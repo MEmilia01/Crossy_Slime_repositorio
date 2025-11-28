@@ -39,7 +39,6 @@ public class ScoreManager : MonoBehaviour
         // Guardar nuevo récord si supera el anterior
         if (currentScore > highScore)
         {
-            highScore = currentScore;
             SaveHighScore();
         }
 
@@ -57,11 +56,11 @@ public class ScoreManager : MonoBehaviour
     // --- Gestión de persistencia ---
     private void SaveHighScore()
     {
+        highScore = currentScore;
+        Debug.Log(highScore);
         PlayerPrefs.SetInt("HighScore", highScore);
         PlayerPrefs.Save();
-#if UNITY_EDITOR
-        Debug.Log($"Nuevo récord guardado: {highScore}");
-#endif
+
     }
 
     private void LoadHighScore()
@@ -79,6 +78,7 @@ public class ScoreManager : MonoBehaviour
 
         if (highScoreText != null)
         {
+            
             highScoreText.text = highScore.ToString("0");
         }
     }

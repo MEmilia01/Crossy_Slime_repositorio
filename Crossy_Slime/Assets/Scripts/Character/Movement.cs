@@ -307,7 +307,7 @@ public class Movement : MonoBehaviour
             if (isDead)
             {
                 Dead.dead.IsDead();
-                scoreManager?.GameCompleted();
+                //scoreManager?.GameCompleted();
                 this.enabled = false;
                 if (isAllowedAnimation)
                 {
