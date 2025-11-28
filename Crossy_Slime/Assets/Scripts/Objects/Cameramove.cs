@@ -8,6 +8,7 @@ public class Cameramove : MonoBehaviour
 {
     public static Cameramove cameramove;
     public GameObject player;
+    public GameObject grifo;
     public Transform targetCamera;
     public Canvas canvas;
     public Dead die;
@@ -50,14 +51,14 @@ public class Cameramove : MonoBehaviour
             //transform.position = playerposition.position + offset;
         }
 
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            Rapidez();
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            back();
-        }
+        //if(Input.GetKeyDown(KeyCode.R))
+        //{
+        //    Rapidez();
+        //}
+        //else if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    back();
+        //}
         
         distancia = transform.position.z - player.transform.position.z;
         //tiene que estar entre 1 y -9
@@ -77,11 +78,13 @@ public class Cameramove : MonoBehaviour
 
         if (distancia > 2)
         {
+            grifo.SetActive(true);
+            grifo.transform.position = player.transform.position + new Vector3(5, -1, 0); //por alguan razon se desajusta y con este vector es facil de ajustar
             die.IsDead();
         }
 
-    }  
-    
+    }
+
     void Rapidez()
     {
         DOTween.To(() => speed, x => speed = x, masinicio, 0.2f);
