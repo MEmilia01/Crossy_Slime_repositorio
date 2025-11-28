@@ -4961,6 +4961,130 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1690365017}
   m_SourcePrefab: {fileID: 100100000, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+--- !u!1001 &1769056795
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -83.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1433345453923144923, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_Name
+      value: ConjuntoDragon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+--- !u!1 &1769056796 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1433345453923144923, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+  m_PrefabInstance: {fileID: 1769056795}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1774799429
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -83.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 113640498797273586, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1433345453923144923, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+      propertyPath: m_Name
+      value: ConjuntoDragon (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+--- !u!1 &1774799430 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1433345453923144923, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+  m_PrefabInstance: {fileID: 1774799429}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1792798016
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5541,7 +5665,9 @@ MonoBehaviour:
   longJump: {fileID: 6545827463078101332, guid: ef6a94fbe9ebe8248a44130e7ff1cc0b, type: 3}
   teleport: {fileID: 2209843890073679203, guid: 3e401469da8e89043aaff160d1bcd6f4, type: 3}
   ground: {fileID: 3183980298221116878, guid: 8dfa39ba0b140994a94c6fec9bb03bba, type: 3}
-  dragon: {fileID: 1433345453923144923, guid: a488d7a79acd41d4f92fc190f99fd54f, type: 3}
+  dragon:
+  - {fileID: 1769056796}
+  - {fileID: 1774799430}
   mapWidth: 13
   index: 0
   tileSize: 1
@@ -5551,6 +5677,7 @@ MonoBehaviour:
   player: {fileID: 939296936}
   dragonSpawnChance: 0.5
   dragonTag: Dragon
+  activeDragonCount: 0
   maxActiveDragons: 2
 --- !u!4 &2035693753
 Transform:
@@ -5947,3 +6074,5 @@ SceneRoots:
   - {fileID: 1767009027}
   - {fileID: 5627448422152098859}
   - {fileID: 935524453}
+  - {fileID: 1769056795}
+  - {fileID: 1774799429}

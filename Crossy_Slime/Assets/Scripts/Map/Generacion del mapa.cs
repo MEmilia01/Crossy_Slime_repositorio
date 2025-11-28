@@ -10,7 +10,7 @@ public class ProceduralMapGenerator : MonoBehaviour
     public GameObject longJump;
     public GameObject teleport;
     public GameObject ground;
-    public GameObject dragon;
+    public GameObject[] dragon;
 
     public int mapWidth = 13;
     public int index = 0;
@@ -33,7 +33,7 @@ public class ProceduralMapGenerator : MonoBehaviour
     [Header("Dragon Settings")]
     public float dragonSpawnChance = 0.02f;
     public string dragonTag = "Dragon";
-    private int activeDragonCount = 0;
+    public int activeDragonCount = 0;
     public int maxActiveDragons = 2;
 
     private enum GameObjectType
@@ -133,8 +133,7 @@ public class ProceduralMapGenerator : MonoBehaviour
                     {
                         if (d.transform.position.z < destroyThresholdZ)
                         {
-                            Destroy(d);
-                            activeDragonCount = Mathf.Max(0, activeDragonCount - 1);
+                            d.SetActive(false);
                         }
                     }
                 }
@@ -371,33 +370,36 @@ public class ProceduralMapGenerator : MonoBehaviour
         int startXIndex = validStartXIndices[Random.Range(0, validStartXIndices.Count)];
 
         // Posición central del dragón: en el medio de los 3 tiles (x + 1)
-        float dragonX = startX + (startXIndex + 1) * tileSize; // centro en columna central
-        float dragonY = 1.15f; // un poco por encima del suelo (ajusta según el pivot del prefab)
+        float dragonX = 0; // centro en columna central
+        float dragonY = 1.15f; // un poco por encima del suelo
         float dragonZ = z;
 
-        // Instanciar el dragón
-        GameObject dragonObj = Instantiate(dragon, new Vector3(dragonX, dragonY, dragonZ), Quaternion.identity);
-        dragonObj.name = $"Dragon_RowZ{(int)z}";
-
-        // Configurar sus puntos de spawn y end (suponiendo que están como hijos con nombres fijos)
-        GameObject spawnPoint = dragonObj.transform.Find("SpawnPoint")?.gameObject;
-        GameObject endPoint = dragonObj.transform.Find("EndPoint")?.gameObject;
-
-        if (spawnPoint != null && endPoint != null)
+        for (int i = 0; i < dragon.Length; i++)
         {
-            // Mover los puntos a los extremos del dragón (izquierda y derecha)
-            // Asumiendo que el dragón mira a la derecha por defecto y se mueve hacia la izquierda
-            float offset = tileSize * 20f;
+            // Instanciar el dragón
+            GameObject dragonObj = dragon[i]; new Vector3(dragonX, dragonY, dragonZ);
+            dragonObj.name = $"Dragon_RowZ{(int)z}";
 
-            spawnPoint.transform.position = new Vector3(dragonX + offset, dragonY, dragonZ);   // derecha
-            endPoint.transform.position = new Vector3(dragonX - offset, dragonY, dragonZ);   // izquierda
-        }
-        else
-        {
-            Debug.LogWarning("Dragon prefab debe tener objetos hijo llamados 'SpawnPoint' y 'EndPoint'");
-        }
 
-        activeDragonCount++;
+            // Configurar sus puntos de spawn y end (suponiendo que están como hijos con nombres fijos)
+            GameObject spawnPoint = dragonObj.transform.Find("SpawnPoint")?.gameObject;
+            GameObject endPoint = dragonObj.transform.Find("EndPoint")?.gameObject;
+
+
+            if (spawnPoint != null && endPoint != null)
+            {
+                // Mover los puntos a los extremos del dragón (izquierda y derecha)
+                // Asumiendo que el dragón mira a la derecha por defecto y se mueve hacia la izquierda
+                float offset = tileSize * 20f;
+
+                spawnPoint.transform.position = new Vector3(dragonX + offset, dragonY, dragonZ);   // derecha
+                endPoint.transform.position = new Vector3(dragonX - offset, dragonY, dragonZ);   // izquierda
+            }
+            else
+            {
+                Debug.LogWarning("Dragon prefab debe tener objetos hijo llamados 'SpawnPoint' y 'EndPoint'");
+            }
+        }
     }
 
     private GameObjectType ChooseTileType(
