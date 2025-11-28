@@ -44,6 +44,7 @@ public class Uimanagere : MonoBehaviour
         pantallacarga.SetActive(false);
         //y en counter esta el contador 
         scoreman.restart();
+        camera.Inicio();
         player.enabled = true; // para que el jugador sea movible
         num = 1; // esto activa la camar
     }

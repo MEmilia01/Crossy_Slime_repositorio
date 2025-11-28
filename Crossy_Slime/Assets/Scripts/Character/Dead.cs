@@ -39,7 +39,7 @@ public class Dead : MonoBehaviour
 
     public void IsDead()
     {
-        camara.speed = 0;
+        camara.stop();
         player.GetComponent<Movement>().enabled = false;
         menuPuntuacion.SetActive(false);
         menuMuerte.SetActive(true);

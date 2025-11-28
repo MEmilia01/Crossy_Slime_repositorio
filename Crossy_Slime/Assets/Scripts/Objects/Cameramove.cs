@@ -17,33 +17,18 @@ public class Cameramove : MonoBehaviour
     public float principio = 2;
     public float masinicio = 5;
     public bool enrango = true;
-    public bool empezar = false;
+
 
     public float duration = 1f;
-    public Vector3 posicioiniciocam;
 
-    void Inicio()
+    public void Inicio()
     {
-        Guardarinicio();
         enrango = true;
         speed = principio;
     }
-    void Guardarinicio()
-    {
-        posicioiniciocam = Camera.main.transform.position;
-    }
-    public void Reposicioninicio()
-    {
-        Camera.main.transform.position = posicioiniciocam;
-    }
-
+    
     void Update()
     {
-        if (empezar == true)
-        {
-            Inicio(); 
-            empezar = false;
-        }
         if (enrango == true)
         {
             transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
@@ -70,13 +55,15 @@ public class Cameramove : MonoBehaviour
                 Rapidez();
             }
         }
+        if (distancia < -3) { back(); }
         else
         {
             enrango = true;
         }
 
-        if (distancia > 2)
+        if (distancia > 4)
         {
+            stop();
             grifo.SetActive(true);
             grifo.transform.position = player.transform.position + new Vector3(5, -1, 0); //por alguan razon se desajusta y con este vector es facil de ajustar
             Dead.dead.IsDead();
@@ -87,14 +74,15 @@ public class Cameramove : MonoBehaviour
     void Rapidez()
     {
         DOTween.To(() => speed, x => speed = x, masinicio, 0.2f);
-
         enrango = true;
-        if(distancia < -3) { back(); }
-
     }
 
     void back()
     {
         DOTween.To(() => speed, x => speed = x, principio, 0.2f);
+    }
+    public void stop()
+    {
+        speed = 0;
     }
 }
