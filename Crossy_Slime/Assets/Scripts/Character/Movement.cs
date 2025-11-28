@@ -122,8 +122,6 @@ public class Movement : MonoBehaviour
                 scoreManager.NewIndex(rowIndex);
             }
             inputActive = false;
-            //transform.position = c.GetPivot().position;
-
             jump.Kill();
             direccionDeGiro.DORotate(new Vector3(0, 0, 0), 0);
             AudioManager.Instance.Walking();
@@ -151,8 +149,6 @@ public class Movement : MonoBehaviour
                     inputActive = true;
                     c.Comportamiento(this);
                 });
-            //inputActive = true;
-
         }
     }
     public void MoveBackward()
@@ -189,8 +185,6 @@ public class Movement : MonoBehaviour
                     inputActive = true;
                     c.Comportamiento(this);
                 });
-
-
         }
 
     }
@@ -228,9 +222,6 @@ public class Movement : MonoBehaviour
                     inputActive = true;
                     c.Comportamiento(this);
                 });
-
-
-
         }
     }
     public void MoveLeft()
@@ -270,20 +261,6 @@ public class Movement : MonoBehaviour
 
 
         }
-
-
-        //---------------------------------------------------------------------------------
-        /*
-        //esto es para el movimiento de la camera
-        Vector2Int moveDirection = new Vector2Int();    
-        
-        //para que la camara este un poco mas atras del jugador
-        Vector3 cameraPosition = new(character.position.x + 2, 4, character.position.z - 3);
-        //Limita a su vez la posicion de la camara para que no se salga
-        //de ciertos limites asi no tiene, que generar de mas
-        cameraPosition.x = Mathf.Clamp(cameraPosition.x, -1, 5);
-        Camera.main.transform.position = cameraPosition;
-        */
     }
     public void SlideOnIce(Vector3 positionCasilla, Casilla c)
     {
@@ -348,7 +325,6 @@ public class Movement : MonoBehaviour
         slimeDead.mesh = slimeMuerto;
         isAllowedAnimation = false;
     }
-
     public void ResetPlayer()
     {
         scoreManager?.ResetScore();
