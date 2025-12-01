@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ProceduralMapGenerator : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class ProceduralMapGenerator : MonoBehaviour
     public GameObject longJump;
     public GameObject teleport;
     public GameObject ground;
-    public GameObject[] dragon;
+    public GameObject dragon;
+    private Queue<GameObject> dragonPool = new Queue<GameObject>();
+    private List<GameObject> activeDragons = new List<GameObject>();
 
     public int mapWidth = 13;
     public int index = 0;
@@ -35,6 +38,7 @@ public class ProceduralMapGenerator : MonoBehaviour
     public string dragonTag = "Dragon";
     public int activeDragonCount = 0;
     public int maxActiveDragons = 2;
+    public float minDragonSpacingZ = 3f;
 
     private enum GameObjectType
     {
@@ -124,16 +128,21 @@ public class ProceduralMapGenerator : MonoBehaviour
 
                 if (dragon != null)
                 {
-                    // Umbral: más atrás que la fila más antigua activa
+                    // Umbral: mas atras que la fila mas antigua activa
                     float minActiveZ = lastSpawnZ - (activeRows.Count - 1) * tileLength;
                     float destroyThresholdZ = minActiveZ - tileLength * 0.5f;
 
-                    GameObject[] dragons = GameObject.FindGameObjectsWithTag(dragonTag);
-                    foreach (GameObject d in dragons)
+                    for (int i = activeDragons.Count - 1; i >= 0; i--)
                     {
+                        GameObject d = activeDragons[i];
+                        if (d == null) continue;
+
                         if (d.transform.position.z < destroyThresholdZ)
                         {
+                            // Desactivar y devolver al pool 
                             d.SetActive(false);
+                            dragonPool.Enqueue(d);
+                            activeDragons.RemoveAt(i);
                         }
                     }
                 }
@@ -347,15 +356,33 @@ public class ProceduralMapGenerator : MonoBehaviour
 
     private void TrySpawnDragonOverRow(float z, GameObjectType[] rowTypes, float startX, float tileSize)
     {
-        // Contar dragones activos
-        if (activeDragonCount >= maxActiveDragons) return;
+        // Si ya hay maximo de dragones, no spawneamos
+        if (activeDragons.Count >= maxActiveDragons)
+            return;
+
+        // Verificar distancia con dragones existentes
+        bool tooClose = false;
+        foreach (GameObject dragonObj1 in activeDragons)
+        {
+            if (dragonObj1 == null) continue;
+            float distanceZ = Mathf.Abs(dragonObj1.transform.position.z - z);
+            if (distanceZ < minDragonSpacingZ)
+            {
+                tooClose = true;
+                break;
+            }
+        }
+
+        if (tooClose)
+            return;
 
         // Probabilidad de spawn
-        if (Random.value >= dragonSpawnChance) return;
+        if (Random.value >= dragonSpawnChance)
+            return;
 
-        // Buscar secuencia de 3 Ground consecutivos (x, x+1, x+2), desde x=1 hasta x=mapWidth-4 (inclusive)
+        // Buscar secuencia de 3 Ground consecutivos
         List<int> validStartXIndices = new List<int>();
-        for (int x = 1; x <= mapWidth - 4; x++) // x+2 debe ser <= mapWidth-2 (porque bordes son Empty)
+        for (int x = 1; x <= mapWidth - 4; x++)
         {
             if (rowTypes[x] == GameObjectType.Ground &&
                 rowTypes[x + 1] == GameObjectType.Ground &&
@@ -365,40 +392,73 @@ public class ProceduralMapGenerator : MonoBehaviour
             }
         }
 
-        if (validStartXIndices.Count == 0) return;
+        if (validStartXIndices.Count == 0)
+            return;
 
         int startXIndex = validStartXIndices[Random.Range(0, validStartXIndices.Count)];
-
-        // Posición central del dragón: en el medio de los 3 tiles (x + 1)
-        float dragonX = 0; // centro en columna central
-        float dragonY = 1.15f; // un poco por encima del suelo
+        float dragonX = startX + (startXIndex + 1) * tileSize;
+        float dragonY = 1.15f;
         float dragonZ = z;
 
-        for (int i = 0; i < dragon.Length; i++)
+        GameObject dragonObj = GetDragonFromPool(dragonX, dragonY, dragonZ, startXIndex);
+
+        // Configurar puntos
+        ConfigureDragonPoints(dragonObj, dragonX, dragonY, dragonZ, tileSize);
+
+        // Activar y añadir a lista activa
+        dragonObj.SetActive(true);
+        activeDragons.Add(dragonObj);
+    }
+
+    private GameObject GetDragonFromPool(float x, float y, float z, int startXIndex)
+    {
+        GameObject dragonObj;
+
+        if (dragonPool.Count > 0)
         {
-            // Instanciar el dragón
-            GameObject dragonObj = dragon[i]; new Vector3(dragonX, dragonY, dragonZ);
-            dragonObj.name = $"Dragon_RowZ{(int)z}";
+            dragonObj = dragonPool.Dequeue();
+            dragonObj.transform.position = new Vector3(x, y, z);
+        }
+        else
+        {
+            // Crear nuevo (solo al inicio)
+            dragonObj = Instantiate(dragon, new Vector3(x, y, z), Quaternion.identity);
+            dragonObj.name = $"Dragon_{activeDragons.Count + dragonPool.Count}";
+            dragonObj.tag = dragonTag;
 
+            // Asegura que tenga los puntos requeridos (solo la primera vez)
+            EnsureDragonHasPoints(dragonObj);
+        }
 
-            // Configurar sus puntos de spawn y end (suponiendo que están como hijos con nombres fijos)
-            GameObject spawnPoint = dragonObj.transform.Find("SpawnPoint")?.gameObject;
-            GameObject endPoint = dragonObj.transform.Find("EndPoint")?.gameObject;
+        return dragonObj;
+    }
 
+    private void ConfigureDragonPoints(GameObject dragonObj, float x, float y, float z, float tileSize)
+    {
+        GameObject spawnPoint = dragonObj.transform.Find("SpawnPoint")?.gameObject;
+        GameObject endPoint = dragonObj.transform.Find("EndPoint")?.gameObject;
 
-            if (spawnPoint != null && endPoint != null)
-            {
-                // Mover los puntos a los extremos del dragón (izquierda y derecha)
-                // Asumiendo que el dragón mira a la derecha por defecto y se mueve hacia la izquierda
-                float offset = tileSize * 20f;
+        if (spawnPoint != null && endPoint != null)
+        {
+            float offset = tileSize * 20f;
+            spawnPoint.transform.position = new Vector3(x + offset, y, z);
+            endPoint.transform.position = new Vector3(x - offset, y, z);
+        }
+    }
 
-                spawnPoint.transform.position = new Vector3(dragonX + offset, dragonY, dragonZ);   // derecha
-                endPoint.transform.position = new Vector3(dragonX - offset, dragonY, dragonZ);   // izquierda
-            }
-            else
-            {
-                Debug.LogWarning("Dragon prefab debe tener objetos hijo llamados 'SpawnPoint' y 'EndPoint'");
-            }
+    private void EnsureDragonHasPoints(GameObject dragonObj)
+    {
+        if (dragonObj.transform.Find("SpawnPoint") == null)
+        {
+            GameObject sp = new GameObject("SpawnPoint");
+            sp.transform.SetParent(dragonObj.transform);
+            sp.transform.localPosition = Vector3.zero;
+        }
+        if (dragonObj.transform.Find("EndPoint") == null)
+        {
+            GameObject ep = new GameObject("EndPoint");
+            ep.transform.SetParent(dragonObj.transform);
+            ep.transform.localPosition = Vector3.zero;
         }
     }
 
