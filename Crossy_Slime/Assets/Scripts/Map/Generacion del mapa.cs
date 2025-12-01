@@ -348,7 +348,11 @@ public class ProceduralMapGenerator : MonoBehaviour
             }
         }
 
-        if (!forceEmptyRow && !isTeleportLandingRow && activeTeleports != 1)
+        bool currentRowHasGround = IsRowNonEmpty(newRowTypes);
+        bool previousRowHadGround = (activeRowTypes.Count > 0) && IsRowNonEmpty(activeRowTypes[activeRowTypes.Count - 1]);
+
+        // Solo spawnea en filas que NO son la primera de una isla
+        if (currentRowHasGround && previousRowHadGround)
         {
             TrySpawnDragonOverRow(zPosition, newRowTypes, startX, tileSize);
         }
@@ -509,6 +513,17 @@ public class ProceduralMapGenerator : MonoBehaviour
         }
 
         return candidate;
+    }
+
+    private bool IsRowNonEmpty(GameObjectType[] row)
+    {
+        if (row == null) return false;
+        for (int i = 1; i < row.Length - 1; i++) // ignora bordes (siempre Empty)
+        {
+            if (row[i] != GameObjectType.Empty)
+                return true;
+        }
+        return false;
     }
 
     private bool ContainsType(GameObjectType[] row, GameObjectType type)
