@@ -11,6 +11,7 @@ public class Dead : MonoBehaviour
     public GameObject menuPuntuacion;
     public GameObject menuMuerte;
     public static Dead dead;
+    public ScoreManager scoreManager;
 
     private void Start()
     {
@@ -38,9 +39,10 @@ public class Dead : MonoBehaviour
 
     public void IsDead()
     {
-        camara.Stop();
+        camara.speed = 0;
         player.GetComponent<Movement>().enabled = false;
         menuPuntuacion.SetActive(false);
         menuMuerte.SetActive(true);
+        scoreManager.GameCompleted();
     }
 }
