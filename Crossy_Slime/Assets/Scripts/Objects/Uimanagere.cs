@@ -12,10 +12,13 @@ public class Uimanagere : MonoBehaviour
     public GameObject pantallacarga;
     //aca se podra guardar la puntuacion
     public float num;
+    public bool Volumen = true;
     
     [SerializeField] Movement player;
     public Cameramove camera;
     public ScoreManager scoreman;
+    [SerializeField] AudioManager audiomanager;
+
 
     string currentSceneName;
 
@@ -69,5 +72,20 @@ public class Uimanagere : MonoBehaviour
         
         SceneManager.LoadScene(currentSceneName);
         MostrarMenu();
+    }
+    public void Sonido()
+    {
+        if (Volumen != false)
+        {
+            Volumen = false;
+            Debug.Log("No volumen");
+            audiomanager.MuteAll();
+        }
+        else if (Volumen != true)
+        {
+            Debug.Log("volumen");
+            Volumen = true;
+            audiomanager.UnMute();
+        }
     }
 }

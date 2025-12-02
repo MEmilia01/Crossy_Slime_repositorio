@@ -16,6 +16,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioClip longJump;
     [SerializeField] AudioClip breakable;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
+
     private void Awake()
     {
         if (Instance == null)
@@ -87,5 +89,13 @@ public class AudioManager : MonoBehaviour
         audioController.priority = 50;
         audioController.volume = 1f;
         audioController.Play();
+    }
+    internal void MuteAll()
+    {
+        AudioListener.volume = 0f;
+    }
+    internal void UnMute()
+    {
+        AudioListener.volume = 1f;
     }
 }

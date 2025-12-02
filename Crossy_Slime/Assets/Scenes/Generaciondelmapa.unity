@@ -4425,6 +4425,17 @@ Canvas:
   m_CorrespondingSourceObject: {fileID: 2065685595853136569, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
   m_PrefabInstance: {fileID: 1767009027}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1690365022 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3805253870081233273, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+  m_PrefabInstance: {fileID: 1767009027}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690365011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cf6e184068e6840afd7fa5ea57445e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1698929537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4857,6 +4868,10 @@ PrefabInstance:
       propertyPath: scoreman
       value: 
       objectReference: {fileID: 1690365017}
+    - target: {fileID: 3805253870081233273, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: audiomanager
+      value: 
+      objectReference: {fileID: 1222327415}
     - target: {fileID: 4552220134544613625, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Mostrarpantallacarga
@@ -4948,6 +4963,22 @@ PrefabInstance:
     - target: {fileID: 7150770830819812418, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7486489688629059644, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1690365022}
+    - target: {fileID: 7486489688629059644, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Sonido
+      objectReference: {fileID: 0}
+    - target: {fileID: 7486489688629059644, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Uimanagere, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7486489688629059644, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8042543075435575218, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: m_IsActive
@@ -5799,15 +5830,12 @@ MonoBehaviour:
   grifo: {fileID: 922395517}
   targetCamera: {fileID: 2126132940}
   canvas: {fileID: 1690365021}
-  die: {fileID: 939296944}
   distancia: 0
   speed: 0
   principio: 3
   masinicio: 20
   enrango: 1
-  empezar: 0
   duration: 1
-  posicioiniciocam: {x: 4.23, y: 10, z: -1}
 --- !u!1001 &2132617303
 PrefabInstance:
   m_ObjectHideFlags: 0
