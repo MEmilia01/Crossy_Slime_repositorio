@@ -15,7 +15,7 @@ public class Cameramove : MonoBehaviour
     public float distancia;
     public float speed;
     public float principio = 2;
-    public float masinicio = 5;
+    public float aceleron = 5;
     public bool enrango = true;
 
 
@@ -32,7 +32,6 @@ public class Cameramove : MonoBehaviour
         if (enrango == true)
         {
             transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
-            //transform.position = playerposition.position + offset;
         }
 
         //if(Input.GetKeyDown(KeyCode.R))
@@ -73,7 +72,7 @@ public class Cameramove : MonoBehaviour
 
     void Rapidez()
     {
-        DOTween.To(() => speed, x => speed = x, masinicio, 0.2f);
+        DOTween.To(() => speed, x => speed = x, aceleron, 0.2f);
         enrango = true;
     }
 
@@ -83,6 +82,7 @@ public class Cameramove : MonoBehaviour
     }
     public void stop()
     {
+        Debug.Log("me detengo");
         speed = 0;
     }
 }

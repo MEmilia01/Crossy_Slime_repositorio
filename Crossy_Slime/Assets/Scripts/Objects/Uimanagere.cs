@@ -78,12 +78,10 @@ public class Uimanagere : MonoBehaviour
         if (Volumen != false)
         {
             Volumen = false;
-            Debug.Log("No volumen");
             audiomanager.MuteAll();
         }
         else if (Volumen != true)
         {
-            Debug.Log("volumen");
             Volumen = true;
             audiomanager.UnMute();
         }
