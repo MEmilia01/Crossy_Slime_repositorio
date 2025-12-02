@@ -5585,6 +5585,7 @@ MonoBehaviour:
   dragonTag: Dragon
   activeDragonCount: 0
   maxActiveDragons: 2
+  minDragonSpacingZ: 3
 --- !u!4 &2035693753
 Transform:
   m_ObjectHideFlags: 0
@@ -5915,6 +5916,14 @@ PrefabInstance:
       propertyPath: longJump
       value: 
       objectReference: {fileID: 8300000, guid: c39f985040c7e2c4c9f4ec79b36c2ab8, type: 3}
+    - target: {fileID: 1456118213880026187, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: breakable
+      value: 
+      objectReference: {fileID: 8300000, guid: f9be5a1318d07a142ba3a4d55a157bbc, type: 3}
+    - target: {fileID: 1456118213880026187, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
+      propertyPath: slimeDieGrifo
+      value: 
+      objectReference: {fileID: 8300000, guid: 2c6830a794d0cde41bf5c767efe8bb57, type: 3}
     - target: {fileID: 6993308636028229167, guid: ba60fd0ead126484986feacbd95f1b1e, type: 3}
       propertyPath: m_Name
       value: AudioManager
