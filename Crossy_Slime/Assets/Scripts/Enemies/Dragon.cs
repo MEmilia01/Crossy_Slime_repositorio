@@ -55,7 +55,7 @@ public class Dragon : MonoBehaviour
         currentFlapSequence.Kill();
 
         AudioManager.Instance.Dragon();
-        meshFilterDragon.mesh = meshDragonArriba;
+        meshFilterDragon.mesh = meshDragonAbajo;
         // Guardar posicion Y inicial para el ciclo completo
         float startY = transform.position.y;
 
@@ -65,7 +65,7 @@ public class Dragon : MonoBehaviour
                 .SetEase(Ease.OutSine))
             .AppendCallback(() =>
             {
-                meshFilterDragon.mesh = meshDragonAbajo;
+                meshFilterDragon.mesh = meshDragonArriba;
             })
             .Append(transform.DOMoveY(startY, flapDuration * 0.5f)
                 .SetEase(Ease.InSine)); // tambien en la secuencia global 
@@ -84,10 +84,5 @@ public class Dragon : MonoBehaviour
         currentFlapSequence.Kill();
         transform.position = spawnPoint.position;
         meshFilterDragon.mesh = meshDragonArriba;
-    }
-
-    private void OnDestroy()
-    {
-        currentFlapSequence.Kill();
     }
 }
