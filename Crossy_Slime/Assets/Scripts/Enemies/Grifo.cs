@@ -22,6 +22,10 @@ public class Grifo : MonoBehaviour
         
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            AudioManager.Instance.DieForGrifo();
+        }
         if (collision.gameObject == endPoint)
         {
             grifo.SetActive(false);
