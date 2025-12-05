@@ -17,7 +17,7 @@ public class Cameramove : MonoBehaviour
     public float speedStandard = 2;
     public float fast = 5;
     public bool enrango = true;
-
+    public bool empezar;
 
     public float duration = 1f;
 
@@ -54,7 +54,6 @@ public class Cameramove : MonoBehaviour
                 enrango = false;
             }
         }
-        if (distancia < -3) { back(); }
         else
         {
             if (!enrango)
@@ -82,9 +81,5 @@ public class Cameramove : MonoBehaviour
     void BackToNormal()
     {
         DOTween.To(() => speed, x => speed = x, speedStandard, 0.2f);
-    }
-    public void stop()
-    {
-        speed = 0;
     }
 }
