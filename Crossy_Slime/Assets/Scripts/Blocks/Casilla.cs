@@ -123,6 +123,8 @@ public class Casilla : MonoBehaviour
         }
         else if (TCasilla == TipoCasillas.breakable)
         {
+            Debug.Log("sone");
+            AudioManager.Instance.SoundNuve();
             isStartingChronometer = true;
         }
     }
