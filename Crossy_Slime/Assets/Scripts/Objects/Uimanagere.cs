@@ -38,7 +38,6 @@ public class Uimanagere : MonoBehaviour
         puntuacion.SetActive(false);
         menumuerte.SetActive(false);
         pantallacarga.SetActive(false);
-        //
         player.enabled = false;
     }
     public void Mostrarpuntuacion()
@@ -49,7 +48,7 @@ public class Uimanagere : MonoBehaviour
         menumuerte.SetActive(false);
         pantallacarga.SetActive(false);
         //y en counter esta el contador 
-        scoreman.restart();
+        scoreman.restart(); 
         camera.Inicio();
         player.enabled = true; // para que el jugador sea movible
         num = 1; // esto activa la camar
