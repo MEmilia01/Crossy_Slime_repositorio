@@ -14,6 +14,7 @@ public class ProceduralMapGenerator : MonoBehaviour
     public GameObject dragon;
     private Queue<GameObject> dragonPool = new Queue<GameObject>();
     private List<GameObject> activeDragons = new List<GameObject>();
+    GameObjectType candidate;
 
     public int mapWidth = 13;
     public int index = 0;
@@ -86,7 +87,7 @@ public class ProceduralMapGenerator : MonoBehaviour
             lastSpawnZ += tileLength;
             SpawnRow(lastSpawnZ);
 
-            if (activeRows.Count > 30)
+            if (activeRows.Count > 32)
             {
                 GameObject[] oldRow = activeRows[0];
                 GameObjectType[] oldRowTypes = activeRowTypes[0];
@@ -196,10 +197,11 @@ public class ProceduralMapGenerator : MonoBehaviour
 
         if (forceEmptyRow)
         {
-            for (int x = 1; x < mapWidth - 1; x++)
+            for (int x = 1; x < mapWidth - 1; x++) // --------------------------------------------------------------------------------------------------------------------------------------------------------
             {
-                newRowTypes[x] = GameObjectType.Empty;
-            }
+                newRowTypes[x] = GameObjectType.Empty; // --------------------------------------------------------------------------------------------------------------------------------------------------------
+                candidate = GameObjectType.Empty;
+            } // --------------------------------------------------------------------------------------------------------------------------------------------------------
         }
         else if (isTeleportLandingRow && activeTeleports == 1)
         {
@@ -352,10 +354,10 @@ public class ProceduralMapGenerator : MonoBehaviour
         bool previousRowHadGround = (activeRowTypes.Count > 0) && IsRowNonEmpty(activeRowTypes[activeRowTypes.Count - 1]);
 
         // Solo spawnea en filas que NO son la primera de una isla
-        if (currentRowHasGround && previousRowHadGround)
+        if (!currentRowHasGround && !previousRowHadGround)
         {
-            Debug.Log(currentRowHasGround);
-            Debug.Log(previousRowHadGround);
+            Debug.Log($"Primer debug" + currentRowHasGround);
+            Debug.Log($"Segundo debug" + previousRowHadGround);
             TrySpawnDragonOverRow(zPosition, newRowTypes, startX, tileSize);
         }
     }
@@ -483,7 +485,7 @@ public class ProceduralMapGenerator : MonoBehaviour
         // Importante: si hay teletransporte en la fila, no permitir LongJump
         bool allowLongJump = !longJumpAlreadyUsed && !longJumpForbiddenHere && !teleportAlreadyPlaced;
 
-        GameObjectType candidate;
+        
         if (r < 0.03f && allowTeleport) // Reducida probabilidad para equilibrio
         {
             candidate = GameObjectType.Teleport;
@@ -505,6 +507,7 @@ public class ProceduralMapGenerator : MonoBehaviour
             candidate = GameObjectType.Ground;
         }
 
+
         // Regla del hielo
         if (candidate == GameObjectType.Ice)
         {
@@ -522,10 +525,14 @@ public class ProceduralMapGenerator : MonoBehaviour
         if (row == null) return false;
         for (int i = 1; i < row.Length - 1; i++) // ignora bordes (siempre Empty)
         {
-            if (row[i] != GameObjectType.Empty)
-                return true;
+            if (row[i] == GameObjectType.Empty)
+            {
+                Debug.Log(row[i]);
+                return false;
+            }
         }
-        return false;
+        //Debug.Log("SIGUIENTE FILA");
+        return true;
     }
 
     private bool ContainsType(GameObjectType[] row, GameObjectType type)

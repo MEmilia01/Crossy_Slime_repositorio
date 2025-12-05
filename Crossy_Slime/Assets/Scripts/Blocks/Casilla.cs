@@ -14,7 +14,7 @@ public class Casilla : MonoBehaviour
     public TipoCasillas TCasilla;
     private Movement player;
     public float chronometer = 0f;
-    float chronometerMax = 4f;
+    float chronometerMax = 1.5f;
     bool isStartingChronometer = false;
     [SerializeField] internal bool isTeleportActivated = false;
     public Casilla teleportDestination;
@@ -123,7 +123,6 @@ public class Casilla : MonoBehaviour
         }
         else if (TCasilla == TipoCasillas.breakable)
         {
-            Debug.Log("sone");
             AudioManager.Instance.SoundNuve();
             isStartingChronometer = true;
         }
