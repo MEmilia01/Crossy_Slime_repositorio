@@ -43,6 +43,7 @@ public class Dead : MonoBehaviour
         camara.empezar = false;
         player.GetComponent<Movement>().enabled = false;
         menuPuntuacion.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
         menuMuerte.SetActive(true);
         scoreManager.GameCompleted();
     }
