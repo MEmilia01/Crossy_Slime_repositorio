@@ -42,6 +42,7 @@ public class Uimanagere : MonoBehaviour
     }
     public void Mostrarpuntuacion()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         //muestra solo la puntuacion mientras se juega 
         menu.SetActive(false);
         puntuacion.SetActive(true);
