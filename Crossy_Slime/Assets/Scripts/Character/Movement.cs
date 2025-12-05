@@ -273,6 +273,7 @@ public class Movement : MonoBehaviour
                 inputActive = true;
                 if (c.TCasilla == TipoCasillas.dead)
                 {
+                    direccionDeGiro.DOScale(Vector3.zero, 1);
                     Dead.dead.IsDead();
                     AudioManager.Instance.DieForVacio();
                     return;

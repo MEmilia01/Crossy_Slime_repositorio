@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class Uimanagere : MonoBehaviour
 {
     //esto sirve para que sea mas facil encontrar los objetos y evitar que se lien
@@ -10,6 +11,8 @@ public class Uimanagere : MonoBehaviour
     public GameObject puntuacion;
     public GameObject menumuerte;
     public GameObject pantallacarga;
+    public GameObject Logosonido;
+    public GameObject Nologosonido;
     //aca se podra guardar la puntuacion
     public float num;
     public bool Volumen = true;
@@ -39,6 +42,7 @@ public class Uimanagere : MonoBehaviour
     }
     public void Mostrarpuntuacion()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         //muestra solo la puntuacion mientras se juega 
         menu.SetActive(false);
         puntuacion.SetActive(true);
@@ -76,11 +80,15 @@ public class Uimanagere : MonoBehaviour
     {
         if (Volumen != false)
         {
+            Logosonido.SetActive(false);
+            Nologosonido.SetActive(true);
             Volumen = false;
             audiomanager.MuteAll();
         }
         else if (Volumen != true)
         {
+            Logosonido.SetActive(true);
+            Nologosonido.SetActive(false);
             Volumen = true;
             audiomanager.UnMute();
         }
