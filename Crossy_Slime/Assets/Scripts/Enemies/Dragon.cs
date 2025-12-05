@@ -17,9 +17,11 @@ public class Dragon : MonoBehaviour
     [SerializeField] float speedDragon = 10f;
 
     Sequence currentFlapSequence;
-
+    public Transform yo;
     void Start()
     {
+        yo = transform;
+
         // Inicializa DOTween explicitamente y espera un frame si es necesario
         DOTween.Init(false, false, LogBehaviour.Verbose);
 
@@ -57,17 +59,17 @@ public class Dragon : MonoBehaviour
         AudioManager.Instance.Dragon();
         meshFilterDragon.mesh = meshDragonAbajo;
         // Guardar posicion Y inicial para el ciclo completo
-        float startY = transform.position.y;
+        float startY = yo.position.y;
 
         // Usa callbacks con captura segura y SetTarget
         currentFlapSequence = DOTween.Sequence()
-            .Append(transform.DOMoveY(startY + flapHeight, flapDuration * 0.5f)
+            .Append(yo.DOMoveY(startY + flapHeight, flapDuration * 0.5f)
                 .SetEase(Ease.OutSine))
             .AppendCallback(() =>
             {
                 meshFilterDragon.mesh = meshDragonArriba;
             })
-            .Append(transform.DOMoveY(startY, flapDuration * 0.5f)
+            .Append(yo.DOMoveY(startY, flapDuration * 0.5f)
                 .SetEase(Ease.InSine)); // tambien en la secuencia global 
     }
     private void OnCollisionEnter(Collision collision)
@@ -84,5 +86,10 @@ public class Dragon : MonoBehaviour
         currentFlapSequence.Kill();
         transform.position = spawnPoint.position;
         meshFilterDragon.mesh = meshDragonArriba;
+    }
+
+    private void OnDestroy()
+    {
+        currentFlapSequence.Kill();
     }
 }

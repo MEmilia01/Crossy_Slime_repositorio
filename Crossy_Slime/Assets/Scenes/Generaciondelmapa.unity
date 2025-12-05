@@ -5554,6 +5554,7 @@ MonoBehaviour:
   dragonTag: Dragon
   activeDragonCount: 0
   maxActiveDragons: 2
+  minDragonSpacingZ: 3
 --- !u!4 &2035693753
 Transform:
   m_ObjectHideFlags: 0
