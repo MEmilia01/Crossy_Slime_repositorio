@@ -25,7 +25,6 @@ public class Dragon : MonoBehaviour
         // Inicializa DOTween explicitamente y espera un frame si es necesario
         DOTween.Init(false, false, LogBehaviour.Verbose);
 
-        // Opcional: asegurar que el primer frame ya paso (evita edge cases con transform.position)
         StartCoroutine(InitAfterFrame());
     }
 
