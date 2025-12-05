@@ -354,6 +354,8 @@ public class ProceduralMapGenerator : MonoBehaviour
         // Solo spawnea en filas que NO son la primera de una isla
         if (currentRowHasGround && previousRowHadGround)
         {
+            Debug.Log(currentRowHasGround);
+            Debug.Log(previousRowHadGround);
             TrySpawnDragonOverRow(zPosition, newRowTypes, startX, tileSize);
         }
     }

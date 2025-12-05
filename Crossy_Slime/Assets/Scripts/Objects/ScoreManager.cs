@@ -41,9 +41,6 @@ public class ScoreManager : MonoBehaviour
         {
             SaveHighScore();
         }
-
-        // Mostrar mensaje
-        Debug.Log($"Juego terminado. Puntuación: {currentScore}, Récord: {highScore}");
     }
 
     // Reinicia la puntuación actual para una nueva partida

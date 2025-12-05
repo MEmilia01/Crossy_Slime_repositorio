@@ -32,14 +32,12 @@ public class Dead : MonoBehaviour
         //}
         if (collision.gameObject == grifo)
         {
-            Debug.Log("Dead by Grifo");
             player.SetActive(false);
         }
     }
 
     public void IsDead()
     {
-        Debug.Log("me detengo");
         camara.stop();
         player.GetComponent<Movement>().enabled = false;
         menuPuntuacion.SetActive(false);
