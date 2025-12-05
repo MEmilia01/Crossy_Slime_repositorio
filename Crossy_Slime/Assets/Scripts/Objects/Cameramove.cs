@@ -14,8 +14,8 @@ public class Cameramove : MonoBehaviour
 
     public float distancia;
     public float speed;
-    public float principio = 2;
-    public float aceleron = 5;
+    public float speedStandard = 2;
+    public float fast = 5;
     public bool enrango = true;
 
 
@@ -23,17 +23,17 @@ public class Cameramove : MonoBehaviour
 
     public void Inicio()
     {
-        enrango = true;
-        speed = principio;
+        empezar = true;
+        speed = speedStandard;
+        cameramove = this;
     }
-    
     void Update()
     {
-        if (enrango == true)
+        if (empezar)
         {
             transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
         }
-
+        //if (distancia < -3) { back(); }
         //if(Input.GetKeyDown(KeyCode.R))
         //{
         //    Rapidez();
@@ -42,26 +42,31 @@ public class Cameramove : MonoBehaviour
         //{
         //    back();
         //}
-        
+
         distancia = transform.position.z - player.transform.position.z;
         //tiene que estar entre 1 y -9
         
         if(distancia < -7)
         {
-            enrango = false;
-            if(enrango != true)
+            if(enrango)
             {
                 Rapidez();
+                enrango = false;
             }
         }
         if (distancia < -3) { back(); }
         else
         {
-            enrango = true;
+            if (!enrango)
+            {
+                BackToNormal();
+                enrango = true;
+            }
         }
 
         if (distancia > 4)
         {
+            empezar = false;
             grifo.SetActive(true);
             grifo.transform.position = player.transform.position + new Vector3(5, -1, 0); //por alguan razon se desajusta y con este vector es facil de ajustar
             Dead.dead.IsDead();
@@ -71,13 +76,12 @@ public class Cameramove : MonoBehaviour
 
     void Rapidez()
     {
-        DOTween.To(() => speed, x => speed = x, aceleron, 0.2f);
-        enrango = true;
+        DOTween.To(() => speed, x => speed = x, fast, 0.2f);
     }
 
-    void back()
+    void BackToNormal()
     {
-        DOTween.To(() => speed, x => speed = x, principio, 0.2f);
+        DOTween.To(() => speed, x => speed = x, speedStandard, 0.2f);
     }
     public void stop()
     {
