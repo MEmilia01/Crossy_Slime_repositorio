@@ -62,7 +62,6 @@ public class Cameramove : MonoBehaviour
 
         if (distancia > 4)
         {
-            stop();
             grifo.SetActive(true);
             grifo.transform.position = player.transform.position + new Vector3(5, -1, 0); //por alguan razon se desajusta y con este vector es facil de ajustar
             Dead.dead.IsDead();
@@ -82,7 +81,6 @@ public class Cameramove : MonoBehaviour
     }
     public void stop()
     {
-        Debug.Log("me detengo");
         speed = 0;
     }
 }

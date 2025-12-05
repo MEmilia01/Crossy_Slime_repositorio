@@ -7,7 +7,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource audioControllerWalkingSlime;
     [SerializeField] AudioSource audioControllerDieVacio;
     [SerializeField] AudioSource audioControllerIce;
+    [SerializeField] AudioSource audioControllernuve;
     [SerializeField] AudioSource audioControllerDragon;
+    [SerializeField] AudioSource audioControllerGrifo;
     [SerializeField] AudioClip slimeDieDragon;
     [SerializeField] AudioClip slimeDieGrifo;
     [SerializeField] AudioClip slimeDieVacio;
@@ -37,6 +39,9 @@ public class AudioManager : MonoBehaviour
     internal void Dragon()
     {
         audioControllerDragon.Play();
+    }internal void Grifo()
+    {
+        audioControllerGrifo.Play();
     }
     internal void DieForVacio()
     {
@@ -66,6 +71,10 @@ public class AudioManager : MonoBehaviour
     internal void SoundIce()
     {
         audioControllerIce.Play();
+    }
+    internal void SoundNuve()
+    {
+        audioControllernuve.Play();
     }
     internal void SoundTeleport()
     {

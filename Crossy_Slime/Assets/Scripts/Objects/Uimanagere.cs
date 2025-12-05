@@ -20,11 +20,11 @@ public class Uimanagere : MonoBehaviour
     [SerializeField] AudioManager audiomanager;
 
 
-    string currentSceneName;
+    string Juegobase;
 
     void Start()
     {
-        currentSceneName = SceneManager.GetActiveScene().name;
+        Juegobase = SceneManager.GetActiveScene().name;
         MostrarMenu();
         num = 0;
     }
@@ -70,7 +70,7 @@ public class Uimanagere : MonoBehaviour
         pantallacarga.SetActive(true);
         // hay que hacer que espere unos segundos
         
-        SceneManager.LoadScene(currentSceneName);
+        SceneManager.LoadScene(Juegobase);
         MostrarMenu();
     }
     public void Sonido()
