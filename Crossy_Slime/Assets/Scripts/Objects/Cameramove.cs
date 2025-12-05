@@ -17,10 +17,9 @@ public class Cameramove : MonoBehaviour
     public float speedStandard = 2;
     public float fast = 5;
     public bool enrango = true;
-    public bool empezar = false;
+
 
     public float duration = 1f;
-    public Vector3 posicioiniciocam;
 
     public void Inicio()
     {
@@ -33,7 +32,6 @@ public class Cameramove : MonoBehaviour
         if (empezar)
         {
             transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
-            //transform.position = playerposition.position + offset;
         }
         //if (distancia < -3) { back(); }
         //if(Input.GetKeyDown(KeyCode.R))
@@ -56,6 +54,7 @@ public class Cameramove : MonoBehaviour
                 enrango = false;
             }
         }
+        if (distancia < -3) { back(); }
         else
         {
             if (!enrango)
@@ -83,5 +82,9 @@ public class Cameramove : MonoBehaviour
     void BackToNormal()
     {
         DOTween.To(() => speed, x => speed = x, speedStandard, 0.2f);
+    }
+    public void stop()
+    {
+        speed = 0;
     }
 }

@@ -12,16 +12,19 @@ public class Uimanagere : MonoBehaviour
     public GameObject pantallacarga;
     //aca se podra guardar la puntuacion
     public float num;
+    public bool Volumen = true;
     
     [SerializeField] Movement player;
     public Cameramove camera;
     public ScoreManager scoreman;
+    [SerializeField] AudioManager audiomanager;
 
-    string currentSceneName;
+
+    string Juegobase;
 
     void Start()
     {
-        currentSceneName = SceneManager.GetActiveScene().name;
+        Juegobase = SceneManager.GetActiveScene().name;
         MostrarMenu();
         num = 0;
     }
@@ -66,7 +69,20 @@ public class Uimanagere : MonoBehaviour
         pantallacarga.SetActive(true);
         // hay que hacer que espere unos segundos
         
-        SceneManager.LoadScene(currentSceneName);
+        SceneManager.LoadScene(Juegobase);
         MostrarMenu();
+    }
+    public void Sonido()
+    {
+        if (Volumen != false)
+        {
+            Volumen = false;
+            audiomanager.MuteAll();
+        }
+        else if (Volumen != true)
+        {
+            Volumen = true;
+            audiomanager.UnMute();
+        }
     }
 }

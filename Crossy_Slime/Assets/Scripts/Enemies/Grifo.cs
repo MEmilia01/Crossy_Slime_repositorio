@@ -7,7 +7,7 @@ public class Grifo : MonoBehaviour
     [SerializeField] GameObject endPoint;
     [SerializeField] GameObject grifo;
     [SerializeField] GameObject player;
-    float speedDragon = 20;
+    float speedDragon = 30;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,6 +22,10 @@ public class Grifo : MonoBehaviour
         
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            AudioManager.Instance.DieForGrifo();
+        }
         if (collision.gameObject == endPoint)
         {
             grifo.SetActive(false);
