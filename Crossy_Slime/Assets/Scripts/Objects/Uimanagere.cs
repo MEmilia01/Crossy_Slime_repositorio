@@ -11,8 +11,8 @@ public class Uimanagere : MonoBehaviour
     public GameObject puntuacion;
     public GameObject menumuerte;
     public GameObject pantallacarga;
-    public Image volumen;
-    public Image novolumen;
+    public GameObject Logosonido;
+    public GameObject Nologosonido;
     //aca se podra guardar la puntuacion
     public float num;
     public bool Volumen = true;
@@ -77,14 +77,17 @@ public class Uimanagere : MonoBehaviour
     }
     public void Sonido()
     {
-        volumen.SetActive(true);
         if (Volumen != false)
         {
+            Logosonido.SetActive(false);
+            Nologosonido.SetActive(true);
             Volumen = false;
             audiomanager.MuteAll();
         }
         else if (Volumen != true)
         {
+            Logosonido.SetActive(true);
+            Nologosonido.SetActive(false);
             Volumen = true;
             audiomanager.UnMute();
         }
