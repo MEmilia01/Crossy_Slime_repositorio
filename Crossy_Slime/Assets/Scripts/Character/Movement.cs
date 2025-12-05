@@ -21,7 +21,7 @@ public class Movement : MonoBehaviour
     //Sirve para guardar el ultimo input
     internal string lastInput = " ";
     // Se utilizan para las animaciones
-    [SerializeField] Transform direccionDeGiro;
+    [SerializeField] internal Transform direccionDeGiro;
     [SerializeField] Transform agitacionMuerte;
     [SerializeField] Transform agitacionTeletransporte;
     //Se utiliza para almacenar el tipo de input

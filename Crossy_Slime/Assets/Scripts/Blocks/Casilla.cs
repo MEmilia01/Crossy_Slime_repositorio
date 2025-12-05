@@ -117,6 +117,7 @@ public class Casilla : MonoBehaviour
         }
         else if (TCasilla == TipoCasillas.dead)
         {
+            player.direccionDeGiro.DOScale(Vector3.zero, 1);
             AudioManager.Instance.DieForVacio();
             Dead.dead.IsDead();
         }
