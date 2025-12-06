@@ -5054,6 +5054,30 @@ PrefabInstance:
       propertyPath: audiomanager
       value: 
       objectReference: {fileID: 1222327415}
+    - target: {fileID: 4008271482616019231, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4008271482616019231, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 4008271482616019231, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4008271482616019231, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4008271482616019231, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4008271482616019231, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 4113460981001524099, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: m_SizeDelta.x
       value: 130
@@ -5109,6 +5133,22 @@ PrefabInstance:
     - target: {fileID: 5649489712102620357, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -423
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041248848739588418, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 88ca270e1ae8e3848bab9e26b3b5dc4d, type: 3}
+    - target: {fileID: 6041248848739588418, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041248848739588418, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6041248848739588418, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6054824723124196802, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: m_Type
@@ -5943,7 +5983,7 @@ MonoBehaviour:
   startZ: 3
   startX: -2
   player: {fileID: 939296936}
-  dragonSpawnChance: 0.5
+  dragonSpawnChance: 1
   dragonTag: Dragon
   activeDragonCount: 0
   maxActiveDragons: 2
