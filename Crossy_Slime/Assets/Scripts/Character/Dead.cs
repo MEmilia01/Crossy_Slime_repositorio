@@ -38,12 +38,12 @@ public class Dead : MonoBehaviour
 
     public void IsDead()
     {
+        scoreManager.GameCompleted();
         camara.speed = 0;
         camara.empezar = false;
         player.GetComponent<Movement>().enabled = false;
         menuPuntuacion.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         menuMuerte.SetActive(true);
-        scoreManager.GameCompleted();
     }
 }
