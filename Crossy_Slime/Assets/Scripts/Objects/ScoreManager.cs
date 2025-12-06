@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour
     [Header("UI")]
     public TMP_Text scoreText;                // Componente TextUI (personalizado)
     public TMP_Text highScoreText;            // Para mostrar récord separado
-
+    public TMP_Text actualScoreForDead;
     void Start()
     {
         LoadHighScore();
@@ -18,10 +18,10 @@ public class ScoreManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            ResetHighScore();
-        }
+        //if (Input.GetKeyDown(KeyCode.V))
+        //{
+        //    ResetHighScore();
+        //}
     }
 
 
@@ -48,7 +48,7 @@ public class ScoreManager : MonoBehaviour
         {
             SaveHighScore();
         }
-
+        actualScoreForDead.text = currentScore.ToString("0");
         // Mostrar mensaje
         Debug.Log($"Juego terminado. Puntuación: {currentScore}, Récord: {highScore}");
     }

@@ -4570,6 +4570,7 @@ MonoBehaviour:
   highScore: 0
   scoreText: {fileID: 488787358}
   highScoreText: {fileID: 1684302450}
+  actualScoreForDead: {fileID: 1863615084}
 --- !u!223 &1690365021 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 2065685595853136569, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
@@ -5010,6 +5011,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -218
       objectReference: {fileID: 0}
+    - target: {fileID: 631849193811223102, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_fontSize
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 631849193811223102, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 631849193811223102, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 85
+      objectReference: {fileID: 0}
     - target: {fileID: 1330038506807736593, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: m_Type
       value: 0
@@ -5198,6 +5211,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7055864056257992857, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 7055864056257992857, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_isOrthographic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7055864056257992857, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 7055864056257992857, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_ActiveFontFeatures.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7150770830819812418, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -5217,6 +5246,18 @@ PrefabInstance:
     - target: {fileID: 7486489688629059644, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7680327511163980261, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7680327511163980261, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7680327511163980261, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 109
       objectReference: {fileID: 0}
     - target: {fileID: 8042543075435575218, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: m_IsActive
@@ -5377,6 +5418,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dfa39ba0b140994a94c6fec9bb03bba, type: 3}
+--- !u!114 &1863615084 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 631849193811223102, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
+  m_PrefabInstance: {fileID: 1767009027}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1893563668 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 924343741398021512, guid: 28ba1f54274478a4a96ad7d9f2eeac0d, type: 3}
