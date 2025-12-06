@@ -16,6 +16,13 @@ public class ScoreManager : MonoBehaviour
         LoadHighScore();
         UpdateUI();
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            ResetHighScore();
+        }
+    }
 
 
     public void restart() 
@@ -60,6 +67,7 @@ public class ScoreManager : MonoBehaviour
         Debug.Log(highScore);
         PlayerPrefs.SetInt("HighScore", highScore);
         PlayerPrefs.Save();
+        UpdateUI();
 
     }
 
@@ -69,7 +77,7 @@ public class ScoreManager : MonoBehaviour
     }
 
     // --- Actualización de UI ---
-    private void UpdateUI()
+    public void UpdateUI()
     {
         if (scoreText != null)
         {
