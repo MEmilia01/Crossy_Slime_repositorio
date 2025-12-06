@@ -93,4 +93,8 @@ public class Uimanagere : MonoBehaviour
             audiomanager.UnMute();
         }
     }
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }
