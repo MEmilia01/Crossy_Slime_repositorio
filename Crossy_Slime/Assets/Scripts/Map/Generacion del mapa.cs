@@ -320,9 +320,6 @@ public class ProceduralMapGenerator : MonoBehaviour
             }
         }
 
-        activeRows.Add(newRow);
-        activeRowTypes.Add(newRowTypes);
-
         // === Vincular origen y destino si acabamos de generar el destino ===
         if (isTeleportLandingRow && activeTeleports == 2 && teleportOriginObject != null)
         {
@@ -354,12 +351,15 @@ public class ProceduralMapGenerator : MonoBehaviour
         bool previousRowHadGround = (activeRowTypes.Count > 0) && IsRowNonEmpty(activeRowTypes[activeRowTypes.Count - 1]);
 
         // Solo spawnea en filas que NO son la primera de una isla
-        if (!currentRowHasGround && !previousRowHadGround)
+        if (currentRowHasGround && previousRowHadGround)
         {
             Debug.Log($"Primer debug" + currentRowHasGround);
             Debug.Log($"Segundo debug" + previousRowHadGround);
             TrySpawnDragonOverRow(zPosition, newRowTypes, startX, tileSize);
         }
+
+        activeRows.Add(newRow);
+        activeRowTypes.Add(newRowTypes);
     }
 
     private void TrySpawnDragonOverRow(float z, GameObjectType[] rowTypes, float startX, float tileSize)

@@ -6035,9 +6035,9 @@ MonoBehaviour:
   startZ: 3
   startX: -2
   player: {fileID: 939296936}
-  dragonSpawnChance: 1
+  dragonSpawnChance: 0.5
   dragonTag: Dragon
-  activeDragonCount: 0
+  activeDragonCount: 1
   maxActiveDragons: 2
   minDragonSpacingZ: 3
 --- !u!4 &2035693753
