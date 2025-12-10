@@ -4,17 +4,24 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
     int score = 0;
-    public int currentScore = 0;            // Último "index" alcanzado (fila más alta)
-    public int highScore = 0;               // Récord personal (guardado)
+    public int currentScore = 0;            // ï¿½ltimo "index" alcanzado (fila mï¿½s alta)
+    public int highScore = 0;               // Rï¿½cord personal (guardado)
 
     [Header("UI")]
     public TMP_Text scoreText;                // Componente TextUI (personalizado)
-    public TMP_Text highScoreText;            // Para mostrar récord separado
-
+    public TMP_Text highScoreText;            // Para mostrar rï¿½cord separado
+    public TMP_Text actualScoreForDead;
     void Start()
     {
         LoadHighScore();
         UpdateUI();
+    }
+    private void Update()
+    {
+        //if (Input.GetKeyDown(KeyCode.V))
+        //{
+        //    ResetHighScore();
+        //}
     }
 
 
@@ -23,7 +30,7 @@ public class ScoreManager : MonoBehaviour
         currentScore = score;
         scoreText.text = currentScore.ToString("0");
     }
-    // Se llama cada vez que el jugador llega a una nueva fila (index = nº de fila)
+    // Se llama cada vez que el jugador llega a una nueva fila (index = nï¿½ de fila)
     public void NewIndex(int index)
     {
         if (index > currentScore)
@@ -36,30 +43,31 @@ public class ScoreManager : MonoBehaviour
     // Se llama cuando el personaje muere o termina la partida
     public void GameCompleted()
     {
-        // Guardar nuevo récord si supera el anterior
+        // Guardar nuevo rï¿½cord si supera el anterior
         if (currentScore > highScore)
         {
             SaveHighScore();
         }
-
+        actualScoreForDead.text = currentScore.ToString("0");
         // Mostrar mensaje
-        Debug.Log($"Juego terminado. Puntuación: {currentScore}, Récord: {highScore}");
+        Debug.Log($"Juego terminado. Puntuaciï¿½n: {currentScore}, Rï¿½cord: {highScore}");
     }
 
-    // Reinicia la puntuación actual para una nueva partida
+    // Reinicia la puntuaciï¿½n actual para una nueva partida
     public void ResetScore()
     {
         currentScore = 0;
         UpdateUI();
     }
 
-    // --- Gestión de persistencia ---
+    // --- Gestiï¿½n de persistencia ---
     private void SaveHighScore()
     {
         highScore = currentScore;
         Debug.Log(highScore);
         PlayerPrefs.SetInt("HighScore", highScore);
         PlayerPrefs.Save();
+        UpdateUI();
 
     }
 
@@ -68,8 +76,8 @@ public class ScoreManager : MonoBehaviour
         highScore = PlayerPrefs.GetInt("HighScore", 0);
     }
 
-    // --- Actualización de UI ---
-    private void UpdateUI()
+    // --- Actualizaciï¿½n de UI ---
+    public void UpdateUI()
     {
         if (scoreText != null)
         {

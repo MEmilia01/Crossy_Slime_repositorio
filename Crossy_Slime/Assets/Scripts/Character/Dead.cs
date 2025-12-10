@@ -32,18 +32,18 @@ public class Dead : MonoBehaviour
         //}
         if (collision.gameObject == grifo)
         {
-            Debug.Log("Dead by Grifo");
             player.SetActive(false);
         }
     }
 
     public void IsDead()
     {
+        scoreManager.GameCompleted();
         camara.speed = 0;
         camara.empezar = false;
         player.GetComponent<Movement>().enabled = false;
         menuPuntuacion.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
         menuMuerte.SetActive(true);
-        scoreManager.GameCompleted();
     }
 }
