@@ -72,7 +72,7 @@ public class Uimanagere : MonoBehaviour
         menumuerte.SetActive(false);
         pantallacarga.SetActive(true);
         // hay que hacer que espere unos segundos
-        
+        Debug.Log("imagen");
         SceneManager.LoadScene(Juegobase);
         MostrarMenu();
     }
