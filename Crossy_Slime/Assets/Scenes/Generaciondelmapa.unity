@@ -6573,8 +6573,8 @@ MonoBehaviour:
   canvas: {fileID: 1690365021}
   distancia: 0
   speed: 0
-  speedStandard: 2
-  fast: 5
+  speedStandard: 3.5
+  fast: 7
   enrango: 1
   empezar: 0
   duration: 1
