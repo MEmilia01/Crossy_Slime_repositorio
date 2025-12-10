@@ -23,12 +23,19 @@ public class Cameramove : MonoBehaviour
 
     public void Inicio()
     {
-        empezar = true;
         speed = speedStandard;
         cameramove = this;
     }
     void Update()
     {
+        Camara();
+    }
+
+    void Camara()
+    {
+        if (distancia < -2)
+            empezar = true;
+        
         if (empezar)
         {
             transform.position = transform.position + new Vector3(0, 0, Time.deltaTime * speed);
@@ -45,10 +52,10 @@ public class Cameramove : MonoBehaviour
 
         distancia = transform.position.z - player.transform.position.z;
         //tiene que estar entre 1 y -9
-        
-        if(distancia < -7)
+
+        if (distancia < -7)
         {
-            if(enrango)
+            if (enrango)
             {
                 Rapidez();
                 enrango = false;
@@ -71,7 +78,6 @@ public class Cameramove : MonoBehaviour
             grifo.transform.position = player.transform.position + new Vector3(5, -1, 0); //por alguan razon se desajusta y con este vector es facil de ajustar
             Dead.dead.IsDead();
         }
-
     }
 
     void Rapidez()

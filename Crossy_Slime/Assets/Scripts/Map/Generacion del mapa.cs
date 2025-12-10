@@ -30,6 +30,7 @@ public class ProceduralMapGenerator : MonoBehaviour
     private int activeTeleports = 0; // 0 = ninguno, 1 = origen colocado, 2 = par completo
     private bool teleportPairIsActive = false; // true mientras origen o destino esten en activeRowTypes
 
+    // Referencia al GameObject del origen (para vincular despues)
     private GameObject teleportOriginObject = null;
     private int teleportOriginX = -1;
 
@@ -102,7 +103,7 @@ public class ProceduralMapGenerator : MonoBehaviour
                     if (tile != null) Destroy(tile);
                 }
 
-                // Si el par estaba activo y acabamos de destruir una fila con teletransporte
+                // Si el par estaba activo y acabamos de destruir una fila con teletransporte,
                 // revisar si ya NO quedan teletransportes en las filas activas
                 if (teleportPairIsActive && containedTeleport)
                 {
@@ -128,6 +129,7 @@ public class ProceduralMapGenerator : MonoBehaviour
 
                 if (dragon != null)
                 {
+                    // Umbral: mas atras que la fila mas antigua activa
                     float minActiveZ = lastSpawnZ - (activeRows.Count - 1) * tileLength;
                     float destroyThresholdZ = minActiveZ - tileLength * 0.5f;
 
@@ -149,7 +151,7 @@ public class ProceduralMapGenerator : MonoBehaviour
         }
     }
 
-    
+
 
     public void SpawnRow(float zPosition)
     {
@@ -164,6 +166,7 @@ public class ProceduralMapGenerator : MonoBehaviour
             index++;
         }
 
+        // Revisar efectos pendientes
         int rowsBack = Mathf.Min(activeRowTypes.Count, 5);
         for (int i = 0; i < rowsBack; i++)
         {
@@ -202,7 +205,7 @@ public class ProceduralMapGenerator : MonoBehaviour
         }
         else if (isTeleportLandingRow && activeTeleports == 1)
         {
-            // Fila del destino: todo GROUND excepto UN bloque de Teleport
+            // Fila del destino: todo GROUND excepto UN bloque de Teleport (en X != origen) 
             for (int x = 1; x < mapWidth - 1; x++)
             {
                 newRowTypes[x] = GameObjectType.Ground;
@@ -271,7 +274,7 @@ public class ProceduralMapGenerator : MonoBehaviour
                     continue; // Saltar elección aleatoria
                 }
 
-                bool longJumpForbiddenHere = false; 
+                bool longJumpForbiddenHere = false;
                 bool canPlaceTeleport = (activeTeleports == 0);
 
                 GameObjectType type = ChooseTileType(
@@ -299,6 +302,7 @@ public class ProceduralMapGenerator : MonoBehaviour
             }
         }
 
+        // Instanciar y guardar referencias
         GameObject[] newRow = new GameObject[mapWidth];
         for (int x = 0; x < mapWidth; x++)
         {
@@ -315,10 +319,7 @@ public class ProceduralMapGenerator : MonoBehaviour
             }
         }
 
-        activeRows.Add(newRow);
-        activeRowTypes.Add(newRowTypes);
-
-        // Vincular origen y destino si acabamos de generar el destino
+        // === Vincular origen y destino si acabamos de generar el destino ===
         if (isTeleportLandingRow && activeTeleports == 2 && teleportOriginObject != null)
         {
             // Buscar el GameObject del destino en la fila recien creada
@@ -478,12 +479,12 @@ public class ProceduralMapGenerator : MonoBehaviour
     {
         float r = Random.value;
 
-        // Si hay LongJump en la fila, no permitir teletransporte
+        // Importante: si hay LongJump en la fila, no permitir teletransporte
         bool allowTeleport = canPlaceTeleport && !longJumpAlreadyUsed && !teleportAlreadyPlaced;
-        // Si hay teletransporte en la fila, no permitir LongJump
+        // Importante: si hay teletransporte en la fila, no permitir LongJump
         bool allowLongJump = !longJumpAlreadyUsed && !longJumpForbiddenHere && !teleportAlreadyPlaced;
 
-        
+
         if (r < 0.03f && allowTeleport) // Reducida probabilidad para equilibrio
         {
             candidate = GameObjectType.Teleport;
@@ -506,6 +507,7 @@ public class ProceduralMapGenerator : MonoBehaviour
         }
 
 
+        // Regla del hielo
         if (candidate == GameObjectType.Ice)
         {
             if (pastRows.Count == 0 || pastRows[pastRows.Count - 1][x] == GameObjectType.Ground || pastRows[pastRows.Count - 1][x] == GameObjectType.Ice)
