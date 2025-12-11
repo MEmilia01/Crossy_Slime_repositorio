@@ -92,6 +92,7 @@ public class Casilla : MonoBehaviour
                 if (casilla != null)
                 {
                     AudioManager.Instance.SoundLongJump();
+                    longJumpMeshDeactivated.mesh = longJumpDeactivated;
                     player.LongJump(casilla.GetPivot().position);
                 }
             }

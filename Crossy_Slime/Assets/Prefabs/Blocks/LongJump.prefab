@@ -249,6 +249,4 @@ MonoBehaviour:
   teleportMeshDeactivated: {fileID: 0}
   longJumpDeactivated: {fileID: -2432090755550338912, guid: a8eb55ebc30aa6a47a4cefdd61c659fe, type: 3}
   longJumpMeshDeactivated: {fileID: 7576098874624312086}
-  canvas: {fileID: 0}
-  menuPuntuacion: {fileID: 1751661043133254772, guid: 7defe0e498d1f2d4c84f0c029a4413df, type: 3}
-  menuMuerte: {fileID: 1209137897850372019, guid: 32b4ff4f03cd0ea44bb342331ed5245f, type: 3}
+  die: {fileID: 0}
