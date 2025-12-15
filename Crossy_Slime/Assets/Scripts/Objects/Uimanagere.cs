@@ -68,8 +68,6 @@ public class Uimanagere : MonoBehaviour
     }
     public void Mostrarpantallacarga()
     {
-        float tiempo= 100;
-        tiempo= tiempo * Time.deltaTime;
         //esto es solo una pantalla de carga entre medias
         menu.SetActive(false);
         puntuacion.SetActive(false);
@@ -77,17 +75,19 @@ public class Uimanagere : MonoBehaviour
         pantallacarga.SetActive(true);
         // hay que hacer que espere unos segundos
         carga.SetActive(true);
-        Debug.Log(tiempo);
-        for (int i = 1; i < tiempo; i--)
+       
+        for (int i = 0; i < 2; i++)
         {
-            if (tiempo > 1)
+            int tiempo = 1;
+            Debug.Log(i);
+            if (tiempo == 3)
             {
                 SceneManager.LoadScene(Juegobase);
                 carga.SetActive(false);
                 MostrarMenu();
-                tiempo = tiempo * Time.deltaTime;
+                Debug.Log(i);
             }
-            tiempo = tiempo * 2;
+            tiempo++; 
             Debug.Log(tiempo);
         }
     }
