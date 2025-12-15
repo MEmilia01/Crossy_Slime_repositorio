@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ public class Uimanagere : MonoBehaviour
     public GameObject pantallacarga;
     public GameObject Logosonido;
     public GameObject Nologosonido;
+    public GameObject carga;
     //aca se podra guardar la puntuacion
     public float num;
     public bool Volumen = true;
@@ -66,15 +68,28 @@ public class Uimanagere : MonoBehaviour
     }
     public void Mostrarpantallacarga()
     {
+        float tiempo= 100;
+        tiempo= tiempo * Time.deltaTime;
         //esto es solo una pantalla de carga entre medias
         menu.SetActive(false);
         puntuacion.SetActive(false);
         menumuerte.SetActive(false);
         pantallacarga.SetActive(true);
         // hay que hacer que espere unos segundos
-        Debug.Log("imagen");
-        SceneManager.LoadScene(Juegobase);
-        MostrarMenu();
+        carga.SetActive(true);
+        Debug.Log(tiempo);
+        for (int i = 1; i < tiempo; i--)
+        {
+            if (tiempo > 1)
+            {
+                SceneManager.LoadScene(Juegobase);
+                carga.SetActive(false);
+                MostrarMenu();
+                tiempo = tiempo * Time.deltaTime;
+            }
+            tiempo = tiempo * 2;
+            Debug.Log(tiempo);
+        }
     }
     public void Sonido()
     {
