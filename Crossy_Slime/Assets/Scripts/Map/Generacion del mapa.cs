@@ -151,7 +151,7 @@ public class ProceduralMapGenerator : MonoBehaviour
         }
     }
 
-    
+
 
     public void SpawnRow(float zPosition)
     {
@@ -197,15 +197,15 @@ public class ProceduralMapGenerator : MonoBehaviour
 
         if (forceEmptyRow)
         {
-            for (int x = 1; x < mapWidth - 1; x++) // --------------------------------------------------------------------------------------------------------------------------------------------------------
+            for (int x = 1; x < mapWidth - 1; x++) 
             {
-                newRowTypes[x] = GameObjectType.Empty; // --------------------------------------------------------------------------------------------------------------------------------------------------------
+                newRowTypes[x] = GameObjectType.Empty; 
                 candidate = GameObjectType.Empty;
-            } // --------------------------------------------------------------------------------------------------------------------------------------------------------
+            } 
         }
         else if (isTeleportLandingRow && activeTeleports == 1)
         {
-            // === Fila del destino: todo GROUND excepto UN bloque de Teleport (en X != origen) ===
+            // Fila del destino: todo GROUND excepto UN bloque de Teleport (en X != origen) 
             for (int x = 1; x < mapWidth - 1; x++)
             {
                 newRowTypes[x] = GameObjectType.Ground;
@@ -274,7 +274,7 @@ public class ProceduralMapGenerator : MonoBehaviour
                     continue; // Saltar elección aleatoria
                 }
 
-                bool longJumpForbiddenHere = false; 
+                bool longJumpForbiddenHere = false;
                 bool canPlaceTeleport = (activeTeleports == 0);
 
                 GameObjectType type = ChooseTileType(
@@ -302,8 +302,7 @@ public class ProceduralMapGenerator : MonoBehaviour
             }
         }
 
-        // === Instanciar y guardar referencias ===
-        //aca es lo de la puntuacion ^^
+        // Instanciar y guardar referencias
         GameObject[] newRow = new GameObject[mapWidth];
         for (int x = 0; x < mapWidth; x++)
         {
@@ -485,7 +484,7 @@ public class ProceduralMapGenerator : MonoBehaviour
         // Importante: si hay teletransporte en la fila, no permitir LongJump
         bool allowLongJump = !longJumpAlreadyUsed && !longJumpForbiddenHere && !teleportAlreadyPlaced;
 
-        
+
         if (r < 0.03f && allowTeleport) // Reducida probabilidad para equilibrio
         {
             candidate = GameObjectType.Teleport;
