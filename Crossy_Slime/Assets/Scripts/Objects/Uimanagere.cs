@@ -2,6 +2,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
+using System.Collections;
 using UnityEngine.UI;
 
 
@@ -18,7 +19,8 @@ public class Uimanagere : MonoBehaviour
     //aca se podra guardar la puntuacion
     public float num;
     public bool Volumen = true;
-    
+    public float tiempomenucarga = 50.0f;
+
     [SerializeField] Movement player;
     public Cameramove camera;
     public ScoreManager scoreman;
@@ -68,7 +70,6 @@ public class Uimanagere : MonoBehaviour
     }
     public void Mostrarpantallacarga()
     {
-        int tiempo = 1;
         //esto es solo una pantalla de carga entre medias
         menu.SetActive(false);
         puntuacion.SetActive(false);
@@ -77,25 +78,16 @@ public class Uimanagere : MonoBehaviour
         // hay que hacer que espere unos segundos
         carga.SetActive(true);
 
-        /*
-         SceneManager.LoadScene(Juegobase);
-         carga.SetActive(false);
-         MostrarMenu();
-         */
+        StartCoroutine(Esperaunosegundos());
+    }
+    IEnumerator Esperaunosegundos()
+    {
+        SceneManager.LoadScene(Juegobase);
+        yield return new WaitForSeconds(tiempomenucarga);
 
-        for (int i = 0; i < 2; i++)
-        {
-            Debug.Log(i);
-            if (tiempo > 2 || tiempo == 2)
-            {
-                SceneManager.LoadScene(Juegobase);
-                carga.SetActive(false);
-                MostrarMenu();
-            }
-            tiempo++;
-            Debug.Log(i);
-            Debug.Log(tiempo);
-        }
+        //SceneManager.LoadScene(Juegobase);
+        carga.SetActive(false);
+        MostrarMenu();
     }
     public void Sonido()
     {
