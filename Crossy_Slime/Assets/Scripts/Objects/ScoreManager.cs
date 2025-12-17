@@ -50,7 +50,6 @@ public class ScoreManager : MonoBehaviour
         }
         actualScoreForDead.text = currentScore.ToString("0");
         // Mostrar mensaje
-        Debug.Log($"Juego terminado. Puntuaci�n: {currentScore}, R�cord: {highScore}");
     }
 
     // Reinicia la puntuaci�n actual para una nueva partida
