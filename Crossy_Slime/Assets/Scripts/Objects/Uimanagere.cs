@@ -32,6 +32,23 @@ public class Uimanagere : MonoBehaviour
     void Start()
     {
         Juegobase = SceneManager.GetActiveScene().name;
+
+        int volumenGuardado = PlayerPrefs.GetInt("VolumenActivo", 1); // 1 = true por defecto
+        Volumen = volumenGuardado == 1;
+
+        if (Volumen)
+        {
+            Logosonido.SetActive(true);
+            Nologosonido.SetActive(false);
+            audiomanager.UnMute();
+        }
+        else
+        {
+            Logosonido.SetActive(false);
+            Nologosonido.SetActive(true);
+            audiomanager.MuteAll();
+        }
+
         MostrarMenu();
         num = 0;
     }
@@ -91,21 +108,25 @@ public class Uimanagere : MonoBehaviour
     }
     public void Sonido()
     {
-        if (Volumen != false)
-        {
-            Logosonido.SetActive(false);
-            Nologosonido.SetActive(true);
-            Volumen = false;
-            audiomanager.MuteAll();
-        }
-        else if (Volumen != true)
+        Volumen = !Volumen;
+
+        if (Volumen)
         {
             Logosonido.SetActive(true);
             Nologosonido.SetActive(false);
-            Volumen = true;
             audiomanager.UnMute();
         }
+        else
+        {
+            Logosonido.SetActive(false);
+            Nologosonido.SetActive(true);
+            audiomanager.MuteAll();
+        }
+
+        PlayerPrefs.SetInt("VolumenActivo", Volumen ? 1 : 0);
+        PlayerPrefs.Save(); 
     }
+    
     public void ExitGame()
     {
         Application.Quit();
