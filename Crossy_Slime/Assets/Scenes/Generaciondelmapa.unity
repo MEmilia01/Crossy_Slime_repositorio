@@ -5440,7 +5440,7 @@ PrefabInstance:
       objectReference: {fileID: 1222327415}
     - target: {fileID: 3805253870081233273, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: tiempomenucarga
-      value: 1.5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4008271482616019231, guid: f87b1b963b4d70448a27dc0e05bf00ac, type: 3}
       propertyPath: m_SizeDelta.x
